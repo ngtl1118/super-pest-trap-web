@@ -295,8 +295,8 @@
             position: fixed;
             bottom: 95px;
             right: 20px;
-            width: 320px;
-            height: 420px;
+            width: 330px;
+            height: 440px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.18);
@@ -369,6 +369,41 @@
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
+        }
+
+        /* FAQ Question Suggestions */
+        .chat-suggestions {
+            padding: 8px 12px;
+            background: #fff;
+            border-top: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .suggestion-title {
+            font-size: 0.72rem;
+            font-weight: bold;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .chat-suggestions button {
+            background: var(--primary-light);
+            color: var(--dark);
+            border: 1px solid rgba(46, 125, 50, 0.15);
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 0.78rem;
+            text-align: left;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .chat-suggestions button:hover {
+            background: #c8e6c9;
         }
 
         .chat-footer {
@@ -516,11 +551,21 @@
             <span>Customer Service Desk</span>
             <button class="chat-close" onclick="toggleChatDrawer()">✕</button>
         </div>
+        
         <div class="chat-messages" id="chatContainer">
-            <div class="msg bot">Hello! Welcome to the Group Lai Cai Support Hub. How can we assist you with your Super Pest Trap deployment metrics today?</div>
+            <div class="msg bot">Hello! Welcome to the Group Lai Cai Support Hub. How can we assist you with your Super Pest Trap metrics today?</div>
         </div>
+
+        <!-- Suggestion Question Block Inside Drawer -->
+        <div class="chat-suggestions">
+            <div class="suggestion-title">Frequently Asked Questions:</div>
+            <button onclick="clickFaq('How do we solve Chemical Anxiety?', 'Our framework removes toxic chemical bait hazards entirely. We use 100% food-safe organic plant extract sachets (like Pandan and Coffee Ground essences) so operators remain worry-free around kitchen surfaces.')">🌿 How do we solve Chemical Anxiety?</button>
+            <button onclick="clickFaq('How does it reduce Wasted Labor?', 'Traditional methods force staff to constantly check traps manually. The Super Pest Trap sends automatic push notifications ONLY when capacity reaches limit thresholds, freeing up restaurant labor workflows.')">📊 How does it reduce Wasted Labor?</button>
+            <button onclick="clickFaq('How is Disposal Disgust avoided?', 'Kitchen handlers do not need to handle dead insects. You simply toggle the Touchless Release command to uncouple and drop the bio-degradable casing straight into waste streams.')">🎚️ How is Disposal Disgust avoided?</button>
+        </div>
+
         <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Type a message to support...">
+            <input type="text" id="chatInput" placeholder="Type a message or press enter..." onkeypress="checkEnterKey(event)">
             <button onclick="executeChatCommand()">Send</button>
         </div>
     </div>
@@ -584,10 +629,16 @@
             contents[index].style.display = targetDisplay === 'block' ? 'none' : 'block';
         }
 
-        // Interactive Live Chat Logic
         function toggleChatDrawer() {
             const drawer = document.getElementById('chatDrawer');
             drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Detect mechanical keyboard Enter press
+        function checkEnterKey(event) {
+            if (event.key === "Enter") {
+                executeChatCommand();
+            }
         }
 
         function executeChatCommand() {
@@ -595,13 +646,22 @@
             const userText = input.value.trim();
             if(!userText) return;
 
-            // 1. Render User Message
             appendBubble(userText, 'user');
             input.value = '';
 
-            // 2. Render Automatic Processing Await Alert Block
             setTimeout(() => {
                 appendBubble("⚠️ [Auto-Message]: Ticket numerical token dispatched to queue. Connecting to active administrative personnel terminal. Awaiting a real person to reply...", 'system-status');
+            }, 400);
+        }
+
+        // Quick FAQ click trigger logic
+        function clickFaq(question, answer) {
+            appendBubble(question, 'user');
+            setTimeout(() => {
+                appendBubble(answer, 'bot');
+                setTimeout(() => {
+                    appendBubble("⚠️ [Auto-Message]: Connecting you to support queue if you need more details. Awaiting a real person to reply...", 'system-status');
+                }, 500);
             }, 400);
         }
 
