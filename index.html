@@ -12,25 +12,38 @@
             --card-bg: #ffffff;
             --text: #333333;
         }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--bg);
             color: var(--text);
         }
+
         header {
             background-color: var(--primary);
             color: white;
             padding: 15px;
             text-align: center;
             font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        header .subtitle {
+            font-size: 0.8rem;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
         main {
             padding: 15px;
             max-width: 500px;
             margin: 0 auto;
+            margin-bottom: 80px;
         }
+
         .card {
             background: var(--card-bg);
             border-radius: 12px;
@@ -38,16 +51,86 @@
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
         .live-stream-box {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background-color: #000;
             border-radius: 8px;
+            position: relative;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
         }
+
+        .live-stream-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .footage-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .footage-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .footage-thumb {
+            width: 60px;
+            height: 45px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .footage-info {
+            flex-grow: 1;
+        }
+
+        .footage-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .footage-meta {
+            font-size: 0.75rem;
+            color: #666;
+            margin: 2px 0 0 0;
+        }
+
+        /* Chat Widget */
         .chat-trigger {
             position: fixed;
             bottom: 20px;
@@ -59,31 +142,186 @@
             height: 60px;
             border-radius: 50%;
             font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             cursor: pointer;
+            z-index: 1000;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 380px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid #e0e0e0;
+        }
+
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 14px;
+            font-size: 0.8rem;
+        }
+
+        .msg.bot { background-color: #e1f5fe; align-self: flex-start; }
+        .msg.user { background-color: var(--primary); color: white; align-self: flex-end; }
+
+        .chat-input-area {
+            display: flex;
+            padding: 8px;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input-area input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input-area button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+            padding-left: 8px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        Super Pest Trap Dashboard
+        Super Pest Trap
+        <div class="subtitle">Smart Compliance Dashboard</div>
     </header>
 
     <main>
         <div class="card">
-            <h3>System Status: <span style="color: #2e7d32;">Online</span></h3>
-            <p>Cartridge Capacity: 42% (Optimal)</p>
+            <h3>System Status</h3>
+            <p style="margin: 5px 0; font-size: 0.9rem;"><strong>Cartridge Capacity:</strong> 42% (Optimal)</p>
+            <p style="margin: 5px 0; font-size: 0.9rem;"><strong>Hardware Sync:</strong> Smart Dock Connected</p>
         </div>
 
         <div class="card">
             <h3>Camera Viewer</h3>
             <div class="live-stream-box">
-                [ Camera Feed Connected ]
+                <div class="live-indicator">Active View</div>
+                <img id="main-display" src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500" alt="Trap Visual">
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Footage History Archive</h3>
+            <div class="footage-list">
+                <div class="footage-item" onclick="swapView('https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500', 'Snapshot Log: Infrared Trigger')">
+                    <img class="footage-thumb" src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100">
+                    <div class="footage-info">
+                        <p class="footage-title">Pest Activity Capture</p>
+                        <p class="footage-meta">10:14 PM | Trigger: Sensor</p>
+                    </div>
+                </div>
+
+                <div class="footage-item" onclick="swapView('https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500', 'Snapshot Log: Timer Trigger')">
+                    <img class="footage-thumb" src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=100">
+                    <div class="footage-info">
+                        <p class="footage-title">Scheduled System Check</p>
+                        <p class="footage-meta">02:02 PM | Trigger: Timer</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <button class="chat-trigger" onclick="alert('Customer Service Chat opening...')">💬</button>
+    <button class="chat-trigger" onclick="toggleChat()">💬</button>
 
+    <div class="chat-widget" id="chatBox">
+        <div class="chat-header">
+            <span>Compliance Support AI</span>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg bot">Hello! How can I help you manage your kitchen compliance today?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Type a message...">
+            <button onclick="sendMsg()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function swapView(imgUrl, alertMsg) {
+            document.getElementById('main-display').src = imgUrl;
+            console.log(alertMsg);
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('chatBox');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMsg() {
+            const input = document.getElementById('userInput');
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            renderBubble(txt, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                let reply = "Connecting you to automated support logs...";
+                if(txt.toLowerCase().includes('cartridge')) {
+                    reply = "Biodegradable bamboo fiber cartridges are running at 42% capacity. No physical check is needed yet.";
+                } else if(txt.toLowerCase().includes('camera') || txt.toLowerCase().includes('video')) {
+                    reply = "The Smart Dock captures automatic data logs during movement to give to health inspectors.";
+                }
+                renderBubble(reply, 'bot');
+            }, 700);
+        }
+
+        function renderBubble(text, sender) {
+            const msgs = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.classList.add('msg', sender);
+            div.innerText = text;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+    </script>
 </body>
 </html>
