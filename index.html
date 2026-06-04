@@ -122,7 +122,7 @@
         }
 
         /* Metric Grid Cards */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
         .info-card { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; text-align: left; }
         .info-card.active-glow { background-color: var(--bg-accent-glow); border-color: rgba(76, 175, 80, 0.25); }
         .card-label { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
@@ -144,7 +144,7 @@
         .deck-stage { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; box-sizing: border-box; }
         .deck-stage.active { display: block; }
 
-        /* STAGE 1: PLACES MAP MATRIX */
+        /* STAGE 1: PLACES MAP SELECTION VIEW */
         .places-stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; height: 100%; box-sizing: border-box; }
         .place-picture-card {
             background-color: #18181c; border: 1px solid var(--border-subtle); border-radius: 12px;
@@ -160,14 +160,14 @@
         .place-card-name { font-size: 14px; font-weight: 700; margin-top: 12px; color: var(--text-pure); }
         .place-card-desc { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
 
-        /* STAGE 2: BAR GRAPH VIEW */
+        /* STAGE 2: BAR GRAPH HOURLY CHART VIEW */
         .analytics-graph-view { padding: 30px; cursor: pointer; }
         .graph-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .graph-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-accent); }
         .back-nav-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
         .back-nav-btn:hover { background-color: #333; }
 
-        /* STAGE 3: PREMIUM UNIFIED DATA TABLE VIEW */
+        /* STAGE 3: DATA RECORD SHEET TABLE VIEW */
         .data-table-view { padding: 30px; }
         .premium-data-table { width: 100%; border-collapse: collapse; margin-top: 16px; text-align: left; }
         .premium-data-table th {
@@ -176,6 +176,79 @@
         }
         .premium-data-table td { padding: 16px 14px; font-size: 14px; color: var(--text-pure); border-bottom: 1px solid var(--border-subtle); }
         .premium-data-table tr:hover td { background-color: rgba(255,255,255,0.02); }
+
+        /* 7-DAY VIDEO STORAGE GALLERY ROW */
+        .history-gallery-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .history-video-card {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .history-video-card:hover {
+            border-color: var(--blue-accent);
+            background-color: rgba(33, 150, 243, 0.03);
+            transform: translateY(-2px);
+        }
+
+        .history-video-card.active {
+            border-color: var(--blue-accent);
+            background-color: rgba(33, 150, 243, 0.08);
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
+        }
+
+        .video-thumb-mockup {
+            height: 64px;
+            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            border-radius: 6px;
+            border: 1px solid #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--alert-red);
+            font-size: 14px;
+            position: relative;
+        }
+
+        .video-thumb-mockup::after {
+            content: '▶';
+            font-size: 10px;
+            color: #fff;
+            background: rgba(0,0,0,0.6);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 2px;
+            box-sizing: border-box;
+        }
+
+        .history-day-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-pure);
+            margin-bottom: 2px;
+        }
+
+        .history-zone-tag {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
 
         .live-indicator {
             position: absolute; top: 16px; left: 16px; background: rgba(33, 150, 243, 0.15);
@@ -265,7 +338,7 @@
                     </select>
                 </div>
 
-                <div class="info-grid">
+                <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
                     <div class="info-card active-glow">
                         <div class="card-label">Scent Compounds</div>
                         <div class="card-value" id="scentCompoundsField">100% Bio-Organic</div>
@@ -298,7 +371,7 @@
                 <h3 class="system-title">Smart Dock Power Matrix</h3>
                 <p class="system-desc">Monitor mechanical sensor workloads, thermal cameras status, and power core conditions instantly.</p>
                 
-                <div class="info-grid">
+                <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
                     <div class="info-card active-glow">
                         <div class="card-label">Battery Capacity</div>
                         <div class="card-value" style="color: var(--brand-green);">88% Optimal</div>
@@ -324,22 +397,22 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 3: SURVEILLANCE & CLOUD (REBUILT FOR 3-STAGE INTERACTION ENGINE) -->
+    <!-- VIEWPORT 3: SURVEILLANCE & CLOUD WITH 3-STAGE INTERACTIVE LOG SELECTIONS -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Feed & Cloud Storage Pipeline</h3>
-        <p class="system-desc">Select a physical place card to query tracking logs, peak activity charts, and hardware catch records.</p>
+        <p class="system-desc">Select an operational zone or toggle past video recordings to monitor historical pest infestation patterns.</p>
 
-        <!-- Dynamic Media Pipeline Stage Window Container -->
+        <!-- Dynamic Multi-Stage Monitoring Windows -->
         <div class="media-deck-frame" id="masterStageDeck">
             
-            <!-- STAGE 1: PLACES MAP SELECTION VIEW -->
+            <!-- STAGE 1: PLACES MAP VIEW -->
             <div class="deck-stage active" id="stage-places">
                 <div class="places-stage-grid">
                     <div class="place-picture-card" onclick="loadStageGraph('zone1')">
                         <div class="place-img-placeholder">🍳</div>
                         <div>
                             <div class="place-card-name">Main Cooking Line</div>
-                            <div class="place-card-desc">Zone A Kitchen Operations</div>
+                            <div class="place-card-desc">Zone A Kitchen Area</div>
                         </div>
                     </div>
                     <div class="place-picture-card" onclick="loadStageGraph('zone2')">
@@ -359,10 +432,10 @@
                 </div>
             </div>
 
-            <!-- STAGE 2: BAR GRAPH HOURLY CHART VIEW -->
+            <!-- STAGE 2: BAR GRAPH CHART SELECTION VIEW -->
             <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
                 <div class="graph-header-row">
-                    <div id="graphTitleField" class="graph-title">📈 Loading Local Activity Data...</div>
+                    <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
                     <button class="back-nav-btn" onclick="resetToStagePlaces(event)">↩ Back to Places</button>
                 </div>
                 
@@ -380,7 +453,7 @@
                 <div class="click-prompt-hint">📋 Click Anywhere on Graph to Output Data Table</div>
             </div>
 
-            <!-- STAGE 3: DATA RECORD SHEET TABLE VIEW -->
+            <!-- STAGE 3: COMPLIANCE METRIC DATA SHEET VIEW -->
             <div class="deck-stage data-table-view" id="stage-table">
                 <div class="graph-header-row">
                     <div id="tableTitleField" class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
@@ -406,14 +479,61 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
-        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <div class="info-card" style="border-color: rgba(33, 150, 243, 0.25);"><div class="card-label">Cloud Link</div><div class="card-value" style="color: var(--blue-accent);">Connected</div></div>
-            <div class="info-card" style="border-color: rgba(33, 150, 243, 0.25);"><div class="card-label">Archives</div><div class="card-value" style="color: var(--blue-accent);">100% Synced</div></div>
-            <div class="info-card" style="border-color: rgba(33, 150, 243, 0.25);"><div class="card-label">Health Log</div><div class="card-value" style="color: var(--blue-accent);">Compliant</div></div>
-            <div class="info-card" style="border-color: rgba(33, 150, 243, 0.25);"><div class="card-label">Data Safety</div><div class="card-value" style="color: var(--blue-accent);">AES-256</div></div>
+        <!-- Telemetry Sync Links Row -->
+        <div class="info-grid">
+            <div class="info-card"><div class="card-label">Cloud Link</div><div class="card-value" style="color: var(--blue-accent);">Connected</div></div>
+            <div class="info-card"><div class="card-label">Archives</div><div class="card-value" style="color: var(--blue-accent);">100% Synced</div></div>
+            <div class="info-card"><div class="card-label">Health Log</div><div class="card-value" style="color: var(--blue-accent);">Compliant</div></div>
+            <div class="info-card"><div class="card-label">Data Safety</div><div class="card-value" style="color: var(--blue-accent);">AES-256</div></div>
+        </div>
+
+        <!-- NEW TIMELINE ARCHIVE MODULE: 7 DAYS ROLLBACK ARCHIVE -->
+        <div class="section-label" style="margin-top: 28px;">7-Day Rolling Historical Video Recordings (Standard Tier Account Allocation)</div>
+        <div class="history-gallery-row">
+            <!-- Day 1 -->
+            <div class="history-video-card active" id="hist-d1" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">1 Day Ago</div>
+                <div class="history-zone-tag">Kitchen</div>
+            </div>
+            <!-- Day 2 -->
+            <div class="history-video-card" id="hist-d2" onclick="queryHistoricalDayLog(event, 'd2', 'Dishwash Station')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">2 Days Ago</div>
+                <div class="history-zone-tag">Scullery</div>
+            </div>
+            <!-- Day 3 -->
+            <div class="history-video-card" id="hist-d3" onclick="queryHistoricalDayLog(event, 'd3', 'Dry Food Pantry')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">3 Days Ago</div>
+                <div class="history-zone-tag">Storage</div>
+            </div>
+            <!-- Day 4 -->
+            <div class="history-video-card" id="hist-d4" onclick="queryHistoricalDayLog(event, 'd4', 'Serving Counters')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">4 Days Ago</div>
+                <div class="history-zone-tag">Front Line</div>
+            </div>
+            <!-- Day 5 -->
+            <div class="history-video-card" id="hist-d5" onclick="queryHistoricalDayLog(event, 'd5', 'Waste Depot')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">5 Days Ago</div>
+                <div class="history-zone-tag">Sanitation</div>
+            </div>
+            <!-- Day 6 -->
+            <div class="history-video-card" id="hist-d6" onclick="queryHistoricalDayLog(event, 'd6', 'Back Kitchen Alley')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">6 Days Ago</div>
+                <div class="history-zone-tag">Rear Entrance</div>
+            </div>
+            <!-- Day 7 -->
+            <div class="history-video-card" id="hist-d7" onclick="queryHistoricalDayLog(event, 'd7', 'Defrosting Station')">
+                <div class="video-thumb-mockup"></div>
+                <div class="history-day-label">7 Days Ago</div>
+                <div class="history-zone-tag">Prep Table</div>
+            </div>
         </div>
     </div>
 
@@ -525,11 +645,11 @@
         kiy: { scentValue: "pandan", compounds: "100% Bio-Organic", lifespan: "28 Days Left", integrityText: "85% Core Remaining", integrityPercentage: 85 }
     };
 
-    // Deep-Dive Location & Multi-Stage Analytical Dataset
+    // Deep-Dive Timeline Location & Multi-Stage Analytical Dataset
     const activePipelineData = {
         zone1: {
             name: "Main Cooking Line (Zone A)",
-            graphTitle: "📈 Cooking Line Chrono-Activity Profile (24H Matrix)",
+            graphTitle: "📈 Cooking Line Activity Profile (24H Matrix)",
             bars: [20, 45, 95, 140],
             came: "114 Cockroaches Sighted",
             peak: "23:00 - 02:30 midnight",
@@ -537,7 +657,7 @@
         },
         zone2: {
             name: "Dry Storage Pantry (Zone B)",
-            graphTitle: "📈 Storage Pantry Chrono-Activity Profile (24H Matrix)",
+            graphTitle: "📈 Storage Pantry Activity Profile (24H Matrix)",
             bars: [10, 25, 70, 115],
             came: "58 Cockroaches Sighted",
             peak: "22:15 - 01:00 night",
@@ -545,7 +665,7 @@
         },
         zone3: {
             name: "Waste Disposal Bin (Zone C)",
-            graphTitle: "📈 Waste Disposal Area Chrono-Activity Profile (24H Matrix)",
+            graphTitle: "📈 Waste Disposal Area Activity Profile (24H Matrix)",
             bars: [45, 80, 145, 155],
             came: "246 Cockroaches Sighted",
             peak: "23:45 - 04:00 extended surge",
@@ -553,48 +673,76 @@
         }
     };
 
-    // Keep active record reference tracking in runtime
+    // Historical Day Rollback Dataset Modifications
+    const historicalTimelineData = {
+        d1: { bars: [15, 30, 80, 110], came: "92 Came By", peak: "22:00 - 01:30", caught: "85 Caught" },
+        d2: { bars: [5, 12, 45, 85], came: "41 Came By", peak: "00:05 - 03:00", caught: "39 Caught" },
+        d3: { bars: [22, 60, 110, 135], came: "185 Came By", peak: "23:15 - 02:45", caught: "172 Caught" },
+        d4: { bars: [12, 18, 55, 90], came: "64 Came By", peak: "21:45 - 01:15", caught: "61 Caught" },
+        d5: { bars: [50, 95, 150, 160], came: "298 Came By", peak: "23:00 - 04:30", caught: "284 Caught" },
+        d6: { bars: [30, 40, 85, 120], came: "130 Came By", peak: "22:30 - 02:00", caught: "119 Caught" },
+        d7: { bars: [8, 15, 35, 65], came: "32 Came By", peak: "01:00 - 03:30", caught: "30 Caught" }
+    };
+
     let globalSelectedZoneKey = "zone1";
 
     // PIPELINE STAGE MACHINE TRANSITIONS
     function loadStageGraph(zoneKey) {
         globalSelectedZoneKey = zoneKey;
         const data = activePipelineData[zoneKey];
-
-        // Set Text Configuration Headings
         document.getElementById("graphTitleField").innerText = data.graphTitle;
+        updateGraphBars(data.bars);
 
-        // Recalculate heights for SVG bar chart graph
-        document.getElementById("vbar0").setAttribute("height", data.bars[0]);
-        document.getElementById("vbar0").setAttribute("y", 160 - data.bars[0]);
-        document.getElementById("vbar1").setAttribute("height", data.bars[1]);
-        document.getElementById("vbar1").setAttribute("y", 160 - data.bars[1]);
-        document.getElementById("vbar2").setAttribute("height", data.bars[2]);
-        document.getElementById("vbar2").setAttribute("y", 160 - data.bars[2]);
-        document.getElementById("vbar3").setAttribute("height", data.bars[3]);
-        document.getElementById("vbar3").setAttribute("y", 160 - data.bars[3]);
-
-        // Shift stage frame views
         document.getElementById("stage-places").classList.remove("active");
         document.getElementById("stage-graph").classList.add("active");
     }
 
     function loadStageTable() {
         const data = activePipelineData[globalSelectedZoneKey];
-
-        // Populate metrics table rows verbatim
         document.getElementById("td-location").innerText = data.name;
         document.getElementById("td-came").innerText = data.came;
         document.getElementById("td-peak").innerText = data.peak;
         document.getElementById("td-caught").innerText = data.caught;
 
-        // Shift stage frame views
         document.getElementById("stage-graph").classList.remove("active");
         document.getElementById("stage-table").classList.add("active");
     }
 
+    // Interactive Trigger to Load Archived 7-Day Video Parameters
+    function queryHistoricalDayLog(evt, dayKey, mockZoneName) {
+        // Toggle selected styling class configuration across timeline elements
+        const cards = document.querySelectorAll(".history-video-card");
+        cards.forEach(c => c.classList.remove("active"));
+        evt.currentTarget.classList.add("active");
+
+        const historicalLog = historicalTimelineData[dayKey];
+        
+        // Force update graphs and structural headers to reflect the historical entry
+        document.getElementById("graphTitleField").innerText = "📊 Archived Recording: " + mockZoneName + " Log [" + dayKey.toUpperCase() + "]";
+        updateGraphBars(historicalLog.bars);
+
+        // Inject metrics directly into table row variables
+        document.getElementById("td-location").innerText = mockZoneName + " (Archived Feed)";
+        document.getElementById("td-came").innerText = historicalLog.came;
+        document.getElementById("td-peak").innerText = historicalLog.peak;
+        document.getElementById("td-caught").innerText = historicalLog.caught;
+
+        // Route viewport focus straight into chart graph evaluation
+        document.getElementById("stage-places").classList.remove("active");
+        document.getElementById("stage-table").classList.remove("active");
+        document.getElementById("stage-graph").classList.add("active");
+    }
+
+    function updateGraphBars(barHeightsArray) {
+        for(let i=0; i<4; i++) {
+            const bar = document.getElementById("vbar" + i);
+            bar.setAttribute("height", barHeightsArray[i]);
+            bar.setAttribute("y", 160 - barHeightsArray[i]);
+        }
+    }
+
     function resetToStagePlaces(evt) {
-        evt.stopPropagation(); // Stop clicking back button from accidentally triggering stage table transition
+        evt.stopPropagation();
         document.getElementById("stage-graph").classList.remove("active");
         document.getElementById("stage-places").classList.add("active");
     }
