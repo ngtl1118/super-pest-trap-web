@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Pest Trap - Enterprise Compliance Portal</title>
+    <title>Super Pest Trap - Ultimate Compliance Hub</title>
     <style>
         :root {
             --primary: #2e7d32;
             --primary-light: #e8f5e9;
             --dark: #1b5e20;
             --accent: #e65100;
-            --bg: #f5f7f5;
+            --bg: #f4f7f5;
             --card-bg: #ffffff;
             --text: #2c3e50;
             --border: #e2e8f0;
+            --premium-color: #d4af37;
         }
 
         body {
@@ -30,18 +31,33 @@
             padding: 25px 15px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #d4af37, #f9d976);
+            color: #111;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         header h1 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             letter-spacing: 0.8px;
         }
 
         header .subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             opacity: 0.9;
-            margin-top: 6px;
+            margin-top: 5px;
             font-weight: 300;
         }
 
@@ -63,11 +79,25 @@
         .card h3 {
             margin-top: 0;
             margin-bottom: 15px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--dark);
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* Forms and Selectors */
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background-color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
         }
 
         /* Metrics Grid */
@@ -75,46 +105,46 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-top: 10px;
         }
 
         .metric-box {
             background: var(--primary-light);
-            padding: 14px 10px;
+            padding: 12px 10px;
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(46, 125, 50, 0.1);
+            border: 1px solid rgba(46, 125, 50, 0.08);
         }
 
         .metric-box .label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--primary);
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .metric-box .value {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 4px;
             color: var(--dark);
         }
 
-        /* Progress Bar Styles */
+        /* Progress Elements */
         .progress-container {
-            margin-top: 18px;
+            margin-top: 15px;
         }
         .progress-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
             font-weight: 600;
         }
         .progress-bar {
             background: #e2e8f0;
             border-radius: 10px;
-            height: 12px;
+            height: 10px;
             overflow: hidden;
         }
         .progress-fill {
@@ -122,18 +152,17 @@
             height: 100%;
             width: 42%;
             border-radius: 10px;
-            transition: width 0.5s ease;
+            transition: all 0.4s ease;
         }
 
-        /* Camera Screen */
+        /* Media Display Node */
         .camera-container {
             position: relative;
             width: 100%;
-            height: 240px;
+            height: 220px;
             background-color: #111;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
         }
 
         .camera-container img {
@@ -146,21 +175,34 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(211, 47, 47, 0.9);
+            background: rgba(46, 125, 50, 0.9);
             color: white;
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* Control Buttons */
+        .cloud-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(41, 128, 185, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Buttons layout */
         .btn-group {
             display: flex;
             gap: 10px;
-            margin-top: 14px;
+            margin-top: 12px;
         }
 
         .btn {
@@ -172,75 +214,75 @@
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
+            text-align: center;
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-danger { background: #d32f2f; color: white; }
+
+        /* Observation Dashboard Insights */
+        .insight-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px;
+            border-radius: 4px 12px 12px 4px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-top: 10px;
         }
 
-        .btn-outline.active {
-            background: var(--primary);
-            color: white;
+        /* Accordion Structure */
+        .accordion-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            overflow: hidden;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
-        }
-
-        .btn-danger {
-            background: #d32f2f;
-            color: white;
-            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2);
-        }
-
-        /* Log List */
-        .log-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .log-item {
+        .accordion-header {
+            background: #f8fafc;
+            padding: 12px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 0.85rem;
+            color: var(--text);
         }
 
-        .log-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+        .accordion-content {
+            padding: 12px 15px;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            background: #fff;
+            display: none;
+            border-top: 1px solid var(--border);
+            color: #555;
         }
 
-        .log-time {
-            color: #7f8c8d;
-            font-size: 0.78rem;
-            display: block;
-            margin-top: 3px;
+        /* Subscription Premium Matrix */
+        .tier-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: bold;
-            text-transform: uppercase;
+        .tier-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            border: 1px solid var(--border);
         }
 
-        .badge-success { background: #e8f5e9; color: #2e7d32; }
-        .badge-warning { background: #fff3e0; color: #e65100; }
+        .tier-row.active-tier {
+            background: #fffdf3;
+            border-color: var(--premium-color);
+        }
 
-        /* Floating Chat Drawer */
+        /* Floating Element Button */
         .chat-trigger {
             position: fixed;
             bottom: 20px;
@@ -252,328 +294,195 @@
             height: 60px;
             border-radius: 50%;
             font-size: 26px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
             cursor: pointer;
-            z-index: 999;
-        }
-
-        .chat-drawer {
-            position: fixed;
-            bottom: 95px;
-            right: 20px;
-            width: 320px;
-            height: 420px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.18);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 999;
-            border: 1px solid rgba(0,0,0,0.06);
-        }
-
-        .chat-header {
-            background: var(--dark);
-            color: white;
-            padding: 16px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background-color: #f8faf8;
-        }
-
-        .msg {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .msg.bot {
-            background-color: white;
-            color: var(--text);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-        }
-
-        .msg.user {
-            background-color: var(--primary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-footer {
-            display: flex;
-            padding: 12px;
-            background: white;
-            border-top: 1px solid #eee;
-        }
-
-        .chat-footer input {
-            flex-grow: 1;
-            border: 1px solid #e2e8f0;
-            padding: 10px 16px;
-            border-radius: 24px;
-            outline: none;
-            font-size: 0.85rem;
-        }
-
-        .chat-footer button {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-weight: bold;
-            cursor: pointer;
-            padding: 0 12px;
-            font-size: 0.95rem;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
     <header>
+        <div class="premium-badge">Premium Tier Active</div>
         <h1>SUPER PEST TRAP</h1>
-        <div class="subtitle">Group Lai Cai • Real-time IoT Compliance Dashboard</div>
+        <div class="subtitle">Group Lai Cai • Enterprise IoT Control Terminal</div>
     </header>
 
     <main>
-        <div class="card" style="padding: 12px 20px;">
-            <label style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); text-transform: uppercase;">Active Active Dock Node:</label>
-            <select style="width: 100%; border: none; font-size: 1rem; font-weight: bold; color: var(--dark); background: transparent; outline: none; margin-top: 4px;" onchange="switchLocation(this.value)">
-                <option value="kpz">UKM KPZ Cafeteria Node (Pilot Station 1)</option>
-                <option value="kiy">UKM KIY Cafeteria Node (Pilot Station 2)</option>
-            </select>
-        </div>
-
+        <!-- Section 1: Location & Organic Scent Controller Nodes -->
         <div class="card">
-            <h3>📊 Live Smart Dock Telemetry</h3>
+            <h3>🌿 100% Organic Scent Sub-System</h3>
+            <p style="font-size: 0.8rem; margin-top:-8px; color: #7f8c8d; margin-bottom: 12px;">Select non-toxic sachet to adjust hardware attraction matrix parameters.</p>
+            
+            <label style="font-size: 0.75rem; font-weight: bold; color: #7f8c8d; display:block; margin-bottom: 4px;">ACTIVE SCENT CARTRIDGE:</label>
+            <select id="scentSelector" onchange="updateScentMetrics(this.value)">
+                <option value="pandan">🌿 Pandan Leaf Extract (High Attraction)</option>
+                <option value="coffee">☕ Natural Coffee Bean Sachet (Medium Attraction)</option>
+                <option value="cinnamon">🪵 Cinnamon Bark Infusion (Repellent Boundary)</option>
+                <option value="vanilla">🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
+            </select>
+
             <div class="metrics-grid">
                 <div class="metric-box">
-                    <div class="label">Hardware Link</div>
-                    <div class="value" style="color: #2e7d32;" id="node-status">Online</div>
+                    <div class="label">Scent Compounds</div>
+                    <div class="value" id="scent-type-label">100% Bio-Organic</div>
                 </div>
                 <div class="metric-box">
-                    <div class="label">Total Catches</div>
-                    <div class="value" id="catch-count">14</div>
-                </div>
-                <div class="metric-box">
-                    <div class="label">Active Bait Scent</div>
-                    <div class="value" style="font-size: 1rem;" id="scent-type">🌿 Pandan Leaf</div>
-                </div>
-                <div class="metric-box">
-                    <div class="label">Smart Dock Battery</div>
-                    <div class="value" style="font-size: 1rem;">94% (Lithium)</div>
+                    <div class="label">Est. Capsule Lifespan</div>
+                    <div class="value" id="lifespan-label">30 Days Left</div>
                 </div>
             </div>
-            
+
             <div class="progress-container">
                 <div class="progress-label">
-                    <span>Eco-Cartridge Capacity (Bamboo Fiber)</span>
-                    <strong id="capacity-text">42% Full</strong>
+                    <span>Scent Chemical Integrity Essence</span>
+                    <strong id="scent-integrity-text">100% Fresh</strong>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="capacity-fill" style="width: 42%;"></div>
+                    <div class="progress-fill" id="scent-integrity-fill" style="width: 100%;"></div>
                 </div>
             </div>
         </div>
 
+        <!-- Section 2: Core Telemetry Data Observer -->
         <div class="card">
-            <h3>📷 Intelligent Vision Sub-system</h3>
+            <h3>📊 Cockroach Biological Observation Node</h3>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="label">Dock Station Node</div>
+                    <div class="value" style="font-size: 0.95rem; font-weight: bold; padding: 2px 0;">UKM KPZ Station</div>
+                </div>
+                <div class="metric-box">
+                    <div class="label">Cockroach Capture Count</div>
+                    <div class="value" id="count-display" style="color: #c0392b;">14 Caught</div>
+                </div>
+            </div>
+
+            <div class="insight-box" id="insight-display">
+                <strong>Observation Metric:</strong> High attraction rate recorded. Pandan volatile compounds correlate with increased German Cockroach orientation metrics under standard cafeteria humidity thresholds.
+            </div>
+        </div>
+
+        <!-- Section 3: Cloud Visual Stream Subsystem -->
+        <div class="card">
+            <h3>📷 Cloud Vision Monitor Vault</h3>
             <div class="camera-container">
-                <div class="camera-overlay" id="stream-label">Live Optical Stream</div>
-                <img id="camera-display" src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500" alt="Chamber View">
+                <div class="camera-overlay">Secure Feed Matrix</div>
+                <div class="cloud-badge">☁️ AWS Cloud Synced</div>
+                <img id="camera-frame" src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500" alt="Chamber Frame">
             </div>
             <div class="btn-group">
-                <button class="btn btn-outline active" id="btn-live" onclick="viewStream('live')">Optical Feed</button>
-                <button class="btn btn-outline" id="btn-capture" onclick="viewStream('capture')">Thermal State</button>
+                <button class="btn btn-primary" onclick="simulateCloudFetch()">🔄 Fetch Cloud Archive</button>
+                <button class="btn btn-danger" onclick="triggerHygienicEject()">🎚️ Force Touchless Eject</button>
             </div>
         </div>
 
+        <!-- Section 4: Premium Subscription Tier Value Architecture -->
+        <div class="card" style="border: 1px solid var(--premium-color);">
+            <h3>👑 Enterprise Licensing Matrix</h3>
+            <div class="tier-grid">
+                <div class="tier-row">
+                    <div><strong>Basic Tier (Free Hub)</strong><br><span style="font-size:0.72rem; color:#7f8c8d;">Local Hardware Eject Prompts Only</span></div>
+                    <div style="font-weight: bold; align-self:center; color:#7f8c8d;">Standard</div>
+                </div>
+                <div class="tier-row active-tier">
+                    <div><strong>Premium Tier Subscription Active</strong><br><span style="font-size:0.72rem; color:var(--accent);">Continuous Cloud Archiving & KKM Inspector Reporting</span></div>
+                    <div style="font-weight: bold; align-self:center; color:var(--premium-color);">Unlocked</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Built-In Operational Manual Accordion -->
         <div class="card">
-            <h3>🛡️ Compliance & Safety Actions</h3>
-            <p style="font-size: 0.8rem; color: #7f8c8d; margin-top: -8px; margin-bottom: 15px;">Execute zero-contact remote commands to mitigate labor overhead.</p>
-            <div class="btn-group">
-                <button class="btn btn-danger" onclick="triggerHygienicEject()">
-                    🎚️ Remote Eject Cartridge
-                </button>
-                <button class="btn btn-primary" onclick="generateComplianceReport()">
-                    📋 Export Health Log
-                </button>
+            <h3>📘 On-Site Systems User Manual</h3>
+            <p style="font-size: 0.8rem; margin-top:-8px; color: #7f8c8d; margin-bottom: 12px;">Standard operating procedures for kitchen handlers and sanitation staff.</p>
+            
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(0)">1. Initial Smart Dock Hardware Syncing <span>▼</span></div>
+                <div class="accordion-content">Attach the reusable electronic Smart Dock to the biodegradable bamboo cartridge casing. Ensure the micro-camera module align directly face-down over the primary IR beam node pathway.</div>
             </div>
-        </div>
 
-        <div class="card" style="background: linear-gradient(180deg, #ffffff, #f9fff9); border: 1px solid rgba(46, 125, 50, 0.2);">
-            <h3>🛒 Cartridge & Sachet Supply Replenishment</h3>
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
-                <div>
-                    <strong>Standard F&B Budget Refill Pack</strong>
-                    <div style="font-size: 0.75rem; color: #7f8c8d; margin-top: 2px;">5x Bamboo Fiber Cartridges + 5x Scent Sachets</div>
-                </div>
-                <button class="btn btn-primary" style="padding: 8px 14px; font-size: 0.8rem; flex: none;" onclick="alert('Order Dispatched! Refill metrics will update upon delivery.')">Order</button>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(1)">2. Non-Contact Casing Disposal Mechanism <span>▼</span></div>
+                <div class="accordion-content">When trap capacity alert reaches threshold, do not handle the inner trap cell. Hover your handheld panel interface and trigger the remote mechanical ejection script. Casing uncouples effortlessly straight into disposal channels.</div>
             </div>
-        </div>
 
-        <div class="card">
-            <h3>📋 Verification Audit Stream</h3>
-            <div class="log-list" id="audit-log">
-                <div class="log-item">
-                    <div>
-                        <strong>Eco-Chamber Seal Lock Secure</strong><br>
-                        <span class="log-time" id="log-time-1">Today, 11:04 PM</span>
-                    </div>
-                    <span class="badge badge-success">Target Trapped</span>
-                </div>
-                <div class="log-item">
-                    <div>
-                        <strong>Smart Dock Sensor Intrusion Alert</strong><br>
-                        <span class="log-time" id="log-time-2">Today, 11:03 PM</span>
-                    </div>
-                    <span class="badge badge-warning">IR Trigger</span>
-                </div>
-                <div class="log-item">
-                    <div>
-                        <strong>Telemetry Uploaded to Cloud Server</strong><br>
-                        <span class="log-time" id="log-time-3">Today, 06:00 PM</span>
-                    </div>
-                    <span class="badge badge-success">Verified Sync</span>
-                </div>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(2)">3. Replacing the Bio-Organic Scent Sachet <span>▼</span></div>
+                <div class="accordion-content">Slide open the upper structural compartment of the smart matrix box assembly. Replace used dry pad matrices with freshly saturated Pandan or Coffee organic core sheets to preserve volatile vapor streams.</div>
             </div>
         </div>
     </main>
 
-    <button class="chat-trigger" onclick="toggleChatDrawer()">💬</button>
-
-    <div class="chat-drawer" id="chatDrawer">
-        <div class="chat-header">
-            <span>Trap Support AI Assistant</span>
-            <button class="chat-close" onclick="toggleChatDrawer()">✕</button>
-        </div>
-        <div class="chat-messages" id="chatContainer">
-            <div class="msg bot">Hello! I am your Group Lai Cai automated support bot. Type "compliance", "disposal", or "scent" to check system values.</div>
-        </div>
-        <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Type a message or command...">
-            <button onclick="executeChatCommand()">Send</button>
-        </div>
-    </div>
+    <button class="chat-trigger" onclick="alert('Licensing Framework Active:\nAutomated digital logs are operating normally.')">💬</button>
 
     <script>
-        // Pivot Station Node Switch Simulator
-        function switchLocation(loc) {
-            if(loc === 'kpz') {
-                document.getElementById('catch-count').innerText = "14";
-                document.getElementById('scent-type').innerText = "🌿 Pandan Leaf";
-                document.getElementById('capacity-text').innerText = "42% Full";
-                document.getElementById('capacity-fill').style.width = "42%";
-                document.getElementById('node-status').innerText = "Online";
-                document.getElementById('node-status').style.color = "#2e7d32";
-            } else {
-                document.getElementById('catch-count').innerText = "3";
-                document.getElementById('scent-type').innerText = "☕ Coffee Bean";
-                document.getElementById('capacity-text').innerText = "8% Full";
-                document.getElementById('capacity-fill').style.width = "8%";
-                document.getElementById('node-status').innerText = "Online (Low Activity)";
-                document.getElementById('node-status').style.color = "#2e7d32";
+        // Interactive Multi-Scent Management Engine
+        function updateScentMetrics(type) {
+            const lifespan = document.getElementById('lifespan-label');
+            const intensityText = document.getElementById('scent-integrity-text');
+            const intensityFill = document.getElementById('scent-integrity-fill');
+            const insight = document.getElementById('insight-display');
+            const count = document.getElementById('count-display');
+            const frame = document.getElementById('camera-frame');
+
+            if(type === 'pandan') {
+                lifespan.innerText = "30 Days Left";
+                intensityText.innerText = "100% Fresh Base";
+                intensityFill.style.width = "100%";
+                count.innerText = "14 Caught";
+                frame.src = "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500";
+                insight.innerHTML = "<strong>Observation Metric:</strong> High attraction rate recorded. Pandan volatile compounds correlate with increased German Cockroach orientation metrics under standard cafeteria humidity thresholds.";
+            } else if(type === 'coffee') {
+                lifespan.innerText = "45 Days Left";
+                intensityText.innerText = "85% Crystalline";
+                intensityFill.style.width = "85%";
+                count.innerText = "6 Caught";
+                frame.src = "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500";
+                insight.innerHTML = "<strong>Observation Metric:</strong> Moderate capture pace. Roasted coffee ground profiles act efficiently as a sustained lure within food storage areas without alerting sensory defensive triggers.";
+            } else if(type === 'cinnamon') {
+                lifespan.innerText = "60 Days Left";
+                intensityText.innerText = "90% Maximum Core";
+                intensityFill.style.width = "90%";
+                count.innerText = "0 Caught";
+                frame.src = "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500";
+                insight.innerHTML = "<strong>Observation Metric:</strong> Preventive Barrier Status. Cinnamon aldehyde functions primarily as an organic repellent matrix block, creating high boundary aversion metrics across testing gates.";
+            } else if(type === 'vanilla') {
+                lifespan.innerText = "25 Days Left";
+                intensityText.innerText = "70% Volatile Core";
+                intensityFill.style.width = "70%";
+                count.innerText = "21 Caught";
+                frame.src = "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500";
+                insight.innerHTML = "<strong>Observation Metric:</strong> Extreme immediate cluster spikes. Sweet organic esters spark accelerated directional movement across localized vectors, causing rapid cartridge full state thresholds.";
             }
         }
 
-        // Camera Views Controller
-        function viewStream(type) {
-            const img = document.getElementById('camera-display');
-            const label = document.getElementById('stream-label');
-            const btnLive = document.getElementById('btn-live');
-            const btnCapture = document.getElementById('btn-capture');
-
-            if(type === 'live') {
-                img.src = "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500";
-                img.style.filter = "none";
-                label.innerText = "Live Optical Stream";
-                btnLive.classList.add('active');
-                btnCapture.classList.remove('active');
-            } else {
-                img.src = "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500";
-                img.style.filter = "hue-rotate(90deg) saturate(3)"; // Simulated thermal overlay effect
-                label.innerText = "Infrared Thermal Grid Matrix";
-                btnLive.classList.remove('active');
-                btnCapture.classList.add('active');
-            }
+        // Cloud Retrieval Simulation Action
+        function simulateCloudFetch() {
+            alert("Querying AWS S3 Storage Archive Link...\n\nStatus: Secure Connection Verified.\nData Pack: 3 Previous Image Blocks fetched securely into client cache framework.");
         }
 
-        // Touchless Mechanical Ejection Simulation
+        // Hygienic Reset Execution Trigger
         function triggerHygienicEject() {
-            let confirmAction = confirm("Are you sure you want to trigger touchless cartridge ejection remotely? This drops the sealed biodegradable casing without manual contact.");
-            if(confirmAction) {
-                document.getElementById('capacity-text').innerText = "0% (Empty)";
-                document.getElementById('capacity-fill').style.width = "0%";
-                document.getElementById('catch-count').innerText = "0";
-                alert("Action Dispatched: Cartridge dropped successfully. System reset to 0%.");
+            let confirmation = confirm("Execute remote electronic release to dump current biological load without manual contact?");
+            if(confirmation) {
+                document.getElementById('count-display').innerText = "0 Caught";
+                alert("Smart Core Action: Casing mechanical latch toggled. Grid baseline variable initialized back to 0.");
             }
         }
 
-        // Health Inspection Audit Validation
-        function generateComplianceReport() {
-            alert("Generating Official Health Inspection Data Pack...\n\nStatus: 100% Certified Food Safe\nChemical Usage: 0%\nAudit Logs Verified for Ministry of Health (KKM) Framework compliance.");
-        }
-
-        // Conversational Bot Controller
-        function toggleChatDrawer() {
-            const drawer = document.getElementById('chatDrawer');
-            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function executeChatCommand() {
-            const input = document.getElementById('chatInput');
-            const userText = input.value.trim();
-            if(!userText) return;
-
-            appendBubble(userText, 'user');
-            input.value = '';
-
-            setTimeout(() => {
-                let botReply = "Command unrecognized. Try entering 'compliance', 'disposal', or 'scent'.";
-                const text = userText.toLowerCase();
-
-                if(text.includes('compliance') || text.includes('inspect')) {
-                    botReply = "Health Inspector Mode: Active. Continuous imaging data logs provide absolute evidence of compliance to bypass manual kitchen downtime.";
-                } else if(text.includes('disposal') || text.includes('disgust') || text.includes('eject')) {
-                    botReply = "Disposal Disgust Remedy: Tap the red 'Remote Eject Cartridge' button to automatically uncouple the bamboo block straight into your bin without touching organic waste.";
-                } else if(text.includes('scent') || text.includes('bait') || text.includes('chemical')) {
-                    botReply = "Chemical-Free Assurance: Current active sachet utilizes pure natural plant extracts to safely attract pests without toxic vapor hazards near food surfaces.";
-                }
-                appendBubble(botReply, 'bot');
-            }, 500);
-        }
-
-        function appendBubble(text, sender) {
-            const container = document.getElementById('chatContainer');
-            const div = document.createElement('div');
-            div.classList.add('msg', sender);
-            div.innerText = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+        // Simple Layout Accordion Presentation Engine
+        function toggleAccordion(index) {
+            const contents = document.getElementsByClassName('accordion-content');
+            const targetDisplay = contents[index].style.display;
+            
+            // Close all items
+            for(let i=0; i<contents.length; i++) {
+                contents[i].style.display = 'none';
+            }
+            
+            // Toggle chosen block
+            contents[index].style.display = targetDisplay === 'block' ? 'none' : 'block';
         }
     </script>
 </body>
