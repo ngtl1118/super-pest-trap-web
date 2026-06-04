@@ -86,7 +86,6 @@
             gap: 10px;
         }
 
-        /* Forms and Selectors */
         select {
             width: 100%;
             padding: 12px;
@@ -100,7 +99,6 @@
             cursor: pointer;
         }
 
-        /* Metrics Grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -130,7 +128,6 @@
             color: var(--dark);
         }
 
-        /* Progress Elements */
         .progress-container {
             margin-top: 15px;
         }
@@ -155,7 +152,6 @@
             transition: all 0.4s ease;
         }
 
-        /* Media Display Node */
         .camera-container {
             position: relative;
             width: 100%;
@@ -198,7 +194,6 @@
             gap: 4px;
         }
 
-        /* Buttons layout */
         .btn-group {
             display: flex;
             gap: 10px;
@@ -220,7 +215,6 @@
         .btn-primary { background: var(--primary); color: white; }
         .btn-danger { background: #d32f2f; color: white; }
 
-        /* Observation Dashboard Insights */
         .insight-box {
             background: #fff8e1;
             border-left: 4px solid #ffb300;
@@ -231,7 +225,6 @@
             margin-top: 10px;
         }
 
-        /* Accordion Structure */
         .accordion-item {
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -260,7 +253,6 @@
             color: #555;
         }
 
-        /* Subscription Premium Matrix */
         .tier-grid {
             display: flex;
             flex-direction: column;
@@ -282,7 +274,7 @@
             border-color: var(--premium-color);
         }
 
-        /* Floating Element Button */
+        /* Floating Interactive Chat Widget */
         .chat-trigger {
             position: fixed;
             bottom: 20px;
@@ -298,12 +290,118 @@
             cursor: pointer;
             z-index: 1000;
         }
+
+        .chat-drawer {
+            position: fixed;
+            bottom: 95px;
+            right: 20px;
+            width: 320px;
+            height: 420px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .chat-header {
+            background: var(--dark);
+            color: white;
+            padding: 16px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #f8faf8;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .msg.bot {
+            background-color: white;
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .msg.system-status {
+            background-color: #fff3e0;
+            color: #e65100;
+            font-weight: bold;
+            font-size: 0.78rem;
+            align-self: center;
+            max-width: 90%;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px dashed #ffb74d;
+        }
+
+        .msg.user {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-footer {
+            display: flex;
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-footer input {
+            flex-grow: 1;
+            border: 1px solid #e2e8f0;
+            padding: 10px 16px;
+            border-radius: 24px;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .chat-footer button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 12px;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="premium-badge">Premium Tier Active</div>
+        <div class="premium-badge">Premium Active</div>
         <h1>SUPER PEST TRAP</h1>
         <div class="subtitle">Group Lai Cai • Enterprise IoT Control Terminal</div>
     </header>
@@ -395,18 +493,14 @@
         <!-- Section 5: Built-In Operational Manual Accordion -->
         <div class="card">
             <h3>📘 On-Site Systems User Manual</h3>
-            <p style="font-size: 0.8rem; margin-top:-8px; color: #7f8c8d; margin-bottom: 12px;">Standard operating procedures for kitchen handlers and sanitation staff.</p>
-            
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(0)">1. Initial Smart Dock Hardware Syncing <span>▼</span></div>
                 <div class="accordion-content">Attach the reusable electronic Smart Dock to the biodegradable bamboo cartridge casing. Ensure the micro-camera module align directly face-down over the primary IR beam node pathway.</div>
             </div>
-
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(1)">2. Non-Contact Casing Disposal Mechanism <span>▼</span></div>
                 <div class="accordion-content">When trap capacity alert reaches threshold, do not handle the inner trap cell. Hover your handheld panel interface and trigger the remote mechanical ejection script. Casing uncouples effortlessly straight into disposal channels.</div>
             </div>
-
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(2)">3. Replacing the Bio-Organic Scent Sachet <span>▼</span></div>
                 <div class="accordion-content">Slide open the upper structural compartment of the smart matrix box assembly. Replace used dry pad matrices with freshly saturated Pandan or Coffee organic core sheets to preserve volatile vapor streams.</div>
@@ -414,10 +508,24 @@
         </div>
     </main>
 
-    <button class="chat-trigger" onclick="alert('Licensing Framework Active:\nAutomated digital logs are operating normally.')">💬</button>
+    <!-- Interactive Support Widget -->
+    <button class="chat-trigger" onclick="toggleChatDrawer()">💬</button>
+
+    <div class="chat-drawer" id="chatDrawer">
+        <div class="chat-header">
+            <span>Customer Service Desk</span>
+            <button class="chat-close" onclick="toggleChatDrawer()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatContainer">
+            <div class="msg bot">Hello! Welcome to the Group Lai Cai Support Hub. How can we assist you with your Super Pest Trap deployment metrics today?</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Type a message to support...">
+            <button onclick="executeChatCommand()">Send</button>
+        </div>
+    </div>
 
     <script>
-        // Interactive Multi-Scent Management Engine
         function updateScentMetrics(type) {
             const lifespan = document.getElementById('lifespan-label');
             const intensityText = document.getElementById('scent-integrity-text');
@@ -457,12 +565,10 @@
             }
         }
 
-        // Cloud Retrieval Simulation Action
         function simulateCloudFetch() {
-            alert("Querying AWS S3 Storage Archive Link...\n\nStatus: Secure Connection Verified.\nData Pack: 3 Previous Image Blocks fetched securely into client cache framework.");
+            alert("Querying AWS S3 Storage Archive Link...\n\nStatus: Secure Connection Verified.\nData Pack: Previous Image Blocks fetched safely into client cache framework.");
         }
 
-        // Hygienic Reset Execution Trigger
         function triggerHygienicEject() {
             let confirmation = confirm("Execute remote electronic release to dump current biological load without manual contact?");
             if(confirmation) {
@@ -471,18 +577,41 @@
             }
         }
 
-        // Simple Layout Accordion Presentation Engine
         function toggleAccordion(index) {
             const contents = document.getElementsByClassName('accordion-content');
             const targetDisplay = contents[index].style.display;
-            
-            // Close all items
-            for(let i=0; i<contents.length; i++) {
-                contents[i].style.display = 'none';
-            }
-            
-            // Toggle chosen block
+            for(let i=0; i<contents.length; i++) { contents[i].style.display = 'none'; }
             contents[index].style.display = targetDisplay === 'block' ? 'none' : 'block';
+        }
+
+        // Interactive Live Chat Logic
+        function toggleChatDrawer() {
+            const drawer = document.getElementById('chatDrawer');
+            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function executeChatCommand() {
+            const input = document.getElementById('chatInput');
+            const userText = input.value.trim();
+            if(!userText) return;
+
+            // 1. Render User Message
+            appendBubble(userText, 'user');
+            input.value = '';
+
+            // 2. Render Automatic Processing Await Alert Block
+            setTimeout(() => {
+                appendBubble("⚠️ [Auto-Message]: Ticket numerical token dispatched to queue. Connecting to active administrative personnel terminal. Awaiting a real person to reply...", 'system-status');
+            }, 400);
+        }
+
+        function appendBubble(text, sender) {
+            const container = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.classList.add('msg', sender);
+            div.innerText = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
     </script>
 </body>
