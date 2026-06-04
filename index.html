@@ -33,7 +33,7 @@
             box-sizing: border-box;
         }
 
-        /* Expanded Master Container to solve image_23fe96.png layout squeeze */
+        /* Expanded Master Container to optimize layout allocation */
         .dashboard-container {
             background-color: var(--bg-card);
             width: 100%;
@@ -45,7 +45,7 @@
             position: relative;
         }
 
-        /* Header Layout Engine - Optimised to prevent text clipping */
+        /* Header Layout Engine */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -97,7 +97,7 @@
         .tier-toggle-btn.active.basic { background-color: #333; color: var(--text-pure); }
         .tier-toggle-btn.active.premium { background-color: var(--gold-premium); color: #000000; box-shadow: 0 0 10px rgba(255, 179, 0, 0.3); }
 
-        /* Tab Layout - Flex-shrink parameters adjusted for image_23fe96.png issue */
+        /* Tab Navigation Menu */
         .tab-menu {
             display: flex;
             background-color: #16161a;
@@ -140,7 +140,7 @@
         .system-desc { font-size: 14px; color: var(--text-secondary); margin: 0 0 32px 0; line-height: 1.6; }
         .section-label { font-size: 11px; font-weight: 700; color: var(--brand-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
-        /* Dropdowns wrappers */
+        /* Dropdowns */
         .select-wrapper { position: relative; width: 100%; margin-bottom: 24px; }
         .custom-select {
             width: 100%; padding: 16px; font-size: 14px; font-weight: 600; color: var(--text-pure);
@@ -254,7 +254,7 @@
         .feature-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
         .feature-list li::before { content: '✓'; color: var(--brand-green); font-weight: 700; }
         .sub-card.premium-tier .feature-list li::before { color: var(--gold-premium); }
-        .sub-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; }
+        .sub-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
         .btn-standard { background-color: var(--bg-input); color: var(--text-pure); border: 1px solid var(--border-subtle); }
         .btn-premium { background-color: var(--gold-premium); color: #000000; }
 
@@ -296,9 +296,10 @@
         </div>
     </div>
 
-    <!-- PANEL 1: SCENT MANAGEMENT MATRIX -->
+    <!-- PANEL 1: SCENT MANAGEMENT MATRIX & INTEGRATED CUSTOMER SERVICE (TWO ROW LAYOUT) -->
     <div id="scent-panel" class="panel-content active">
-        <div class="grid-two-column">
+        <!-- ROW 1: CORE HARDWARE TRACKING & AI PREDICTIONS -->
+        <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
                 <p class="system-desc">Standard classification is powered by our free core vision algorithm. Advanced tier unlocks deep AI root-cause analysis vectors.</p>
@@ -350,6 +351,66 @@
                         <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Based on regional multi-day precipitation meteorological telemetry:</div>
                         <div style="font-size: 15px; font-weight: 700; color: var(--gold-premium);">82% Probability of Storage Pest (Termite/Weevil) Outbreak Next Week</div>
                         <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Recommendation: Deploy specific attraction elements on glue pads early to establish defensive perimeter barriers.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 2: INTEGRATED DIAGNOSTICS & CUSTOMER SERVICE CONSOLE -->
+        <div>
+            <h3 class="system-title">Automated Diagnostics Support Hub</h3>
+            <p class="system-desc">This ecosystem runs autonomously under code-driven management vectors to optimize operation costs. Live human agents are unassigned.</p>
+
+            <div class="agent-notice-box">
+                <div style="font-size: 20px;">🤖</div>
+                <div class="notice-text">
+                    <strong>Self-Service Automation Protocol Active:</strong> This platform utilizes automated resolution pathways. Live human agent support lines are closed. Please browse the knowledge matrices below or query the console terminal for interface updates.
+                </div>
+            </div>
+
+            <div class="grid-two-column">
+                <div>
+                    <div class="section-label">Interactive FAQ Knowledge Matrix</div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
+                                A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
+                                A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
+                                A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-label">Live Support Command Console</div>
+                    <div class="chat-console-box">
+                        <div class="chat-console-header"><span class="online-dot"></span> Automated Support Assistant</div>
+                        <div class="chat-log-viewport" id="chatViewport">
+                            <div class="chat-bubble bot-bubble">System runtime protocols active. Connected to autonomous error diagnostics registry. Type your environment error code or question below:</div>
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="chatInputField" class="chat-text-field" placeholder="Type your query string here..." onkeypress="handleChatKeyPress(event)">
+                            <button class="chat-submit-btn" onclick="executeChatMessage()">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -504,7 +565,7 @@
         </div>
     </div>
 
-    <!-- PANEL 5: PROCUREMENT COMPONENT & REFILL CHECKOUT TERMINAL -->
+    <!-- PANEL 5: E-COMMERCE HARDWARE AND SCENT REFILL PROCUREMENT PORTAL -->
     <div id="order-panel" class="panel-content">
         <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
         <p class="system-desc">Order secondary base docks, replace adhesive tracking pads, or restock on eco-friendly non-toxic natural attractants instantly.</p>
@@ -559,10 +620,9 @@
             </div>
         </div>
 
-        <!-- REBUILT ORDER PROCESSING GATEWAY FORMAT WITH SELECTORS -->
         <div class="section-label" style="margin-top: 32px;">Shipping Logistics & Financial Settlement Elements</div>
         <div class="select-split-row">
-            <!-- Selector 1: Payment Methods Selector Module -->
+            <!-- Payment Methods Select Dropdown Element -->
             <div class="select-wrapper">
                 <select class="custom-select" id="paymentMethodFormSelector">
                     <option value="" disabled selected hidden>💳 Choose Payment Method</option>
@@ -571,7 +631,7 @@
                     <option value="GrabPay">GrabPay Mobile Wallet</option>
                 </select>
             </div>
-            <!-- Selector 2: Courier Partners Selector Module -->
+            <!-- Courier Shipping Partners Select Dropdown Element -->
             <div class="select-wrapper">
                 <select class="custom-select" id="courierPartnerFormSelector">
                     <option value="" disabled selected hidden>🚚 Choose Shipping Partner</option>
@@ -592,7 +652,7 @@
         </div>
     </div>
 
-    <!-- PANEL 6: SUBSCRIPTION PLANS PRICING STRATEGIES -->
+    <!-- PANEL 6: SUBSCRIPTION PRICING PLANS -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
         <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
@@ -629,7 +689,7 @@
         </div>
     </div>
 
-    <!-- PANEL 7: MAINTAINED AUTONOMOUS FAQ INTERACTIVE CONSOLE MODULE -->
+    <!-- PANEL 7: REPLAYED INDEPENDENT KNOWLEDGE ACCORDIONS -->
     <div id="help-panel" class="panel-content">
         <h3 class="system-title">Automated Diagnostics Support Hub</h3>
         <p class="system-desc">This ecosystem runs autonomously under code-driven management vectors to optimize operation costs. Live agents are unassigned.</p>
@@ -677,12 +737,12 @@
                 <div class="section-label">Live Support Command Console</div>
                 <div class="chat-console-box">
                     <div class="chat-console-header"><span class="online-dot"></span> Automated Support Assistant</div>
-                    <div class="chat-log-viewport" id="chatViewport">
+                    <div class="chat-log-viewport" id="chatViewportMain">
                         <div class="chat-bubble bot-bubble">System runtime protocols active. Connected to autonomous error diagnostics registry. Type your environment error code or question below:</div>
                     </div>
                     <div class="chat-input-row">
-                        <input type="text" id="chatInputField" class="chat-text-field" placeholder="Type your query string here..." onkeypress="handleChatKeyPress(event)">
-                        <button class="chat-submit-btn" onclick="executeChatMessage()">Send</button>
+                        <input type="text" id="chatInputFieldMain" class="chat-text-field" placeholder="Type your query string here..." onkeypress="handleChatKeyPressMain(event)">
+                        <button class="chat-submit-btn" onclick="executeChatMessageMain()">Send</button>
                     </div>
                 </div>
             </div>
@@ -716,12 +776,10 @@
         displayElement.innerText = currentAmount;
     }
 
-    // Updated procurement checkout submission handler with parameter checks
     function dispatchStoreOrderRequest() {
         const docks = document.getElementById("qty-dock").innerText;
         const pandan = document.getElementById("qty-pandan").innerText;
         const coffee = document.getElementById("qty-coffee").innerText;
-
         const payment = document.getElementById("paymentMethodFormSelector").value;
         const courier = document.getElementById("courierPartnerFormSelector").value;
 
@@ -729,12 +787,10 @@
             alert("Checkout Error: Please select product numbers before completing your order.");
             return;
         }
-
         if (!payment) {
             alert("Checkout Error: Please declare an active settlement Payment Method before placing order.");
             return;
         }
-
         if (!courier) {
             alert("Checkout Error: Please select an approved shipping Logistics Courier Partner.");
             return;
@@ -742,7 +798,6 @@
 
         alert("Success! Order processed via " + payment + ". Shipping manifest assigned to " + courier + ". Logistics tokens sent to email tracking sheets successfully.");
         
-        // Reset inputs on success
         document.getElementById("qty-dock").innerText = "0";
         document.getElementById("qty-pandan").innerText = "0";
         document.getElementById("qty-coffee").innerText = "0";
@@ -777,6 +832,7 @@
             cardBtnPremium.innerText = "💎 Premium Active";
             
             document.getElementById("aiEngineField").innerText = "Premium Multi-PCO Deep Engine v4.2";
+            document.getElementById("cloudStorageStorageStatusText");
             document.getElementById("cloudStorageStatusText").innerText = "30-Day Long Term Storage Active";
             document.getElementById("exportActionStatusText").innerText = "Unlocked: 1-Click PDF Export";
             document.getElementById("exportActionStatusText").style.color = "var(--brand-green)";
@@ -879,14 +935,14 @@
         }
     }
 
-    function handleChatKeyPress(e) { if (e.key === 'Enter') executeChatMessage(); }
+    function handleChatKeyPressMain(e) { if (e.key === 'Enter') executeChatMessageMain(); }
 
-    function executeChatMessage() {
-        const field = document.getElementById("chatInputField");
+    function executeChatMessageMain() {
+        const field = document.getElementById("chatInputFieldMain");
         const text = field.value.trim();
         if (text === "") return;
 
-        const log = document.getElementById("chatViewport");
+        const log = document.getElementById("chatViewportMain");
         const user = document.createElement("div");
         user.className = "chat-bubble user-bubble";
         user.innerText = text;
