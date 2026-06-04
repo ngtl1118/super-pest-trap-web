@@ -262,6 +262,7 @@
             height: 100%;
             border-radius: 4px;
             box-shadow: 0 0 12px var(--brand-green);
+            transition: width 0.4s ease-in-out;
         }
 
         /* Wide Cinema Surveillance Frame */
@@ -548,6 +549,21 @@
             color: #000000;
             border-color: var(--brand-green);
         }
+
+        .agent-notice-box {
+            background-color: rgba(239, 83, 80, 0.04);
+            border: 1px solid rgba(239, 83, 80, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .notice-icon { font-size: 20px; }
+        .notice-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+        .notice-text strong { color: var(--alert-red); }
     </style>
 </head>
 <body>
@@ -565,30 +581,40 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 1: SCENT CONTROL -->
+    <!-- VIEWPORT 1: SCENT CONTROL (WITH LOCATION MONITORING SWITCH) -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column">
             <div>
                 <h3 class="system-title">Organic Scent Sub-System</h3>
                 <p class="system-desc">Optimize deployment metrics and attraction arrays using non-toxic natural chemistry matrices.</p>
                 
-                <div class="section-label">Active Scent Cartridge Selection</div>
+                <!-- NEW LOCATION SELECTOR COMPONENT -->
+                <div class="section-label">Select Active Device Location</div>
                 <div class="select-wrapper">
-                    <select class="custom-select">
-                        <option>🍃 Natural Pandan Essence (Targeted Catch)</option>
-                        <option>🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
-                        <option>☕ Roasted Coffee Blend (Dense Population Draw)</option>
+                    <select class="custom-select" id="locationSelector" onchange="syncLocationProfile()">
+                        <option value="kpz">🏫 KPZ Kafeteria (Kolej Pendeta Za'ba)</option>
+                        <option value="kiy">🏫 KIY Kafeteria (Kolej Ibu Zain)</option>
+                    </select>
+                </div>
+
+                <div class="section-label">Active Scent Cartridge Target</div>
+                <div class="select-wrapper">
+                    <!-- Controlled automatically via script but user adjustable if needed -->
+                    <select class="custom-select" id="scentSelector">
+                        <option value="pandan">🍃 Natural Pandan Essence (Targeted Catch)</option>
+                        <option value="vanilla">🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
+                        <option value="coffee">☕ Roasted Coffee Blend (Dense Population Draw)</option>
                     </select>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-card active-glow">
                         <div class="card-label">Scent Compounds</div>
-                        <div class="card-value">100% Bio-Organic</div>
+                        <div class="card-value" id="scentCompoundsField">100% Bio-Organic</div>
                     </div>
                     <div class="info-card">
                         <div class="card-label">Est. Capsule Lifespan</div>
-                        <div class="card-value">25 Days Left</div>
+                        <div class="card-value" id="capsuleLifespanField">12 Days Left</div>
                     </div>
                 </div>
             </div>
@@ -597,10 +623,10 @@
                 <div class="metrics-container">
                     <div class="metrics-row">
                         <span>Chemical Integrity Essence</span>
-                        <span>70% Core Remaining</span>
+                        <span id="integrityPercentageField">45% Core Remaining</span>
                     </div>
                     <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 70%;"></div>
+                        <div class="progress-bar-fill" id="integrityProgressBarFill" style="width: 45%;"></div>
                     </div>
                 </div>
             </div>
@@ -664,7 +690,6 @@
         <p class="system-desc">Unlock advanced AI tracking parameters, compliance automation protocols, and logistical fulfillment chains.</p>
 
         <div class="subscription-grid">
-            <!-- Standard Plan -->
             <div class="sub-card">
                 <div>
                     <div class="tier-name">Standard Tier</div>
@@ -679,7 +704,6 @@
                 <button class="sub-btn btn-standard">Current Active Plan</button>
             </div>
 
-            <!-- Premium AI Pro Plan -->
             <div class="sub-card premium-tier">
                 <span class="tier-badge">Recommended</span>
                 <div>
@@ -698,13 +722,12 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 5: REBUILT DUAL SUPPORT TERMINAL -->
+    <!-- VIEWPORT 5: AUTOMATED CUSTOMER SERVICE FAQ + LIVE CHAT CONSOLE -->
     <div id="help-panel" class="panel-content">
         <h3 class="system-title">Automated Diagnostics & Support Terminal</h3>
         <p class="system-desc">Interact with the machine interface log or press the question tabs below for instant hardware troubleshooting.</p>
 
         <div class="grid-two-column">
-            <!-- Left Side: Automated FAQ Accordions -->
             <div>
                 <div class="section-label">Interactive FAQ Knowledge Matrix</div>
 
@@ -739,7 +762,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Live Customer Communication Terminal Space -->
             <div>
                 <div class="section-label">Live Support Command Console</div>
                 <div class="chat-console-box">
@@ -747,14 +769,12 @@
                         <span class="online-dot"></span> Automated Support Assistant
                     </div>
                     
-                    <!-- Chat Log Display -->
                     <div class="chat-log-viewport" id="chatViewport">
                         <div class="chat-bubble bot-bubble">
                             System initialization complete. Welcome to the Super Pest Trap command grid. Type a diagnostic query below to communicate with the automated interface.
                         </div>
                     </div>
 
-                    <!-- Input Fields -->
                     <div class="chat-input-row">
                         <input type="text" id="chatInputField" class="chat-text-field" placeholder="Type your query message here..." onkeypress="handleChatKeyPress(event)">
                         <button class="chat-submit-btn" onclick="executeChatMessage()">Send</button>
@@ -766,6 +786,41 @@
 </div>
 
 <script>
+    // Live Location Data Repository (Simulating unique environments for each cafeteria)
+    const cafeteriaProfiles = {
+        kpz: {
+            scentValue: "coffee",
+            compounds: "100% Bio-Organic",
+            lifespan: "12 Days Left",
+            integrityText: "45% Core Remaining",
+            integrityPercentage: 45
+        },
+        kiy: {
+            scentValue: "pandan",
+            compounds: "100% Bio-Organic",
+            lifespan: "28 Days Left",
+            integrityText: "85% Core Remaining",
+            integrityPercentage: 85
+        }
+    };
+
+    // Location Switching Logic Engine
+    function syncLocationProfile() {
+        const selectedLoc = document.getElementById("locationSelector").value;
+        const profile = cafeteriaProfiles[selectedLoc];
+
+        // Update Scent Select Row
+        document.getElementById("scentSelector").value = profile.scentValue;
+        
+        // Update Grid Metrics
+        document.getElementById("scentCompoundsField").innerText = profile.compounds;
+        document.getElementById("capsuleLifespanField").innerText = profile.lifespan;
+        
+        // Update Sliders and Percentages
+        document.getElementById("integrityPercentageField").innerText = profile.integrityText;
+        document.getElementById("integrityProgressBarFill").style.width = profile.integrityPercentage + "%";
+    }
+
     // Tab switching engine
     function openPanel(evt, panelId) {
         const contents = document.getElementsByClassName("panel-content");
@@ -802,7 +857,7 @@
         }
     }
 
-    // Live Automated Communication Script Engine
+    // Live Automated Chat Console Engine
     function handleChatKeyPress(e) {
         if (e.key === 'Enter') {
             executeChatMessage();
@@ -816,17 +871,14 @@
 
         const viewport = document.getElementById("chatViewport");
 
-        // 1. Append User Message Bubble
         const userBubble = document.createElement("div");
         userBubble.className = "chat-bubble user-bubble";
         userBubble.innerText = queryText;
         viewport.appendChild(userBubble);
 
-        // Clear Field & Scroll Down
         inputField.value = "";
         viewport.scrollTop = viewport.scrollHeight;
 
-        // 2. Generate Automated System Response Workflow
         setTimeout(() => {
             const systemBubble = document.createElement("div");
             systemBubble.className = "chat-bubble bot-bubble";
@@ -835,6 +887,11 @@
             viewport.scrollTop = viewport.scrollHeight;
         }, 750);
     }
+
+    // Run basic initialization setup to sync initial dropdown parameters on window mount
+    window.onload = function() {
+        syncLocationProfile();
+    };
 </script>
 
 </body>
