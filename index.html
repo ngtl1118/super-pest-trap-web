@@ -16,6 +16,7 @@
             --border-subtle: #26262a;
             --blue-accent: #2196f3;
             --gold-premium: #ffb300;
+            --alert-red: #ef5350;
         }
 
         body {
@@ -440,12 +441,37 @@
             color: var(--text-secondary);
             line-height: 1.6;
         }
+
+        /* Self-Service Automated Notice Banner */
+        .agent-notice-box {
+            background-color: rgba(239, 83, 80, 0.04);
+            border: 1px solid rgba(239, 83, 80, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .notice-icon {
+            font-size: 20px;
+        }
+
+        .notice-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .notice-text strong {
+            color: var(--alert-red);
+        }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
-    <!-- Top Bar Console Control -->
     <div class="dashboard-header">
         <div class="brand-logo">🛡️ Super Pest Trap <span>Hub</span></div>
         <div class="tab-menu">
@@ -457,7 +483,6 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 1: SCENT CONTROL -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column">
             <div>
@@ -499,7 +524,6 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 2: HARDWARE POWER -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -532,7 +556,6 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 3: SURVEILLANCE & CLOUD -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Feed & Cloud Storage Pipeline</h3>
         <p class="system-desc">Access automated health inspector records, analytics architecture, and live environmental streams.</p>
@@ -550,13 +573,11 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 4: SUBSCRIPTION & PREMIUM TIERS -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Premium Access</h3>
         <p class="system-desc">Unlock advanced AI tracking parameters, compliance automation protocols, and logistical fulfillment chains.</p>
 
         <div class="subscription-grid">
-            <!-- Standard Plan -->
             <div class="sub-card">
                 <div>
                     <div class="tier-name">Standard Tier</div>
@@ -571,7 +592,6 @@
                 <button class="sub-btn btn-standard">Current Active Plan</button>
             </div>
 
-            <!-- Premium AI Pro Plan -->
             <div class="sub-card premium-tier">
                 <span class="tier-badge">Recommended</span>
                 <div>
@@ -582,7 +602,7 @@
                         <li>Continuous automated cloud archiving</li>
                         <li>1-click validation reports for health inspectors</li>
                         <li>Automated express replacement cartridge delivery</li>
-                        <li>24/7 Priority hardware support channel</li>
+                        <li>24/7 Automated diagnostics & support systems</li>
                     </ul>
                 </div>
                 <button class="sub-btn btn-premium">Upgrade to Premium Pro</button>
@@ -590,34 +610,43 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 5: CUSTOMER SERVICE ACCORDION -->
     <div id="help-panel" class="panel-content">
-        <h3 class="system-title">Maintenance Matrix & Customer Support</h3>
-        <p class="system-desc">Review quick usage workflows, operational diagnostics, and standard corporate compliance protocols.</p>
+        <h3 class="system-title">Automated Maintenance Knowledge Base</h3>
+        <p class="system-desc">Select an optimization category below to run an instant hardware/software process query terminal.</p>
+
+        <div class="agent-notice-box">
+            <div class="notice-icon">🤖</div>
+            <div class="notice-text">
+                <strong>Self-Service Automation Protocol Active:</strong> This ecosystem operates completely independently to reduce operational parameters. Live customer agents are unavailable. Please utilize the interactive terminal action fields below to address active diagnostics queries.
+            </div>
+        </div>
 
         <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">Component Replacement & Automated Tracking</button>
+            <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
             <div class="accordion-content">
                 <div class="accordion-body">
-                    You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                    <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
+                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">Smart Dock Hardware Maintenance Metrics</button>
+            <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
             <div class="accordion-content">
                 <div class="accordion-body">
-                    It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                    <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
+                    A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">Health Inspector & Regulatory Compliance Protocols</button>
+            <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
             <div class="accordion-content">
                 <div class="accordion-body">
-                    No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                    <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
+                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
                 </div>
             </div>
         </div>
