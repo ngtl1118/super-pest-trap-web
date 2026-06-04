@@ -581,25 +581,24 @@
         </div>
     </div>
 
-    <!-- VIEWPORT 1: SCENT CONTROL (WITH LOCATION MONITORING SWITCH) -->
+    <!-- VIEWPORT 1: SCENT CONTROL (WITH CORRECTED LOCATION SWITCH) -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column">
             <div>
                 <h3 class="system-title">Organic Scent Sub-System</h3>
                 <p class="system-desc">Optimize deployment metrics and attraction arrays using non-toxic natural chemistry matrices.</p>
                 
-                <!-- NEW LOCATION SELECTOR COMPONENT -->
+                <!-- CORRECTED LOCATION SELECTOR COMPONENT -->
                 <div class="section-label">Select Active Device Location</div>
                 <div class="select-wrapper">
                     <select class="custom-select" id="locationSelector" onchange="syncLocationProfile()">
                         <option value="kpz">🏫 KPZ Kafeteria (Kolej Pendeta Za'ba)</option>
-                        <option value="kiy">🏫 KIY Kafeteria (Kolej Ibu Zain)</option>
+                        <option value="kiy">🏫 KIY Kafeteria (Kolej Ibrahim Yaakub)</option>
                     </select>
                 </div>
 
                 <div class="section-label">Active Scent Cartridge Target</div>
                 <div class="select-wrapper">
-                    <!-- Controlled automatically via script but user adjustable if needed -->
                     <select class="custom-select" id="scentSelector">
                         <option value="pandan">🍃 Natural Pandan Essence (Targeted Catch)</option>
                         <option value="vanilla">🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
@@ -786,7 +785,7 @@
 </div>
 
 <script>
-    // Live Location Data Repository (Simulating unique environments for each cafeteria)
+    // Live Location Data Repository (Simulating unique profiles for each cafeteria)
     const cafeteriaProfiles = {
         kpz: {
             scentValue: "coffee",
