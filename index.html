@@ -1,820 +1,238 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Pest Trap - Enterprise Command Center</title>
-    <style>
-        :root {
-            --bg-main: #0a0a0c;
-            --bg-card: #141416;
-            --bg-input: #1e1e22;
-            --bg-accent-glow: rgba(76, 175, 80, 0.08);
-            --text-pure: #ffffff;
-            --text-secondary: #94949c;
-            --brand-green: #4caf50;
-            --border-subtle: #26262a;
-            --blue-accent: #2196f3;
-            --gold-premium: #ffb300;
-            --alert-red: #ef5350;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-pure);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            box-sizing: border-box;
-        }
-
-        /* Large Expanded Desktop Master Container */
-        .dashboard-container {
-            background-color: var(--bg-card);
-            width: 100%;
-            max-width: 1050px;
-            border-radius: 24px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--border-subtle);
-            overflow: hidden;
-        }
-
-        /* Wide High-End Navigation Header */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 32px;
-            background-color: #0d0d0f;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .brand-logo {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-logo span { color: var(--brand-green); }
-
-        /* Premium Wide Segmented Controls */
-        .tab-menu {
-            display: flex;
-            background-color: #16161a;
-            padding: 4px;
-            border-radius: 12px;
-            border: 1px solid var(--border-subtle);
-            gap: 4px;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            padding: 10px 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-btn:hover { color: var(--text-pure); background-color: rgba(255, 255, 255, 0.02); }
-        .tab-btn.active { background-color: var(--bg-input); color: var(--brand-green); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
-        .tab-btn.premium-tab { color: var(--gold-premium); }
-        .tab-btn.premium-tab.active { color: var(--gold-premium); border: 1px solid rgba(255, 179, 0, 0.3); }
-
-        .panel-content { padding: 40px; display: none; animation: fadeIn 0.3s ease-in-out; }
-        .panel-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .grid-two-column { display: grid; grid-template-columns: 1.16fr 0.84fr; gap: 40px; }
-        .system-title { font-size: 24px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: -0.5px; }
-        .system-desc { font-size: 14px; color: var(--text-secondary); margin: 0 0 32px 0; line-height: 1.6; }
-        .section-label { font-size: 11px; font-weight: 700; color: var(--brand-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-
-        /* Dropdowns */
-        .select-wrapper { position: relative; width: 100%; margin-bottom: 24px; }
-        .custom-select {
-            width: 100%; padding: 16px; font-size: 15px; font-weight: 600; color: var(--text-pure);
-            border: 1px solid var(--border-subtle); border-radius: 12px; background-color: var(--bg-input);
-            appearance: none; -webkit-appearance: none; cursor: pointer; box-sizing: border-box;
-        }
-        .select-wrapper::after {
-            content: '▼'; font-size: 10px; color: var(--text-secondary); position: absolute;
-            right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none;
-        }
-
-        /* Metric Grid Cards */
-        .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .info-card { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; text-align: left; }
-        .info-card.active-glow { background-color: var(--bg-accent-glow); border-color: rgba(76, 175, 80, 0.25); }
-        .card-label { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .card-value { font-size: 20px; font-weight: 700; color: var(--brand-green); }
-
-        .metrics-container { background-color: var(--bg-input); padding: 20px; border-radius: 14px; border: 1px solid var(--border-subtle); }
-        .metrics-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
-        .metrics-row span:last-child { color: var(--text-pure); font-weight: 700; }
-        .progress-bar-bg { background-color: #2a2a30; height: 8px; border-radius: 4px; overflow: hidden; }
-        .progress-bar-fill { background-color: var(--brand-green); height: 100%; border-radius: 4px; box-shadow: 0 0 12px var(--brand-green); transition: width 0.4s ease-in-out; }
-
-        /* MULTI-STAGE DISPLAY PIPELINE FRAME */
-        .media-deck-frame {
-            width: 100%; height: 340px; border-radius: 16px; position: relative;
-            border: 1px solid var(--border-subtle); margin-bottom: 24px; overflow: hidden;
-            background-color: #0d0d11;
-        }
-
-        .deck-stage { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; box-sizing: border-box; }
-        .deck-stage.active { display: block; }
-
-        /* STAGE 1: PLACES MAP SELECTION VIEW */
-        .places-stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; height: 100%; box-sizing: border-box; }
-        .place-picture-card {
-            background-color: #18181c; border: 1px solid var(--border-subtle); border-radius: 12px;
-            padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
-            cursor: pointer; transition: all 0.2s ease; position: relative;
-        }
-        .place-picture-card:hover { border-color: var(--blue-accent); background-color: #1d1d24; transform: translateY(-2px); }
-        .place-img-placeholder {
-            height: 100px; background: linear-gradient(135deg, #212121 0%, #151515 100%);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; border: 1px solid #2d2d35;
-        }
-        .place-card-name { font-size: 14px; font-weight: 700; margin-top: 12px; color: var(--text-pure); }
-        .place-card-desc { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-
-        /* STAGE 2: BAR GRAPH HOURLY CHART VIEW */
-        .analytics-graph-view { padding: 30px; cursor: pointer; }
-        .graph-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .graph-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-accent); }
-        .back-nav-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
-        .back-nav-btn:hover { background-color: #333; }
-
-        /* STAGE 3: DATA RECORD SHEET TABLE VIEW */
-        .data-table-view { padding: 30px; }
-        .premium-data-table { width: 100%; border-collapse: collapse; margin-top: 16px; text-align: left; }
-        .premium-data-table th {
-            font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
-            color: var(--brand-green); padding: 14px; border-bottom: 2px solid var(--border-subtle);
-        }
-        .premium-data-table td { padding: 16px 14px; font-size: 14px; color: var(--text-pure); border-bottom: 1px solid var(--border-subtle); }
-        .premium-data-table tr:hover td { background-color: rgba(255,255,255,0.02); }
-
-        /* 7-DAY VIDEO STORAGE GALLERY ROW */
-        .history-gallery-row {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .history-video-card {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .history-video-card:hover {
-            border-color: var(--blue-accent);
-            background-color: rgba(33, 150, 243, 0.03);
-            transform: translateY(-2px);
-        }
-
-        .history-video-card.active {
-            border-color: var(--blue-accent);
-            background-color: rgba(33, 150, 243, 0.08);
-            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
-        }
-
-        .video-thumb-mockup {
-            height: 64px;
-            background: linear-gradient(135deg, #111 0%, #050505 100%);
-            border-radius: 6px;
-            border: 1px solid #333;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--alert-red);
-            font-size: 14px;
-            position: relative;
-        }
-
-        .video-thumb-mockup::after {
-            content: '▶';
-            font-size: 10px;
-            color: #fff;
-            background: rgba(0,0,0,0.6);
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-left: 2px;
-            box-sizing: border-box;
-        }
-
-        .history-day-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-pure);
-            margin-bottom: 2px;
-        }
-
-        .history-zone-tag {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-
-        .live-indicator {
-            position: absolute; top: 16px; left: 16px; background: rgba(33, 150, 243, 0.15);
-            border: 1px solid var(--blue-accent); color: #64b5f6; padding: 4px 12px;
-            border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; z-index: 3;
-        }
-
-        /* Subscription Tiers Layout */
-        .subscription-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
-        .sub-card { background-color: #18181c; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 32px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-        .sub-card.premium-tier { border-color: rgba(255, 179, 0, 0.3); background: linear-gradient(180deg, #18181c 0%, #1e1b12 100%); }
-        .tier-badge { position: absolute; top: 20px; right: 20px; background-color: rgba(255, 179, 0, 0.15); color: var(--gold-premium); padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-        .tier-name { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; }
-        .tier-price { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
-        .tier-price span { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
-        .feature-list { list-style: none; padding: 0; margin: 0 0 32px 0; }
-        .feature-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .feature-list li::before { content: '✓'; color: var(--brand-green); font-weight: 700; }
-        .sub-card.premium-tier .feature-list li::before { color: var(--gold-premium); }
-        .sub-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
-        .btn-standard { background-color: var(--bg-input); color: var(--text-pure); border: 1px solid var(--border-subtle); }
-        .btn-premium { background-color: var(--gold-premium); color: #000000; }
-
-        /* Accordions */
-        .accordion-item { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
-        .accordion-header { width: 100%; background: none; border: none; padding: 18px 24px; text-align: left; font-size: 15px; font-weight: 600; color: var(--text-pure); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .accordion-header::after { content: '+'; font-size: 18px; color: var(--brand-green); }
-        .accordion-item.open .accordion-header::after { content: '−'; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; }
-        .accordion-body { padding: 0 24px 20px 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-        /* Chat Console */
-        .chat-console-box { background-color: #0f0f12; border: 1px solid var(--border-subtle); border-radius: 16px; height: 420px; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-console-header { background-color: #17171c; padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-        .online-dot { width: 8px; height: 8px; background-color: var(--brand-green); border-radius: 50%; box-shadow: 0 0 8px var(--brand-green); }
-        .chat-log-viewport { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
-        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
-        .chat-bubble.bot-bubble { background-color: var(--bg-input); color: var(--text-pure); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-subtle); }
-        .chat-bubble.user-bubble { background-color: var(--brand-green); color: #000000; font-weight: 500; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .chat-input-row { padding: 12px; background-color: #17171c; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; }
-        .chat-text-field { flex: 1; background-color: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-pure); outline: none; }
-        .chat-text-field:focus { border-color: var(--brand-green); }
-        .chat-submit-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
-        .chat-submit-btn:hover { background-color: var(--brand-green); color: #000000; border-color: var(--brand-green); }
-
-        .agent-notice-box { background-color: rgba(239, 83, 80, 0.04); border: 1px solid rgba(239, 83, 80, 0.15); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
-        .notice-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
-        .notice-text strong { color: var(--alert-red); }
-    </style>
+    <title>Super Pest Trap - Intelligent Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-gray-900 text-gray-100 font-sans">
 
-<div class="dashboard-container">
-    <!-- Top Bar Console Control -->
-    <div class="dashboard-header">
-        <div class="brand-logo">🛡️ Super Pest Trap <span>Hub</span></div>
-        <div class="tab-menu">
-            <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')">🌿 Scent</button>
-            <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Power</button>
-            <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
-            <button class="tab-btn premium-tab" onclick="openPanel(event, 'sub-panel')">💎 Plans</button>
-            <button class="tab-btn" onclick="openPanel(event, 'help-panel')">💬 Support</button>
+    <nav class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="bg-green-500 text-gray-900 p-2 rounded-lg font-bold tracking-wider">SPT</div>
+            <span class="text-xl font-bold tracking-tight text-white">Super Pest Trap <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded ml-2 font-normal">IoT Cloud</span></span>
         </div>
-    </div>
-
-    <!-- VIEWPORT 1: SCENT CONTROL -->
-    <div id="scent-panel" class="panel-content active">
-        <div class="grid-two-column">
-            <div>
-                <h3 class="system-title">Organic Scent Sub-System</h3>
-                <p class="system-desc">Optimize deployment metrics and attraction arrays using non-toxic natural chemistry matrices.</p>
-                
-                <div class="section-label">Select Active Device Location</div>
-                <div class="select-wrapper">
-                    <select class="custom-select" id="locationSelector" onchange="syncLocationProfile()">
-                        <option value="kpz">🏫 KPZ Kafeteria (Kolej Pendeta Za'ba)</option>
-                        <option value="kiy">🏫 KIY Kafeteria (Kolej Ibrahim Yaakub)</option>
-                    </select>
-                </div>
-
-                <div class="section-label">Active Scent Cartridge Target</div>
-                <div class="select-wrapper">
-                    <select class="custom-select" id="scentSelector">
-                        <option value="pandan">🍃 Natural Pandan Essence (Targeted Catch)</option>
-                        <option value="vanilla">🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
-                        <option value="coffee">☕ Roasted Coffee Blend (Dense Population Draw)</option>
-                    </select>
-                </div>
-
-                <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="info-card active-glow">
-                        <div class="card-label">Scent Compounds</div>
-                        <div class="card-value" id="scentCompoundsField">100% Bio-Organic</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="card-label">Est. Capsule Lifespan</div>
-                        <div class="card-value" id="capsuleLifespanField">12 Days Left</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div class="metrics-container">
-                    <div class="metrics-row">
-                        <span>Chemical Integrity Essence</span>
-                        <span id="integrityPercentageField">45% Core Remaining</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="integrityProgressBarFill" style="width: 45%;"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="flex items-center space-x-6">
+            <span class="text-sm text-gray-400"><i class="fa-solid fa-circle text-green-500 text-xs mr-2 animate-pulse"></i>All Systems Operational</span>
+            <button class="bg-gradient-to-r from-amber-500 to-orange-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition shadow-lg">
+                <i class="fa-solid fa-crown mr-2"></i>Upgrade to Premium
+            </button>
         </div>
-    </div>
+    </nav>
 
-    <!-- VIEWPORT 2: HARDWARE POWER -->
-    <div id="battery-panel" class="panel-content">
-        <div class="grid-two-column">
-            <div>
-                <h3 class="system-title">Smart Dock Power Matrix</h3>
-                <p class="system-desc">Monitor mechanical sensor workloads, thermal cameras status, and power core conditions instantly.</p>
-                
-                <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="info-card active-glow">
-                        <div class="card-label">Battery Capacity</div>
-                        <div class="card-value" style="color: var(--brand-green);">88% Optimal</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="card-label">Power Core Assembly</div>
-                        <div class="card-value" style="color: var(--brand-green);">Lithium-Ion</div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div class="metrics-container">
-                    <div class="metrics-row">
-                        <span>Operational Cycles Forecast</span>
-                        <span>14 Days Left</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 88%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIEWPORT 3: SURVEILLANCE & CLOUD WITH 3-STAGE INTERACTIVE LOG SELECTIONS -->
-    <div id="cloud-panel" class="panel-content">
-        <h3 class="system-title">Surveillance Feed & Cloud Storage Pipeline</h3>
-        <p class="system-desc">Select an operational zone or toggle past video recordings to monitor historical pest infestation patterns.</p>
-
-        <!-- Dynamic Multi-Stage Monitoring Windows -->
-        <div class="media-deck-frame" id="masterStageDeck">
-            
-            <!-- STAGE 1: PLACES MAP VIEW -->
-            <div class="deck-stage active" id="stage-places">
-                <div class="places-stage-grid">
-                    <div class="place-picture-card" onclick="loadStageGraph('zone1')">
-                        <div class="place-img-placeholder">🍳</div>
-                        <div>
-                            <div class="place-card-name">Main Cooking Line</div>
-                            <div class="place-card-desc">Zone A Kitchen Area</div>
-                        </div>
-                    </div>
-                    <div class="place-picture-card" onclick="loadStageGraph('zone2')">
-                        <div class="place-img-placeholder">📦</div>
-                        <div>
-                            <div class="place-card-name">Dry Storage Pantry</div>
-                            <div class="place-card-desc">Zone B Inventory Supply</div>
-                        </div>
-                    </div>
-                    <div class="place-picture-card" onclick="loadStageGraph('zone3')">
-                        <div class="place-img-placeholder">🗑️</div>
-                        <div>
-                            <div class="place-card-name">Waste Disposal Bin</div>
-                            <div class="place-card-desc">Zone C Sanitation Depot</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STAGE 2: BAR GRAPH CHART SELECTION VIEW -->
-            <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
-                <div class="graph-header-row">
-                    <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
-                    <button class="back-nav-btn" onclick="resetToStagePlaces(event)">↩ Back to Places</button>
-                </div>
-                
-                <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; flex:1;">
-                    <line x1="50" y1="160" x2="750" y2="160" stroke="#333" stroke-width="2"/>
-                    <rect id="vbar0" x="100" y="140" width="30" height="20" fill="#333" rx="4"/>
-                    <text x="100" y="185" fill="#666" font-size="11" font-family="sans-serif">Morning</text>
-                    <rect id="vbar1" x="280" y="120" width="30" height="40" fill="#555" rx="4"/>
-                    <text x="280" y="185" fill="#666" font-size="11" font-family="sans-serif">Evening</text>
-                    <rect id="vbar2" x="460" y="40" width="30" height="120" fill="var(--blue-accent)" rx="4"/>
-                    <text x="460" y="185" fill="var(--blue-accent)" font-size="11" font-weight="bold" font-family="sans-serif">Night Peak</text>
-                    <rect id="vbar3" x="640" y="15" width="30" height="145" fill="var(--alert-red)" rx="4"/>
-                    <text x="640" y="185" fill="var(--alert-red)" font-size="11" font-weight="bold" font-family="sans-serif">Midnight Surge</text>
-                </svg>
-                <div class="click-prompt-hint">📋 Click Anywhere on Graph to Output Data Table</div>
-            </div>
-
-            <!-- STAGE 3: COMPLIANCE METRIC DATA SHEET VIEW -->
-            <div class="deck-stage data-table-view" id="stage-table">
-                <div class="graph-header-row">
-                    <div id="tableTitleField" class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
-                    <button class="back-nav-btn" onclick="resetToStageGraph(event)">↩ Back to Graph</button>
-                </div>
-                
-                <table class="premium-data-table">
-                    <thead>
-                        <tr>
-                            <th>Surveillance Location Zone</th>
-                            <th>Total Cockroaches Sighted (Came By)</th>
-                            <th>Critical Peak Activity Hours</th>
-                            <th>Total Population Secured (Caught)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="td-location" style="font-weight: 700;">Unknown Zone</td>
-                            <td id="td-came" style="color: var(--blue-accent); font-weight: bold;">0 Pests</td>
-                            <td id="td-peak" style="color: var(--gold-premium); font-weight: bold;">00:00 - 00:00</td>
-                            <td id="td-caught" style="color: var(--brand-green); font-weight: bold;">0 Trapped</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Telemetry Sync Links Row -->
-        <div class="info-grid">
-            <div class="info-card"><div class="card-label">Cloud Link</div><div class="card-value" style="color: var(--blue-accent);">Connected</div></div>
-            <div class="info-card"><div class="card-label">Archives</div><div class="card-value" style="color: var(--blue-accent);">100% Synced</div></div>
-            <div class="info-card"><div class="card-label">Health Log</div><div class="card-value" style="color: var(--blue-accent);">Compliant</div></div>
-            <div class="info-card"><div class="card-label">Data Safety</div><div class="card-value" style="color: var(--blue-accent);">AES-256</div></div>
-        </div>
-
-        <!-- NEW TIMELINE ARCHIVE MODULE: 7 DAYS ROLLBACK ARCHIVE -->
-        <div class="section-label" style="margin-top: 28px;">7-Day Rolling Historical Video Recordings (Standard Tier Account Allocation)</div>
-        <div class="history-gallery-row">
-            <!-- Day 1 -->
-            <div class="history-video-card active" id="hist-d1" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">1 Day Ago</div>
-                <div class="history-zone-tag">Kitchen</div>
-            </div>
-            <!-- Day 2 -->
-            <div class="history-video-card" id="hist-d2" onclick="queryHistoricalDayLog(event, 'd2', 'Dishwash Station')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">2 Days Ago</div>
-                <div class="history-zone-tag">Scullery</div>
-            </div>
-            <!-- Day 3 -->
-            <div class="history-video-card" id="hist-d3" onclick="queryHistoricalDayLog(event, 'd3', 'Dry Food Pantry')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">3 Days Ago</div>
-                <div class="history-zone-tag">Storage</div>
-            </div>
-            <!-- Day 4 -->
-            <div class="history-video-card" id="hist-d4" onclick="queryHistoricalDayLog(event, 'd4', 'Serving Counters')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">4 Days Ago</div>
-                <div class="history-zone-tag">Front Line</div>
-            </div>
-            <!-- Day 5 -->
-            <div class="history-video-card" id="hist-d5" onclick="queryHistoricalDayLog(event, 'd5', 'Waste Depot')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">5 Days Ago</div>
-                <div class="history-zone-tag">Sanitation</div>
-            </div>
-            <!-- Day 6 -->
-            <div class="history-video-card" id="hist-d6" onclick="queryHistoricalDayLog(event, 'd6', 'Back Kitchen Alley')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">6 Days Ago</div>
-                <div class="history-zone-tag">Rear Entrance</div>
-            </div>
-            <!-- Day 7 -->
-            <div class="history-video-card" id="hist-d7" onclick="queryHistoricalDayLog(event, 'd7', 'Defrosting Station')">
-                <div class="video-thumb-mockup"></div>
-                <div class="history-day-label">7 Days Ago</div>
-                <div class="history-zone-tag">Prep Table</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIEWPORT 4: SUBSCRIPTION & PREMIUM TIERS -->
-    <div id="sub-panel" class="panel-content">
-        <h3 class="system-title">Subscription Services & Premium Access</h3>
-        <p class="system-desc">Unlock advanced AI tracking parameters, compliance automation protocols, and logistical fulfillment chains.</p>
-
-        <div class="subscription-grid">
-            <div class="sub-card">
-                <div>
-                    <div class="tier-name">Standard Tier</div>
-                    <div class="tier-price">RM 0 <span>/ Free Lifetime</span></div>
-                    <ul class="feature-list">
-                        <li>Automated local push alerts</li>
-                        <li>Standard scent tracking system</li>
-                        <li>Basic hardware battery diagnostics</li>
-                        <li>7-day localized system log logs</li>
-                    </ul>
-                </div>
-                <button class="sub-btn btn-standard">Current Active Plan</button>
-            </div>
-
-            <div class="sub-card premium-tier">
-                <span class="tier-badge">Recommended</span>
-                <div>
-                    <div class="tier-name" style="color: var(--gold-premium);">Premium AI Pro</div>
-                    <div class="tier-price" style="color: var(--gold-premium);">RM 29 <span>/ month per dock</span></div>
-                    <ul class="feature-list">
-                        <li>Live miniature thermal camera streams</li>
-                        <li>Continuous automated cloud archiving</li>
-                        <li>1-click validation reports for health inspectors</li>
-                        <li>Automated express replacement cartridge delivery</li>
-                        <li>24/7 Automated diagnostics & support hubs</li>
-                    </ul>
-                </div>
-                <button class="sub-btn btn-premium">Upgrade to Premium Pro</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIEWPORT 5: AUTOMATED CUSTOMER SERVICE FAQ + LIVE CHAT CONSOLE -->
-    <div id="help-panel" class="panel-content">
-        <h3 class="system-title">Automated Diagnostics & Support Terminal</h3>
-        <p class="system-desc">Interact with the machine interface log or press the question tabs below for instant hardware troubleshooting.</p>
-
-        <div class="grid-two-column">
-            <div>
-                <div class="section-label">Interactive FAQ Knowledge Matrix</div>
-
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
-                    <div class="accordion-content">
-                        <div class="accordion-body">
-                            <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
-                            A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
-                    <div class="accordion-content">
-                        <div class="accordion-body">
-                            <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
-                            A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
-                    <div class="accordion-content">
-                        <div class="accordion-body">
-                            <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
-                            A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="section-label">Live Support Command Console</div>
-                <div class="chat-console-box">
-                    <div class="chat-console-header">
-                        <span class="online-dot"></span> Automated Support Assistant
-                    </div>
-                    
-                    <div class="chat-log-viewport" id="chatViewport">
-                        <div class="chat-bubble bot-bubble">
-                            System initialization complete. Welcome to the Super Pest Trap command grid. Type a diagnostic query below to communicate with the automated interface.
-                        </div>
-                    </div>
-
-                    <div class="chat-input-row">
-                        <input type="text" id="chatInputField" class="chat-text-field" placeholder="Type your query message here..." onkeypress="handleChatKeyPress(event)">
-                        <button class="chat-submit-btn" onclick="executeChatMessage()">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Master Cafeteria Profile Dataset
-    const cafeteriaProfiles = {
-        kpz: { scentValue: "coffee", compounds: "100% Bio-Organic", lifespan: "12 Days Left", integrityText: "45% Core Remaining", integrityPercentage: 45 },
-        kiy: { scentValue: "pandan", compounds: "100% Bio-Organic", lifespan: "28 Days Left", integrityText: "85% Core Remaining", integrityPercentage: 85 }
-    };
-
-    // Deep-Dive Timeline Location & Multi-Stage Analytical Dataset
-    const activePipelineData = {
-        zone1: {
-            name: "Main Cooking Line (Zone A)",
-            graphTitle: "📈 Cooking Line Activity Profile (24H Matrix)",
-            bars: [20, 45, 95, 140],
-            came: "114 Cockroaches Sighted",
-            peak: "23:00 - 02:30 midnight",
-            caught: "106 Caught in Trap"
-        },
-        zone2: {
-            name: "Dry Storage Pantry (Zone B)",
-            graphTitle: "📈 Storage Pantry Activity Profile (24H Matrix)",
-            bars: [10, 25, 70, 115],
-            came: "58 Cockroaches Sighted",
-            peak: "22:15 - 01:00 night",
-            caught: "54 Caught in Trap"
-        },
-        zone3: {
-            name: "Waste Disposal Bin (Zone C)",
-            graphTitle: "📈 Waste Disposal Area Activity Profile (24H Matrix)",
-            bars: [45, 80, 145, 155],
-            came: "246 Cockroaches Sighted",
-            peak: "23:45 - 04:00 extended surge",
-            caught: "239 Caught in Trap"
-        }
-    };
-
-    // Historical Day Rollback Dataset Modifications
-    const historicalTimelineData = {
-        d1: { bars: [15, 30, 80, 110], came: "92 Came By", peak: "22:00 - 01:30", caught: "85 Caught" },
-        d2: { bars: [5, 12, 45, 85], came: "41 Came By", peak: "00:05 - 03:00", caught: "39 Caught" },
-        d3: { bars: [22, 60, 110, 135], came: "185 Came By", peak: "23:15 - 02:45", caught: "172 Caught" },
-        d4: { bars: [12, 18, 55, 90], came: "64 Came By", peak: "21:45 - 01:15", caught: "61 Caught" },
-        d5: { bars: [50, 95, 150, 160], came: "298 Came By", peak: "23:00 - 04:30", caught: "284 Caught" },
-        d6: { bars: [30, 40, 85, 120], came: "130 Came By", peak: "22:30 - 02:00", caught: "119 Caught" },
-        d7: { bars: [8, 15, 35, 65], came: "32 Came By", peak: "01:00 - 03:30", caught: "30 Caught" }
-    };
-
-    let globalSelectedZoneKey = "zone1";
-
-    // PIPELINE STAGE MACHINE TRANSITIONS
-    function loadStageGraph(zoneKey) {
-        globalSelectedZoneKey = zoneKey;
-        const data = activePipelineData[zoneKey];
-        document.getElementById("graphTitleField").innerText = data.graphTitle;
-        updateGraphBars(data.bars);
-
-        document.getElementById("stage-places").classList.remove("active");
-        document.getElementById("stage-graph").classList.add("active");
-    }
-
-    function loadStageTable() {
-        const data = activePipelineData[globalSelectedZoneKey];
-        document.getElementById("td-location").innerText = data.name;
-        document.getElementById("td-came").innerText = data.came;
-        document.getElementById("td-peak").innerText = data.peak;
-        document.getElementById("td-caught").innerText = data.caught;
-
-        document.getElementById("stage-graph").classList.remove("active");
-        document.getElementById("stage-table").classList.add("active");
-    }
-
-    // Interactive Trigger to Load Archived 7-Day Video Parameters
-    function queryHistoricalDayLog(evt, dayKey, mockZoneName) {
-        // Toggle selected styling class configuration across timeline elements
-        const cards = document.querySelectorAll(".history-video-card");
-        cards.forEach(c => c.classList.remove("active"));
-        evt.currentTarget.classList.add("active");
-
-        const historicalLog = historicalTimelineData[dayKey];
+    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        // Force update graphs and structural headers to reflect the historical entry
-        document.getElementById("graphTitleField").innerText = "📊 Archived Recording: " + mockZoneName + " Log [" + dayKey.toUpperCase() + "]";
-        updateGraphBars(historicalLog.bars);
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <h2 class="text-lg font-semibold mb-4 text-white flex items-center">
+                    <i class="fa-solid fa-microchip text-green-400 mr-2"></i> Active Devices Status
+                </h2>
+                
+                <div class="bg-gray-850 p-4 rounded-lg border border-gray-700 bg-gray-900/50 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="font-medium text-white block">Device #001 - Kitchen Main</span>
+                            <span class="text-xs text-gray-400">Model: SPT-SmartPro V2</span>
+                        </div>
+                        <span class="bg-green-500/10 text-green-400 text-xs px-2.5 py-1 rounded-full font-medium">Connected</span>
+                    </div>
 
-        // Inject metrics directly into table row variables
-        document.getElementById("td-location").innerText = mockZoneName + " (Archived Feed)";
-        document.getElementById("td-came").innerText = historicalLog.came;
-        document.getElementById("td-peak").innerText = historicalLog.peak;
-        document.getElementById("td-caught").innerText = historicalLog.caught;
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-800 p-3 rounded-lg border border-gray-700">
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span><i class="fa-solid fa-battery-three-quarters text-green-400 mr-1"></i> Battery</span>
+                                <span class="text-white font-semibold">82%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                                <div class="bg-green-500 h-full rounded-full" style="width: 82%"></div>
+                            </div>
+                        </div>
 
-        // Route viewport focus straight into chart graph evaluation
-        document.getElementById("stage-places").classList.remove("active");
-        document.getElementById("stage-table").classList.remove("active");
-        document.getElementById("stage-graph").classList.add("active");
-    }
+                        <div class="bg-gray-800 p-3 rounded-lg border border-gray-700">
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span><i class="fa-solid fa-flask text-amber-400 mr-1"></i> Bait Remaining</span>
+                                <span class="text-white font-semibold">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                                <div class="bg-amber-500 h-full rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
 
-    function updateGraphBars(barHeightsArray) {
-        for(let i=0; i<4; i++) {
-            const bar = document.getElementById("vbar" + i);
-            bar.setAttribute("height", barHeightsArray[i]);
-            bar.setAttribute("y", 160 - barHeightsArray[i]);
-        }
-    }
+                        <div class="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col justify-between">
+                            <span class="text-xs text-gray-400"><i class="fa-solid fa-bug text-red-400 mr-1"></i> Live Catch Counter</span>
+                            <div class="flex justify-between items-baseline mt-1">
+                                <span class="text-xl font-bold text-white">14 <span class="text-xs font-normal text-gray-400">Pests</span></span>
+                                <span class="text-[10px] text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded">Full Alert at 20</span>
+                            </div>
+                        </div>
+                    </div>
 
-    function resetToStagePlaces(evt) {
-        evt.stopPropagation();
-        document.getElementById("stage-graph").classList.remove("active");
-        document.getElementById("stage-places").classList.add("active");
-    }
+                    <div class="pt-2 border-t border-gray-800">
+                        <span class="text-xs text-gray-400 font-medium block mb-2">AI Identified Species Breakdown:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-800 border border-gray-700 px-2.5 py-1 rounded text-gray-300">🪰 Housefly × 8</span>
+                            <span class="text-xs bg-gray-800 border border-gray-700 px-2.5 py-1 rounded text-gray-300">🪳 Cockroach × 4</span>
+                            <span class="text-xs bg-gray-800 border border-gray-700 px-2.5 py-1 rounded text-gray-300">🦟 Mosquito × 2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    function resetToStageGraph(evt) {
-        document.getElementById("stage-table").classList.remove("active");
-        document.getElementById("stage-graph").classList.add("active");
-    }
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-white flex items-center">
+                        <i class="fa-solid fa-video text-blue-400 mr-2"></i> Live Camera Monitoring
+                    </h2>
+                    <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">Camera View: Wide-Angle Internal</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2 relative bg-black aspect-video rounded-lg flex items-center justify-center overflow-hidden group border border-gray-700">
+                        <div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded flex items-center">
+                            <span class="w-1.5 h-1.5 bg-white rounded-full mr-1.5 animate-ping"></span> Live Feed
+                        </div>
+                        <div class="text-center space-y-2 pointer-events-none z-10">
+                            <i class="fa-solid fa-eye text-3xl text-gray-600 group-hover:text-gray-400 transition"></i>
+                            <p class="text-sm text-gray-400">[ Visual Camera Feed Display ]</p>
+                        </div>
+                        <div class="absolute border-2 border-green-500 w-12 h-12 top-1/3 left-1/4 rounded opacity-70">
+                            <span class="absolute -top-5 left-0 bg-green-500 text-black text-[9px] px-1 font-bold">Housefly_94%</span>
+                        </div>
+                    </div>
 
-    function syncLocationProfile() {
-        const selectedLoc = document.getElementById("locationSelector").value;
-        const profile = cafeteriaProfiles[selectedLoc];
-        document.getElementById("scentSelector").value = profile.scentValue;
-        document.getElementById("scentCompoundsField").innerText = profile.compounds;
-        document.getElementById("capsuleLifespanField").innerText = profile.lifespan;
-        document.getElementById("integrityPercentageField").innerText = profile.integrityText;
-        document.getElementById("integrityProgressBarFill").style.width = profile.integrityPercentage + "%";
-    }
+                    <div class="bg-gray-900/40 p-4 rounded-lg border border-gray-700 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Video Cloud Storage</span>
+                            <div class="space-y-3 mt-2">
+                                <div class="p-2 bg-gray-800 rounded border-l-4 border-gray-500">
+                                    <p class="text-xs font-semibold text-white">Basic Retention Status:</p>
+                                    <p class="text-[11px] text-gray-400">48-Hour playback cloud limit active.</p>
+                                </div>
+                                <div class="p-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded border-l-4 border-amber-500">
+                                    <p class="text-xs font-semibold text-amber-400"><i class="fa-solid fa-crown mr-1"></i> Premium Analytics Unlock:</p>
+                                    <p class="text-[11px] text-gray-300">Extend history to 30 Days and feed video frames straight to AI Behavior Engine.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 bg-gray-700 hover:bg-gray-600 text-white text-xs py-2 rounded font-medium transition">
+                            Configure Cloud Storage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    function openPanel(evt, panelId) {
-        const contents = document.getElementsByClassName("panel-content");
-        for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
-        const tabs = document.getElementsByClassName("tab-btn");
-        for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
-        document.getElementById(panelId).classList.add("active");
-        evt.currentTarget.classList.add("active");
-    }
+        <div class="space-y-6">
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col h-[585px]">
+                <div class="border-b border-gray-700 pb-3 mb-4">
+                    <h2 class="text-lg font-semibold text-white flex items-center">
+                        <i class="fa-solid fa-robot text-purple-400 mr-2"></i> AI Consultation Hub
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Ask AI about pest hazards, trends, and environmental modification advice.</p>
+                </div>
 
-    function toggleAccordion(element) {
-        const item = element.parentElement;
-        const content = element.nextElementSibling;
-        if (item.classList.contains("open")) {
-            content.style.maxHeight = null;
-            item.classList.remove("open");
-        } else {
-            const openItems = document.querySelectorAll(".accordion-item.open");
-            openItems.forEach(oi => {
-                oi.querySelector(".accordion-content").style.maxHeight = null;
-                oi.classList.remove("open");
-            });
-            item.classList.add("open");
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
-    }
+                <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-sm">
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center shrink-0 border border-purple-500/30">
+                            <i class="fa-solid fa-robot text-xs"></i>
+                        </div>
+                        <div class="bg-gray-900 p-3 rounded-lg rounded-tl-none border border-gray-700 max-w-[85%]">
+                            <p class="text-gray-200">Hello! I have analyzed Device #001. I notice a spike in <strong>Houseflies</strong> tonight. How can I help you optimize your food safety protocols today?</p>
+                        </div>
+                    </div>
 
-    function handleChatKeyPress(e) { if (e.key === 'Enter') executeChatMessage(); }
+                    <div class="flex items-start space-x-2.5 justify-end">
+                        <div class="bg-blue-600 p-3 rounded-lg rounded-tr-none max-w-[85%] text-white">
+                            <p>Why are flies aggregating near the kitchen main trap suddenly?</p>
+                        </div>
+                    </div>
 
-    function executeChatMessage() {
-        const inputField = document.getElementById("chatInputField");
-        const queryText = inputField.value.trim();
-        if (queryText === "") return;
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center shrink-0 border border-purple-500/30">
+                            <i class="fa-solid fa-robot text-xs"></i>
+                        </div>
+                        <div class="bg-gray-900 p-3 rounded-lg rounded-tl-none border border-gray-700 max-w-[85%] space-y-2">
+                            <p class="text-gray-200"><strong>AI Root-Cause Analysis:</strong> Based on the video feed timestamps, 70% of flies entered between 8 PM - 10 PM.</p>
+                            <div class="bg-amber-500/10 border border-amber-500/30 p-2 rounded text-xs text-amber-300">
+                                <strong>Modification Advice:</strong> Inspect the rear kitchen screen door seals. It appears flies are escaping your secondary barrier. Recommend adjusting the trap 1.5 meters closer to that entry vectors.
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        const viewport = document.getElementById("chatViewport");
-        const userBubble = document.createElement("div");
-        userBubble.className = "chat-bubble user-bubble";
-        userBubble.innerText = queryText;
-        viewport.appendChild(userBubble);
+                <div class="mt-4 pt-3 border-t border-gray-700 flex gap-2">
+                    <input type="text" placeholder="Ask AI about aggregation root causes..." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-purple-500 placeholder-gray-500">
+                    <button class="bg-purple-600 hover:bg-purple-500 text-white px-4 rounded-lg transition">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        inputField.value = "";
-        viewport.scrollTop = viewport.scrollHeight;
+    <section class="max-w-7xl mx-auto px-6 pb-12 mt-4">
+        <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+            <div class="bg-gradient-to-r from-gray-850 to-gray-800 p-6 border-b border-gray-700 text-center lg:text-left lg:flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-layer-group text-amber-500 mr-2"></i>Maximize Safety with Premium Business Plans</h2>
+                    <p class="text-sm text-gray-400 mt-1">Unlock autonomous video intelligence reports built for commercial food safety compliance audits.</p>
+                </div>
+                <div class="mt-4 lg:mt-0">
+                    <span class="text-xs uppercase font-bold tracking-wider text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Enterprise-Grade AI</span>
+                </div>
+            </div>
 
-        setTimeout(() => {
-            const systemBubble = document.createElement("div");
-            systemBubble.className = "chat-bubble bot-bubble";
-            systemBubble.innerHTML = "<strong>[Auto-Response]</strong> Your communication query has been safely tokenized and logged to the central cloud grid. For instant parameters, please check the 3 core <strong>Interactive FAQ Matrix tabs</strong> on the left side of your terminal window.";
-            viewport.appendChild(systemBubble);
-            viewport.scrollTop = viewport.scrollHeight;
-        }, 750);
-    }
+            <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-700">
+                <div class="p-8 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex justify-between items-baseline">
+                            <h3 class="text-lg font-bold text-gray-300">Standard Plan</h3>
+                            <span class="text-sm text-gray-400">Included with Hardware</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Core telemetry and standalone trap operations.</p>
+                        <ul class="mt-6 space-y-3 text-sm text-gray-300">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2.5"></i> Real-time Telemetry (Battery & Bait)</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2.5"></i> Live Device Pest Catch Counters</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2.5"></i> Live Camera Video Stream Access</li>
+                            <li class="text-gray-500"><i class="fa-solid fa-clock text-gray-600 mr-2.5"></i> 48-Hour Maximum Video Retention</li>
+                            <li class="text-gray-500"><i class="fa-solid fa-xmark text-gray-600 mr-3"></i> No Advanced AI Video Analytics</li>
+                            <li class="text-gray-500"><i class="fa-solid fa-xmark text-gray-600 mr-3"></i> Basic AI Chat Questions Only</li>
+                        </ul>
+                    </div>
+                    <button disabled class="w-full bg-gray-700 text-gray-400 text-sm py-2.5 rounded-lg font-medium cursor-not-allowed">
+                        Current Tier Active
+                    </button>
+                </div>
 
-    window.onload = function() { syncLocationProfile(); };
-</script>
+                <div class="p-8 flex flex-col justify-between space-y-6 bg-gray-850 bg-gradient-to-b from-gray-900/20 to-transparent">
+                    <div>
+                        <div class="flex justify-between items-baseline">
+                            <h3 class="text-lg font-bold text-amber-400 flex items-center">
+                                <i class="fa-solid fa-crown mr-2 text-sm"></i>Premium AI Suite
+                            </h3>
+                            <span class="text-xl font-extrabold text-white">$29<span class="text-xs font-normal text-gray-400">/mo per device</span></span>
+                        </div>
+                        <p class="text-xs text-amber-500/80 mt-1">Complete autonomous commercial food safety & audit defense.</p>
+                        <ul class="mt-6 space-y-3 text-sm text-gray-100">
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> Everything in Standard Plan</li>
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> <strong>30-Day Extended Cloud Video Archive</strong></li>
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> <strong>AI Video Stream Analysis</strong> (Mapping behavioral patterns)</li>
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> <strong>Deep Ecosystem Root-Cause Diagnostics</strong></li>
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> Actionable modifications & trap alignment advice</li>
+                            <li><i class="fa-solid fa-check text-amber-400 mr-2.5"></i> Automated HACCP / Regulatory Audit Report Exports</li>
+                        </ul>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm py-2.5 rounded-lg font-bold hover:opacity-95 transition shadow-md shadow-orange-950/40">
+                        Upgrade Workspace to Premium
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>
+           
+       
