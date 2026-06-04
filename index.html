@@ -132,7 +132,7 @@
         /* Layout Layout Grids (Spacious Responsive Design) */
         .grid-two-column {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1.16fr 0.84fr;
             gap: 40px;
         }
 
@@ -442,36 +442,118 @@
             line-height: 1.6;
         }
 
-        /* Self-Service Automated Notice Banner */
-        .agent-notice-box {
-            background-color: rgba(239, 83, 80, 0.04);
-            border: 1px solid rgba(239, 83, 80, 0.15);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 32px;
+        /* Interactive AI Support Chat Window Styling */
+        .chat-console-box {
+            background-color: #0f0f12;
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-console-header {
+            background-color: #17171c;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--brand-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--brand-green);
+        }
+
+        .chat-log-viewport {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             gap: 14px;
         }
 
-        .notice-icon {
-            font-size: 20px;
-        }
-
-        .notice-text {
+        .chat-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
             font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
-        .notice-text strong {
-            color: var(--alert-red);
+        .chat-bubble.bot-bubble {
+            background-color: var(--bg-input);
+            color: var(--text-pure);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chat-bubble.user-bubble {
+            background-color: var(--brand-green);
+            color: #000000;
+            font-weight: 500;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-row {
+            padding: 12px;
+            background-color: #17171c;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-text-field {
+            flex: 1;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--text-pure);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-text-field:focus {
+            border-color: var(--brand-green);
+        }
+
+        .chat-submit-btn {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-pure);
+            padding: 0 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-submit-btn:hover {
+            background-color: var(--brand-green);
+            color: #000000;
+            border-color: var(--brand-green);
         }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
+    <!-- Top Bar Console Control -->
     <div class="dashboard-header">
         <div class="brand-logo">🛡️ Super Pest Trap <span>Hub</span></div>
         <div class="tab-menu">
@@ -483,6 +565,7 @@
         </div>
     </div>
 
+    <!-- VIEWPORT 1: SCENT CONTROL -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column">
             <div>
@@ -524,6 +607,7 @@
         </div>
     </div>
 
+    <!-- VIEWPORT 2: HARDWARE POWER -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -556,6 +640,7 @@
         </div>
     </div>
 
+    <!-- VIEWPORT 3: SURVEILLANCE & CLOUD -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Feed & Cloud Storage Pipeline</h3>
         <p class="system-desc">Access automated health inspector records, analytics architecture, and live environmental streams.</p>
@@ -573,11 +658,13 @@
         </div>
     </div>
 
+    <!-- VIEWPORT 4: SUBSCRIPTION & PREMIUM TIERS -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Premium Access</h3>
         <p class="system-desc">Unlock advanced AI tracking parameters, compliance automation protocols, and logistical fulfillment chains.</p>
 
         <div class="subscription-grid">
+            <!-- Standard Plan -->
             <div class="sub-card">
                 <div>
                     <div class="tier-name">Standard Tier</div>
@@ -592,6 +679,7 @@
                 <button class="sub-btn btn-standard">Current Active Plan</button>
             </div>
 
+            <!-- Premium AI Pro Plan -->
             <div class="sub-card premium-tier">
                 <span class="tier-badge">Recommended</span>
                 <div>
@@ -602,7 +690,7 @@
                         <li>Continuous automated cloud archiving</li>
                         <li>1-click validation reports for health inspectors</li>
                         <li>Automated express replacement cartridge delivery</li>
-                        <li>24/7 Automated diagnostics & support systems</li>
+                        <li>24/7 Automated diagnostics & support hubs</li>
                     </ul>
                 </div>
                 <button class="sub-btn btn-premium">Upgrade to Premium Pro</button>
@@ -610,43 +698,67 @@
         </div>
     </div>
 
+    <!-- VIEWPORT 5: REBUILT DUAL SUPPORT TERMINAL -->
     <div id="help-panel" class="panel-content">
-        <h3 class="system-title">Automated Maintenance Knowledge Base</h3>
-        <p class="system-desc">Select an optimization category below to run an instant hardware/software process query terminal.</p>
+        <h3 class="system-title">Automated Diagnostics & Support Terminal</h3>
+        <p class="system-desc">Interact with the machine interface log or press the question tabs below for instant hardware troubleshooting.</p>
 
-        <div class="agent-notice-box">
-            <div class="notice-icon">🤖</div>
-            <div class="notice-text">
-                <strong>Self-Service Automation Protocol Active:</strong> This ecosystem operates completely independently to reduce operational parameters. Live customer agents are unavailable. Please utilize the interactive terminal action fields below to address active diagnostics queries.
-            </div>
-        </div>
+        <div class="grid-two-column">
+            <!-- Left Side: Automated FAQ Accordions -->
+            <div>
+                <div class="section-label">Interactive FAQ Knowledge Matrix</div>
 
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
-            <div class="accordion-content">
-                <div class="accordion-body">
-                    <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
-                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
+                            A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
+                            A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
+                            A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
-            <div class="accordion-content">
-                <div class="accordion-body">
-                    <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
-                    A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
-                </div>
-            </div>
-        </div>
+            <!-- Right Side: Live Customer Communication Terminal Space -->
+            <div>
+                <div class="section-label">Live Support Command Console</div>
+                <div class="chat-console-box">
+                    <div class="chat-console-header">
+                        <span class="online-dot"></span> Automated Support Assistant
+                    </div>
+                    
+                    <!-- Chat Log Display -->
+                    <div class="chat-log-viewport" id="chatViewport">
+                        <div class="chat-bubble bot-bubble">
+                            System initialization complete. Welcome to the Super Pest Trap command grid. Type a diagnostic query below to communicate with the automated interface.
+                        </div>
+                    </div>
 
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
-            <div class="accordion-content">
-                <div class="accordion-body">
-                    <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
-                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                    <!-- Input Fields -->
+                    <div class="chat-input-row">
+                        <input type="text" id="chatInputField" class="chat-text-field" placeholder="Type your query message here..." onkeypress="handleChatKeyPress(event)">
+                        <button class="chat-submit-btn" onclick="executeChatMessage()">Send</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -688,6 +800,40 @@
             item.classList.add("open");
             content.style.maxHeight = content.scrollHeight + "px";
         }
+    }
+
+    // Live Automated Communication Script Engine
+    function handleChatKeyPress(e) {
+        if (e.key === 'Enter') {
+            executeChatMessage();
+        }
+    }
+
+    function executeChatMessage() {
+        const inputField = document.getElementById("chatInputField");
+        const queryText = inputField.value.trim();
+        if (queryText === "") return;
+
+        const viewport = document.getElementById("chatViewport");
+
+        // 1. Append User Message Bubble
+        const userBubble = document.createElement("div");
+        userBubble.className = "chat-bubble user-bubble";
+        userBubble.innerText = queryText;
+        viewport.appendChild(userBubble);
+
+        // Clear Field & Scroll Down
+        inputField.value = "";
+        viewport.scrollTop = viewport.scrollHeight;
+
+        // 2. Generate Automated System Response Workflow
+        setTimeout(() => {
+            const systemBubble = document.createElement("div");
+            systemBubble.className = "chat-bubble bot-bubble";
+            systemBubble.innerHTML = "<strong>[Auto-Response]</strong> Your communication query has been safely tokenized and logged to the central cloud grid. For instant parameters, please check the 3 core <strong>Interactive FAQ Matrix tabs</strong> on the left side of your terminal window.";
+            viewport.appendChild(systemBubble);
+            viewport.scrollTop = viewport.scrollHeight;
+        }, 750);
     }
 </script>
 
