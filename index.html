@@ -3,676 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Pest Trap - Ultimate Compliance Hub</title>
+    <title>Super Pest Trap - Control Panel</title>
     <style>
         :root {
-            --primary: #2e7d32;
-            --primary-light: #e8f5e9;
-            --dark: #1b5e20;
-            --accent: #e65100;
-            --bg: #f4f7f5;
-            --card-bg: #ffffff;
-            --text: #2c3e50;
-            --border: #e2e8f0;
-            --premium-color: #d4af37;
+            --primary-green: #1b6623;
+            --light-green: #edf7ed;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --bg-card: #ffffff;
+            --border-color: #e0e0e0;
+            --battery-good: #2e7d32;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #121212; /* Dark theme to match your template */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
         }
 
-        header {
-            background: linear-gradient(135deg, var(--dark), var(--primary));
-            color: white;
-            padding: 25px 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            position: relative;
-        }
-
-        .premium-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(45deg, #d4af37, #f9d976);
-            color: #111;
-            font-size: 0.65rem;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.4rem;
-            letter-spacing: 0.8px;
-        }
-
-        header .subtitle {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-top: 5px;
-            font-weight: 300;
-        }
-
-        main {
-            padding: 15px;
-            max-width: 500px;
-            margin: 0 auto 100px auto;
-        }
-
-        .card {
-            background: var(--card-bg);
+        /* Main Dashboard Window */
+        .dashboard-popup {
+            background-color: var(--bg-card);
+            width: 100%;
+            max-width: 550px;
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
         }
 
-        .card h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.05rem;
-            color: var(--dark);
+        /* Navigation Tabs */
+        .tab-menu {
+            display: flex;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 8px 0 8px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
         }
 
-        select {
+        .tab-btn:hover {
+            background-color: #eaeaea;
+            color: var(--text-dark);
+        }
+
+        .tab-btn.active {
+            background-color: var(--bg-card);
+            color: var(--primary-green);
+            border: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--bg-card);
+            margin-bottom: -1px;
+        }
+
+        /* Content Panel */
+        .panel-content {
+            padding: 24px;
+            display: none;
+        }
+
+        .panel-content.active {
+            display: block;
+        }
+
+        /* Sub-System Header Typography */
+        .system-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin: 0 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .system-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0 0 20px 0;
+        }
+
+        .label-heading {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        /* Select Options Dropdown */
+        .custom-select {
             width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background-color: #fff;
-            font-size: 0.9rem;
+            padding: 14px;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--text);
-            outline: none;
-            cursor: pointer;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
         }
 
-        .metrics-grid {
+        /* Two-Column Grid Cards */
+        .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
-        .metric-box {
-            background: var(--primary-light);
-            padding: 12px 10px;
+        .info-card {
+            background-color: var(--light-green);
             border-radius: 12px;
+            padding: 16px;
             text-align: center;
-            border: 1px solid rgba(46, 125, 50, 0.08);
         }
 
-        .metric-box .label {
-            font-size: 0.72rem;
-            color: var(--primary);
-            font-weight: bold;
+        .card-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary-green);
             text-transform: uppercase;
+            margin-bottom: 6px;
         }
 
-        .metric-box .value {
-            font-size: 1.15rem;
-            font-weight: bold;
-            margin-top: 4px;
-            color: var(--dark);
+        .card-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-green);
         }
 
-        .progress-container {
-            margin-top: 15px;
-        }
-        .progress-label {
+        /* Progress Bar Metrics */
+        .metrics-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            font-size: 14px;
             font-weight: 600;
-        }
-        .progress-bar {
-            background: #e2e8f0;
-            border-radius: 10px;
-            height: 10px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            background: linear-gradient(90deg, var(--primary), #66bb6a);
-            height: 100%;
-            width: 42%;
-            border-radius: 10px;
-            transition: all 0.4s ease;
+            color: var(--text-dark);
+            margin-bottom: 8px;
         }
 
-        .camera-container {
+        .progress-bar-bg {
+            background-color: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background-color: #4caf50;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        /* Specific Battery Styles */
+        .battery-card {
+            background-color: #f1f8e9;
+        }
+        .battery-card .card-label, .battery-card .card-value {
+            color: var(--battery-good);
+        }
+
+        /* Video/Footage Frame Mockup */
+        .video-container {
+            width: 100%;
+            height: 200px;
+            background-color: #000000;
+            border-radius: 10px;
             position: relative;
-            width: 100%;
-            height: 220px;
-            background-color: #111;
-            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #757575;
+            font-weight: bold;
             overflow: hidden;
+            border: 2px solid #333;
+            margin-bottom: 15px;
         }
 
-        .camera-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .camera-overlay {
+        .live-indicator {
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(46, 125, 50, 0.9);
-            color: white;
+            background: rgba(211, 47, 47, 0.85);
+            color: #fff;
             padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            font-weight: bold;
+            border-radius: 4px;
+            font-size: 11px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-        }
-
-        .cloud-badge {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            background: rgba(41, 128, 185, 0.9);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.65rem;
             display: flex;
             align-items: center;
-            gap: 4px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: #d32f2f; color: white; }
-
-        .insight-box {
-            background: #fff8e1;
-            border-left: 4px solid #ffb300;
-            padding: 12px;
-            border-radius: 4px 12px 12px 4px;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-top: 10px;
-        }
-
-        .accordion-item {
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-
-        .accordion-header {
-            background: #f8fafc;
-            padding: 12px 15px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            color: var(--text);
-        }
-
-        .accordion-content {
-            padding: 12px 15px;
-            font-size: 0.82rem;
-            line-height: 1.5;
-            background: #fff;
-            display: none;
-            border-top: 1px solid var(--border);
-            color: #555;
-        }
-
-        .tier-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .tier-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            border: 1px solid var(--border);
-        }
-
-        .tier-row.active-tier {
-            background: #fffdf3;
-            border-color: var(--premium-color);
-        }
-
-        /* Floating Interactive Chat Widget */
-        .chat-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 26px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .chat-drawer {
-            position: fixed;
-            bottom: 95px;
-            right: 20px;
-            width: 330px;
-            height: 440px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.18);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 1000;
-            border: 1px solid rgba(0,0,0,0.06);
-        }
-
-        .chat-header {
-            background: var(--dark);
-            color: white;
-            padding: 16px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background-color: #f8faf8;
-        }
-
-        .msg {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .msg.bot {
-            background-color: white;
-            color: var(--text);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-        }
-
-        .msg.system-status {
-            background-color: #fff3e0;
-            color: #e65100;
-            font-weight: bold;
-            font-size: 0.78rem;
-            align-self: center;
-            max-width: 90%;
-            text-align: center;
-            border-radius: 8px;
-            border: 1px dashed #ffb74d;
-        }
-
-        .msg.user {
-            background-color: var(--primary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        /* FAQ Question Suggestions */
-        .chat-suggestions {
-            padding: 8px 12px;
-            background: #fff;
-            border-top: 1px solid #edf2f7;
-            display: flex;
-            flex-direction: column;
             gap: 6px;
         }
 
-        .suggestion-title {
-            font-size: 0.72rem;
-            font-weight: bold;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            margin-bottom: 2px;
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite alternate;
         }
 
-        .chat-suggestions button {
-            background: var(--primary-light);
-            color: var(--dark);
-            border: 1px solid rgba(46, 125, 50, 0.15);
-            padding: 6px 12px;
-            border-radius: 14px;
-            font-size: 0.78rem;
-            text-align: left;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .chat-suggestions button:hover {
-            background: #c8e6c9;
-        }
-
-        .chat-footer {
-            display: flex;
-            padding: 12px;
-            background: white;
-            border-top: 1px solid #eee;
-        }
-
-        .chat-footer input {
-            flex-grow: 1;
-            border: 1px solid #e2e8f0;
-            padding: 10px 16px;
-            border-radius: 24px;
-            outline: none;
-            font-size: 0.85rem;
-        }
-
-        .chat-footer button {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-weight: bold;
-            cursor: pointer;
-            padding: 0 12px;
-            font-size: 0.95rem;
+        @keyframes blink {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="premium-badge">Premium Active</div>
-        <h1>SUPER PEST TRAP</h1>
-        <div class="subtitle">Group Lai Cai • Enterprise IoT Control Terminal</div>
-    </header>
+<div class="dashboard-popup">
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')">🌿 Scent Matrix</button>
+        <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Battery Info</button>
+        <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Feed</button>
+    </div>
 
-    <main>
-        <!-- Section 1: Location & Organic Scent Controller Nodes -->
-        <div class="card">
-            <h3>🌿 100% Organic Scent Sub-System</h3>
-            <p style="font-size: 0.8rem; margin-top:-8px; color: #7f8c8d; margin-bottom: 12px;">Select non-toxic sachet to adjust hardware attraction matrix parameters.</p>
-            
-            <label style="font-size: 0.75rem; font-weight: bold; color: #7f8c8d; display:block; margin-bottom: 4px;">ACTIVE SCENT CARTRIDGE:</label>
-            <select id="scentSelector" onchange="updateScentMetrics(this.value)">
-                <option value="pandan">🌿 Pandan Leaf Extract (High Attraction)</option>
-                <option value="coffee">☕ Natural Coffee Bean Sachet (Medium Attraction)</option>
-                <option value="cinnamon">🪵 Cinnamon Bark Infusion (Repellent Boundary)</option>
-                <option value="vanilla">🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
-            </select>
-
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <div class="label">Scent Compounds</div>
-                    <div class="value" id="scent-type-label">100% Bio-Organic</div>
-                </div>
-                <div class="metric-box">
-                    <div class="label">Est. Capsule Lifespan</div>
-                    <div class="value" id="lifespan-label">30 Days Left</div>
-                </div>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-label">
-                    <span>Scent Chemical Integrity Essence</span>
-                    <strong id="scent-integrity-text">100% Fresh</strong>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="scent-integrity-fill" style="width: 100%;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 2: Core Telemetry Data Observer -->
-        <div class="card">
-            <h3>📊 Cockroach Biological Observation Node</h3>
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <div class="label">Dock Station Node</div>
-                    <div class="value" style="font-size: 0.95rem; font-weight: bold; padding: 2px 0;">UKM KPZ Station</div>
-                </div>
-                <div class="metric-box">
-                    <div class="label">Cockroach Capture Count</div>
-                    <div class="value" id="count-display" style="color: #c0392b;">14 Caught</div>
-                </div>
-            </div>
-
-            <div class="insight-box" id="insight-display">
-                <strong>Observation Metric:</strong> High attraction rate recorded. Pandan volatile compounds correlate with increased German Cockroach orientation metrics under standard cafeteria humidity thresholds.
-            </div>
-        </div>
-
-        <!-- Section 3: Cloud Visual Stream Subsystem -->
-        <div class="card">
-            <h3>📷 Cloud Vision Monitor Vault</h3>
-            <div class="camera-container">
-                <div class="camera-overlay">Secure Feed Matrix</div>
-                <div class="cloud-badge">☁️ AWS Cloud Synced</div>
-                <img id="camera-frame" src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500" alt="Chamber Frame">
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="simulateCloudFetch()">🔄 Fetch Cloud Archive</button>
-                <button class="btn btn-danger" onclick="triggerHygienicEject()">🎚️ Force Touchless Eject</button>
-            </div>
-        </div>
-
-        <!-- Section 4: Premium Subscription Tier Value Architecture -->
-        <div class="card" style="border: 1px solid var(--premium-color);">
-            <h3>👑 Enterprise Licensing Matrix</h3>
-            <div class="tier-grid">
-                <div class="tier-row">
-                    <div><strong>Basic Tier (Free Hub)</strong><br><span style="font-size:0.72rem; color:#7f8c8d;">Local Hardware Eject Prompts Only</span></div>
-                    <div style="font-weight: bold; align-self:center; color:#7f8c8d;">Standard</div>
-                </div>
-                <div class="tier-row active-tier">
-                    <div><strong>Premium Tier Subscription Active</strong><br><span style="font-size:0.72rem; color:var(--accent);">Continuous Cloud Archiving & KKM Inspector Reporting</span></div>
-                    <div style="font-weight: bold; align-self:center; color:var(--premium-color);">Unlocked</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 5: Built-In Operational Manual Accordion -->
-        <div class="card">
-            <h3>📘 On-Site Systems User Manual</h3>
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(0)">1. Initial Smart Dock Hardware Syncing <span>▼</span></div>
-                <div class="accordion-content">Attach the reusable electronic Smart Dock to the biodegradable bamboo cartridge casing. Ensure the micro-camera module align directly face-down over the primary IR beam node pathway.</div>
-            </div>
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(1)">2. Non-Contact Casing Disposal Mechanism <span>▼</span></div>
-                <div class="accordion-content">When trap capacity alert reaches threshold, do not handle the inner trap cell. Hover your handheld panel interface and trigger the remote mechanical ejection script. Casing uncouples effortlessly straight into disposal channels.</div>
-            </div>
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(2)">3. Replacing the Bio-Organic Scent Sachet <span>▼</span></div>
-                <div class="accordion-content">Slide open the upper structural compartment of the smart matrix box assembly. Replace used dry pad matrices with freshly saturated Pandan or Coffee organic core sheets to preserve volatile vapor streams.</div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Interactive Support Widget -->
-    <button class="chat-trigger" onclick="toggleChatDrawer()">💬</button>
-
-    <div class="chat-drawer" id="chatDrawer">
-        <div class="chat-header">
-            <span>Customer Service Desk</span>
-            <button class="chat-close" onclick="toggleChatDrawer()">✕</button>
-        </div>
+    <div id="scent-panel" class="panel-content active">
+        <h3 class="system-title">🌿 100% Organic Scent Sub-System</h3>
+        <p class="system-desc">Select non-toxic sachet to adjust hardware attraction matrix parameters.</p>
         
-        <div class="chat-messages" id="chatContainer">
-            <div class="msg bot">Hello! Welcome to the Group Lai Cai Support Hub. How can we assist you with your Super Pest Trap metrics today?</div>
+        <div class="label-heading">Active Scent Cartridge:</div>
+        <select class="custom-select">
+            <option>🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
+            <option>☕ Roasted Coffee Blend (Dense Population Draw)</option>
+            <option>🍃 Natural Pandan Essence (Targeted Catch)</option>
+        </select>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="card-label">Scent Compounds</div>
+                <div class="card-value">100% Bio-Organic</div>
+            </div>
+            <div class="info-card">
+                <div class="card-label">Est. Capsule Lifespan</div>
+                <div class="card-value">25 Days Left</div>
+            </div>
         </div>
 
-        <!-- Suggestion Question Block Inside Drawer -->
-        <div class="chat-suggestions">
-            <div class="suggestion-title">Frequently Asked Questions:</div>
-            <button onclick="clickFaq('How do we solve Chemical Anxiety?', 'Our framework removes toxic chemical bait hazards entirely. We use 100% food-safe organic plant extract sachets (like Pandan and Coffee Ground essences) so operators remain worry-free around kitchen surfaces.')">🌿 How do we solve Chemical Anxiety?</button>
-            <button onclick="clickFaq('How does it reduce Wasted Labor?', 'Traditional methods force staff to constantly check traps manually. The Super Pest Trap sends automatic push notifications ONLY when capacity reaches limit thresholds, freeing up restaurant labor workflows.')">📊 How does it reduce Wasted Labor?</button>
-            <button onclick="clickFaq('How is Disposal Disgust avoided?', 'Kitchen handlers do not need to handle dead insects. You simply toggle the Touchless Release command to uncouple and drop the bio-degradable casing straight into waste streams.')">🎚️ How is Disposal Disgust avoided?</button>
+        <div class="metrics-row">
+            <span>Scent Chemical Integrity Essence</span>
+            <span>70% Volatile Core</span>
         </div>
-
-        <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Type a message or press enter..." onkeypress="checkEnterKey(event)">
-            <button onclick="executeChatCommand()">Send</button>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 70%;"></div>
         </div>
     </div>
 
-    <script>
-        function updateScentMetrics(type) {
-            const lifespan = document.getElementById('lifespan-label');
-            const intensityText = document.getElementById('scent-integrity-text');
-            const intensityFill = document.getElementById('scent-integrity-fill');
-            const insight = document.getElementById('insight-display');
-            const count = document.getElementById('count-display');
-            const frame = document.getElementById('camera-frame');
+    <div id="battery-panel" class="panel-content">
+        <h3 class="system-title">🔋 Smart Dock Power Management</h3>
+        <p class="system-desc">Real-time optimization matrix for the rechargeable electronic hardware base.</p>
 
-            if(type === 'pandan') {
-                lifespan.innerText = "30 Days Left";
-                intensityText.innerText = "100% Fresh Base";
-                intensityFill.style.width = "100%";
-                count.innerText = "14 Caught";
-                frame.src = "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500";
-                insight.innerHTML = "<strong>Observation Metric:</strong> High attraction rate recorded. Pandan volatile compounds correlate with increased German Cockroach orientation metrics under standard cafeteria humidity thresholds.";
-            } else if(type === 'coffee') {
-                lifespan.innerText = "45 Days Left";
-                intensityText.innerText = "85% Crystalline";
-                intensityFill.style.width = "85%";
-                count.innerText = "6 Caught";
-                frame.src = "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500";
-                insight.innerHTML = "<strong>Observation Metric:</strong> Moderate capture pace. Roasted coffee ground profiles act efficiently as a sustained lure within food storage areas without alerting sensory defensive triggers.";
-            } else if(type === 'cinnamon') {
-                lifespan.innerText = "60 Days Left";
-                intensityText.innerText = "90% Maximum Core";
-                intensityFill.style.width = "90%";
-                count.innerText = "0 Caught";
-                frame.src = "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500";
-                insight.innerHTML = "<strong>Observation Metric:</strong> Preventive Barrier Status. Cinnamon aldehyde functions primarily as an organic repellent matrix block, creating high boundary aversion metrics across testing gates.";
-            } else if(type === 'vanilla') {
-                lifespan.innerText = "25 Days Left";
-                intensityText.innerText = "70% Volatile Core";
-                intensityFill.style.width = "70%";
-                count.innerText = "21 Caught";
-                frame.src = "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500";
-                insight.innerHTML = "<strong>Observation Metric:</strong> Extreme immediate cluster spikes. Sweet organic esters spark accelerated directional movement across localized vectors, causing rapid cartridge full state thresholds.";
-            }
-        }
+        <div class="info-grid">
+            <div class="info-card battery-card">
+                <div class="card-label">Battery Capacity</div>
+                <div class="card-value">88% Charged</div>
+            </div>
+            <div class="info-card battery-card">
+                <div class="card-label">Power Source</div>
+                <div class="card-value">Lithium-Ion</div>
+            </div>
+        </div>
 
-        function simulateCloudFetch() {
-            alert("Querying AWS S3 Storage Archive Link...\n\nStatus: Secure Connection Verified.\nData Pack: Previous Image Blocks fetched safely into client cache framework.");
-        }
+        <div class="metrics-row">
+            <span>Estimated Operational Cycles Remaining</span>
+            <span>14 Days Regular Use</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 88%; background-color: #2e7d32;"></div>
+        </div>
+    </div>
 
-        function triggerHygienicEject() {
-            let confirmation = confirm("Execute remote electronic release to dump current biological load without manual contact?");
-            if(confirmation) {
-                document.getElementById('count-display').innerText = "0 Caught";
-                alert("Smart Core Action: Casing mechanical latch toggled. Grid baseline variable initialized back to 0.");
-            }
-        }
+    <div id="cloud-panel" class="panel-content">
+        <h3 class="system-title">👁️ Cloud Sync & Surveillance</h3>
+        <p class="system-desc">On-demand compliance verification data and miniature sensor streams.</p>
 
-        function toggleAccordion(index) {
-            const contents = document.getElementsByClassName('accordion-content');
-            const targetDisplay = contents[index].style.display;
-            for(let i=0; i<contents.length; i++) { contents[i].style.display = 'none'; }
-            contents[index].style.display = targetDisplay === 'block' ? 'none' : 'block';
-        }
+        <div class="video-container">
+            <div class="live-indicator"><span class="live-dot"></span>Live (Thermal)</div>
+            <span>[ Miniature Thermal Camera Stream ]</span>
+        </div>
 
-        function toggleChatDrawer() {
-            const drawer = document.getElementById('chatDrawer');
-            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        // Detect mechanical keyboard Enter press
-        function checkEnterKey(event) {
-            if (event.key === "Enter") {
-                executeChatCommand();
-            }
-        }
-
-        function executeChatCommand() {
-            const input = document.getElementById('chatInput');
-            const userText = input.value.trim();
-            if(!userText) return;
-
-            appendBubble(userText, 'user');
-            input.value = '';
-
-            setTimeout(() => {
-                appendBubble("⚠️ [Auto-Message]: Ticket numerical token dispatched to queue. Connecting to active administrative personnel terminal. Awaiting a real person to reply...", 'system-status');
-            }, 400);
-        }
-
-        // Quick FAQ click trigger logic
-        function clickFaq(question, answer) {
-            appendBubble(question, 'user');
-            setTimeout(() => {
-                appendBubble(answer, 'bot');
-                setTimeout(() => {
-                    appendBubble("⚠️ [Auto-Message]: Connecting you to support queue if you need more details. Awaiting a real person to reply...", 'system-status');
-                }, 500);
-            }, 400);
-        }
-
-        function appendBubble(text, sender) {
-            const container = document.getElementById('chatContainer');
-            const div = document.createElement('div');
-            div.classList.add('msg', sender);
-            div.innerText = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+        <div class="info-grid">
+            <div class="info-card" style="background-color:
