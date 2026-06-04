@@ -33,7 +33,6 @@
             box-sizing: border-box;
         }
 
-        /* Expanded Master Container to solve layout clipping */
         .dashboard-container {
             background-color: var(--bg-card);
             width: 100%;
@@ -45,7 +44,7 @@
             position: relative;
         }
 
-        /* Header Layout Engine - Optimized to prevent tab squishing */
+        /* Header Layout Engine */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -231,14 +230,24 @@
         .qty-display-value { width: 30px; text-align: center; font-size: 13px; font-weight: 700; color: var(--text-pure); }
         .checkout-bar-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding: 24px 32px; background-color: #0d0d0f; border: 1px solid var(--border-subtle); border-radius: 16px; gap: 20px; }
 
+        /* Dynamic Row Activation Controls */
+        .cs-activation-card {
+            background-color: #0f0f12; border: 1px dashed var(--border-subtle);
+            border-radius: 16px; padding: 32px; text-align: center; cursor: pointer;
+            transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 12px;
+        }
+        .cs-activation-card:hover { border-color: var(--brand-green); background-color: #131317; }
+        .cs-hidden-container { display: none; }
+
         /* Diagnostic Support Console Terminal */
         .chat-console-box { background-color: #0f0f12; border: 1px solid var(--border-subtle); border-radius: 16px; height: 400px; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-console-header { background-color: #17171c; padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-        .online-dot { width: 8px; height: 8px; background-color: var(--brand-green); border-radius: 50%; box-shadow: 0 0 8px var(--brand-green); }
+        .chat-console-header { background-color: #17171c; padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        .online-dot { width: 8px; height: 8px; background-color: var(--brand-green); border-radius: 50%; box-shadow: 0 0 8px var(--brand-green); display: inline-block; }
         .chat-log-viewport { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
         .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
         .chat-bubble.bot-bubble { background-color: var(--bg-input); color: var(--text-pure); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-subtle); }
         .chat-bubble.user-bubble { background-color: var(--brand-green); color: #000; font-weight: 500; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-bubble.system-alert { background-color: rgba(33, 150, 243, 0.08); border: 1px solid rgba(33, 150, 243, 0.2); color: #64b5f6; align-self: center; font-size: 11px; font-weight: 600; text-align: center; width: 90%; border-radius: 8px; }
         .chat-input-row { padding: 12px; background-color: #17171c; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; }
         .chat-text-field { flex: 1; background-color: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-pure); outline: none; }
         .chat-submit-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
@@ -254,30 +263,22 @@
         .feature-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
         .feature-list li::before { content: '✓'; color: var(--brand-green); font-weight: 700; }
         .sub-card.premium-tier .feature-list li::before { color: var(--gold-premium); }
-        .sub-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
-        .btn-standard { background-color: var(--bg-input); color: var(--text-pure); border: 1px solid var(--border-subtle); }
-        .btn-premium { background-color: var(--gold-premium); color: #000000; }
-
-        /* Accordions Presets */
-        .accordion-item { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
-        .accordion-header { width: 100%; background: none; border: none; padding: 18px 24px; text-align: left; font-size: 15px; font-weight: 600; color: var(--text-pure); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .accordion-header::after { content: '+'; font-size: 18px; color: var(--brand-green); }
-        .accordion-item.open .accordion-header::after { content: '−'; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; }
-        .accordion-body { padding: 0 24px 20px 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 
         .agent-notice-box { background-color: rgba(239, 83, 80, 0.04); border: 1px solid rgba(239, 83, 80, 0.15); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
         .notice-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
         .notice-text strong { color: var(--alert-red); }
+        .queue-status-text { font-size: 11px; color: var(--gold-premium); font-weight: bold; }
     </style>
 </head>
 <body onload="syncLocationProfile()">
 
 <div class="dashboard-container basic-mode" id="masterDashboardWrapper">
     
+    <!-- Header Controls -->
     <div class="dashboard-header">
         <div class="brand-logo">🛡️ Super Pest Trap <span>Console</span></div>
         
+        <!-- Live Tier Account Controls Module -->
         <div class="tier-switcher-wrapper">
             <button class="tier-toggle-btn active basic" id="btnSwitchBasic" onclick="changeAccountTier('basic')">Standard (Free)</button>
             <button class="tier-toggle-btn premium" id="btnSwitchPremium" onclick="changeAccountTier('premium')">💎 Premium Pro</button>
@@ -293,7 +294,9 @@
         </div>
     </div>
 
+    <!-- PANEL 1: SCENT MANAGEMENT MATRIX & INTERACTIVE CUSTOMER SERVICE (TWO ROW LAYOUT) -->
     <div id="scent-panel" class="panel-content active">
+        <!-- ROW 1: CORE HARDWARE TRACKING & AI PREDICTIONS -->
         <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
@@ -351,59 +354,73 @@
             </div>
         </div>
 
+        <!-- ROW 2: INTERACTIVE DYNAMIC REVEAL CUSTOMER SERVICE PORTAL -->
         <div>
-            <h3 class="system-title">Automated Diagnostics Support Hub</h3>
-            <p class="system-desc">This ecosystem runs autonomously under code-driven management vectors to optimize operation costs. Live human agents are unassigned.</p>
-
-            <div class="agent-notice-box">
-                <div style="font-size: 20px;">🤖</div>
-                <div class="notice-text">
-                    <strong>Self-Service Automation Protocol Active:</strong> This platform utilizes automated resolution pathways. Live human agent support lines are closed. Please browse the knowledge matrices below or query the console terminal for interface updates.
-                </div>
+            <div class="section-label">Support Services Access Lane</div>
+            
+            <!-- Default Initialization View Card -->
+            <div class="cs-activation-card" id="csActivationTriggerCard" onclick="revealCustomerServiceTerminal()">
+                <div style="font-size: 32px;">💬</div>
+                <h4 style="margin: 0; font-size: 16px; font-weight: 700;">Press to Open Customer Service Console</h4>
+                <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Launches interactive FAQ matrix protocols and routes diagnostic streams to live operational desks.</p>
             </div>
 
-            <div class="grid-two-column">
-                <div>
-                    <div class="section-label">Interactive FAQ Knowledge Matrix</div>
-                    <div class="accordion-item">
-                        <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
-                                A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
-                                A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
-                                A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
-                            </div>
-                        </div>
+            <!-- Dynamic Target View: Hidden until user hits trigger card -->
+            <div class="cs-hidden-container" id="csDynamicTargetContainer">
+                <div class="agent-notice-box">
+                    <div style="font-size: 20px;">🤖</div>
+                    <div class="notice-text">
+                        <strong>Hybrid Support Routing Active:</strong> Please browse our automated FAQ architecture below or enter a prompt string into the live terminal console. System logic generates quick robot logs first while queuing sync tokens for live agent deployment.
                     </div>
                 </div>
 
-                <div>
-                    <div class="section-label">Live Support Command Console</div>
-                    <div class="chat-console-box">
-                        <div class="chat-console-header"><span class="online-dot"></span> Automated Support Assistant</div>
-                        <div class="chat-log-viewport" id="chatViewportMain">
-                            <div class="chat-bubble bot-bubble">System runtime protocols active. Connected to autonomous error diagnostics registry. Type your environment error code or question below:</div>
+                <div class="grid-two-column">
+                    <div>
+                        <div class="section-label">Interactive FAQ Knowledge Matrix</div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <strong>Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
+                                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                                </div>
+                            </div>
                         </div>
-                        <div class="chat-input-row">
-                            <input type="text" id="chatInputFieldMain" class="chat-text-field" placeholder="Type your query string here..." onkeypress="handleChatKeyPressMain(event)">
-                            <button class="chat-submit-btn" onclick="executeChatMessageMain()">Send</button>
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <strong>Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
+                                    A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <strong>Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
+                                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="section-label">Live Support Command Console</div>
+                        <div class="chat-console-box">
+                            <div class="chat-console-header">
+                                <div><span class="online-dot" id="consoleStatusPulseDot"></span> Automated Assistant</div>
+                                <div class="queue-status-text" id="queueStatusFieldDisplay">DESK STATUS: STAGE 1 LOGGING</div>
+                            </div>
+                            
+                            <div class="chat-log-viewport" id="chatViewportMain">
+                                <div class="chat-bubble bot-bubble">Welcome to the Super Pest Trap network grid. Type a message regarding hardware diagnostics below to start your support sync.</div>
+                            </div>
+                            <div class="chat-input-row">
+                                <input type="text" id="chatInputFieldMain" class="chat-text-field" placeholder="Type your support request message here..." onkeypress="handleChatKeyPressMain(event)">
+                                <button class="chat-submit-btn" onclick="executeChatMessageMain()">Send</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -411,6 +428,7 @@
         </div>
     </div>
 
+    <!-- PANEL 2: POWER core LOGISTICS -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -446,6 +464,7 @@
         </div>
     </div>
 
+    <!-- PANEL 3: CLOUD STORAGE & TIMELINE INFRASTRUCTURE -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Cloud Engine & Spatiotemporal Heatmaps</h3>
         <p class="system-desc">Standard tier profiles track up to 48 hours of cloud video snapshots. Pro accounts unlock comprehensive heatmaps and extended logging.</p>
@@ -509,3 +528,408 @@
                 </table>
             </div>
         </div>
+
+        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" id="cloudStorageStatusText">48h Roll Retention</div></div>
+            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent);">Encrypted</div></div>
+            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent);">Single Terminal View</div></div>
+            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" id="exportActionStatusText" style="color: var(--text-secondary);">App Inline Visual Only</div></div>
+        </div>
+
+        <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
+        <div class="history-gallery-row">
+            <div class="history-video-card active" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')"><div class="video-thumb-mockup"></div><div class="history-day-label">1 Day Ago</div><div class="history-zone-tag">Kitchen</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd2', 'Dishwash Station')"><div class="video-thumb-mockup"></div><div class="history-day-label">2 Days Ago</div><div class="history-zone-tag">Scullery</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd3', 'Dry Food Pantry')"><div class="video-thumb-mockup"></div><div class="history-day-label">3 Days Ago</div><div class="history-zone-tag">Storage</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd4', 'Serving Counters')"><div class="video-thumb-mockup"></div><div class="history-day-label">4 Days Ago</div><div class="history-zone-tag">Front Line</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd5', 'Waste Depot')"><div class="video-thumb-mockup"></div><div class="history-day-label">5 Days Ago</div><div class="history-zone-tag">Sanitation</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd6', 'Back Kitchen Alley')"><div class="video-thumb-mockup"></div><div class="history-day-label">6 Days Ago</div><div class="history-zone-tag">Rear Exit</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd7', 'Defrosting Station')"><div class="video-thumb-mockup"></div><div class="history-day-label">7 Days Ago</div><div class="history-zone-tag">Prep Table</div></div>
+        </div>
+    </div>
+
+    <!-- PANEL 4: AUTOMATED FOOD SAFETY AUDIT COMPLIANCE REPORTS -->
+    <div id="report-panel" class="panel-content">
+        <h3 class="system-title">Automated PCO & Commercial Compliance Report</h3>
+        <p class="system-desc">Compile regulatory compliance sheets matching international HACCP, ISO 22000, and regional Ministry of Health audit frameworks instantly.</p>
+        
+        <div class="premium-lock-wrapper">
+            <div class="lock-overlay-badge" style="font-size: 14px;">🔒 Upgrade to Premium Pro to Export Compliance PDF</div>
+            <div class="premium-locked-blur report-print-box">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 20px;">
+                    <div>
+                        <h2 style="margin: 0; color: var(--gold-premium);">HACCP / ISO 22000 PCO COMPLIANCE REPORT</h2>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px;">Generated by Super Pest Trap Cloud Automation System</div>
+                    </div>
+                    <div class="report-stamp">MOH AUDIT COMPLIANT</div>
+                </div>
+                <div style="margin-top: 24px; font-size: 14px; line-height: 1.8; color: #d0d0d5;">
+                    <p><strong>Audit Location Summary:</strong> Based on multi-node infrared tracking logs and convolutional image array diagnostics, current hardware nodes are fully within compliant thresholds. Total monthly biological capture events: 399. Resolution rate of safe disposal sequence: 98.4%. Overall vector biological density rating evaluated at: <strong>[Excellent - High Security Zone]</strong>.</p>
+                </div>
+                <div class="report-meta-grid">
+                    <div><div class="card-label">Report Code</div><div style="font-size: 15px; font-weight: bold;">PCO-2026-UKM-05</div></div>
+                    <div><div class="card-label">Regulatory Standards</div><div style="font-size: 15px; font-weight: bold; color: var(--brand-green);">HACCP & ISO 22000</div></div>
+                    <div><div class="card-label">Digital Signature ID</div><div style="font-size: 13px; font-family: monospace; color: var(--blue-accent);">SEC-KEY-99F2X77</div></div>
+                </div>
+                <button class="sub-btn btn-premium" style="margin-top: 32px; width: auto; padding: 12px 32px;">🖨️ Print Official Audit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL 5: HARDWARE FLEET AND SCENT REFILL PORTAL -->
+    <div id="order-panel" class="panel-content">
+        <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
+        <p class="system-desc">Order secondary base docks, replace adhesive tracking pads, or restock on eco-friendly non-toxic natural attractants instantly.</p>
+        
+        <div class="store-product-grid">
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">🛡️</div>
+                    <h4 class="item-title-text">Super Pest Trap Smart Dock</h4>
+                    <p class="item-desc-text">Core hardware assembly containing miniature infrared thermal camera modules and weight monitoring matrices.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 199.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-dock', -1)">-</button>
+                        <div class="qty-display-value" id="qty-dock">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-dock', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">🍃</div>
+                    <h4 class="item-title-text">Natural Pandan Refill Sachet</h4>
+                    <p class="item-desc-text">100% bio-organic scented sachet designed specifically for targeted catch profiling within cafeteria environments.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 15.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-pandan', -1)">-</button>
+                        <div class="qty-display-value" id="qty-pandan">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-pandan', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">☕</div>
+                    <h4 class="item-title-text">Roasted Coffee Blend Sachet</h4>
+                    <p class="item-desc-text">High-density population drawing matrix using carbonized roasted molecules to optimize attraction speeds.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 15.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-coffee', -1)">-</button>
+                        <div class="qty-display-value" id="qty-coffee">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-coffee', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="select-split-row" style="margin-top: 24px;">
+            <div class="select-wrapper">
+                <select class="custom-select" id="paymentMethodFormSelector">
+                    <option value="" disabled selected hidden>💳 Choose Payment Method</option>
+                    <option value="Credit Card">Visa / MasterCard Gateway</option>
+                    <option value="FPX Banking">FPX Online Banking Transfer</option>
+                    <option value="GrabPay">GrabPay Mobile Wallet</option>
+                </select>
+            </div>
+            <div class="select-wrapper">
+                <select class="custom-select" id="courierPartnerFormSelector">
+                    <option value="" disabled selected hidden>🚚 Choose Shipping Partner</option>
+                    <option value="J&T Express">J&T Express Delivery Core</option>
+                    <option value="PosLaju">PosLaju Malaysia Service</option>
+                    <option value="DHL">DHL eCommerce Airfreight</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Checkout Action Bar Footer -->
+        <div class="checkout-bar-footer">
+            <div>
+                <div style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Logistics Pipeline Destination</div>
+                <div style="font-size: 14px; font-weight: bold; margin-top: 4px; color: var(--text-pure);" id="checkoutLocationAddressDisplay">Selected Kitchen Main Hub Address</div>
+            </div>
+            <button class="sub-btn btn-premium" style="width: auto; padding: 14px 40px; border-radius: 8px;" onclick="dispatchStoreOrderRequest()">🛒 Complete Order Placement</button>
+        </div>
+    </div>
+
+    <!-- PANEL 6: SUBSCRIPTION PLANS MATRIX -->
+    <div id="sub-panel" class="panel-content">
+        <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
+        <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
+        <div class="subscription-grid" style="margin-top: 32px;">
+            <div class="sub-card">
+                <div>
+                    <div class="tier-name">Standard Basic Tier</div>
+                    <div class="tier-price">RM 0 <span>/ Free Lifetime</span></div>
+                    <ul class="feature-list">
+                        <li>Core high-volume insect capture local push alert parameters</li>
+                        <li>Isolated single-terminal smartphone app viewer display access</li>
+                        <li>48-hour rolling server text logging and full-load image snapshot retention</li>
+                        <li>Standard hardware warranty with automated FAQ diagnostic center troubleshooting</li>
+                    </ul>
+                </div>
+                <button class="sub-btn btn-standard" id="cardBtnBasic" onclick="changeAccountTier('basic')">Active Free Account</button>
+            </div>
+            <div class="sub-card premium-tier">
+                <span class="tier-badge">Recommended</span>
+                <div>
+                    <div class="tier-name" style="color: var(--gold-premium);">Premium AI Pro Plan</div>
+                    <div class="tier-price" style="color: var(--gold-premium);">RM 29 <span>/ month per unit</span></div>
+                    <ul class="feature-list">
+                        <li>Micro / rare vector pest class analysis + predictive meteorological risk defense maps</li>
+                        <li><strong>Deep AI Root-Cause Tracking Engine:</strong> Generates immediate workspace action parameters</li>
+                        <li>Automated document compilers exporting verified <strong>HACCP / ISO 22000 / MOH</strong> audit files</li>
+                        <li><strong>Smart Supply Logistics Chain:</strong> Automatic adhesive & cartridge dispatches when levels lower</li>
+                        <li>30-day extended high-resolution secure video history cloud storage vaulting</li>
+                        <li>Centralized Master Web Dashboard linking telemetry data across multiple venues simultaneously</li>
+                    </ul>
+                </div>
+                <button class="sub-btn btn-premium" id="cardBtnPremium" onclick="changeAccountTier('premium')">Upgrade to Premium Pro</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const locationProfiles = {
+        kpz: { scentTarget: "☕ Composite Coffee Matrix (KPZ Site Central)", aiEngine: "Fly/Mosquito Standard Classifier", lifespan: "12 Days", percent: 45, address: "KPZ Kafeteria Main Receiving Bay, Kolej Pendeta Za'ba" },
+        kiy: { scentTarget: "🍃 Eco-Pandan Essence Extraction (KIY Defense)", aiEngine: "Pandan Adaptive Core Regular v1", lifespan: "28 Days", percent: 85, address: "KIY Kafeteria Loading Station, Kolej Ibrahim Yaakub" }
+    };
+
+    const pipelineHistoryDataset = {
+        d1: { bars: [20, 45, 95, 140], came: "114 Vectors Sighted", peak: "23:00 - 02:30 Deep Night", caught: "106 Secured on Matrix" },
+        d2: { bars: [5, 12, 45, 85], came: "41 Vectors Sighted", peak: "00:05 - 03:00 Early Dawn Active", caught: "39 Secured on Matrix" },
+        d3: { bars: [22, 60, 110, 135], came: "185 Vectors Sighted", peak: "23:15 - 02:45 Pantry Shift Fluctuation", caught: "172 Secured on Matrix" },
+        d4: { bars: [12, 18, 55, 90], came: "64 Vectors Sighted", peak: "21:45 - 01:15 Server Counter Drift", caught: "61 Secured on Matrix" },
+        d5: { bars: [50, 95, 150, 160], came: "298 Vectors Sighted", peak: "23:00 - 04:30 Critical Influx Wave", caught: "284 Secured on Matrix" },
+        d6: { bars: [30, 40, 85, 120], came: "130 Vectors Sighted", peak: "22:30 - 02:00 Aligned Corridor Path", caught: "119 Secured on Matrix" },
+        d7: { bars: [8, 15, 35, 65], came: "32 Vectors Sighted", peak: "01:00 - 03:30 Controlled Stable Trace", caught: "30 Secured on Matrix" }
+    };
+
+    let selectedGlobalZoneKey = "zone1";
+
+    // Dynamic Row Reveal Actions
+    function revealCustomerServiceTerminal() {
+        document.getElementById("csActivationTriggerCard").style.display = "none";
+        document.getElementById("csDynamicTargetContainer").style.display = "block";
+    }
+
+    function adjustProductQty(fieldId, variation) {
+        const displayElement = document.getElementById(fieldId);
+        let currentAmount = parseInt(displayElement.innerText);
+        currentAmount += variation;
+        if(currentAmount < 0) currentAmount = 0;
+        displayElement.innerText = currentAmount;
+    }
+
+    function dispatchStoreOrderRequest() {
+        const docks = document.getElementById("qty-dock").innerText;
+        const pandan = document.getElementById("qty-pandan").innerText;
+        const coffee = document.getElementById("qty-coffee").innerText;
+        const payment = document.getElementById("paymentMethodFormSelector").value;
+        const courier = document.getElementById("courierPartnerFormSelector").value;
+
+        if (docks === "0" && pandan === "0" && coffee === "0") {
+            alert("Checkout Error: Please select product numbers before completing your order.");
+            return;
+        }
+        if (!payment) {
+            alert("Checkout Error: Please declare an active settlement Payment Method before placing order.");
+            return;
+        }
+        if (!courier) {
+            alert("Checkout Error: Please select an approved shipping Logistics Courier Partner.");
+            return;
+        }
+
+        alert("Success! Order processed via " + payment + ". Shipping manifest assigned to " + courier + ". Logistics tokens sent to email tracking sheets successfully.");
+        
+        document.getElementById("qty-dock").innerText = "0";
+        document.getElementById("qty-pandan").innerText = "0";
+        document.getElementById("qty-coffee").innerText = "0";
+        document.getElementById("paymentMethodFormSelector").value = "";
+        document.getElementById("courierPartnerFormSelector").value = "";
+    }
+
+    function changeAccountTier(tier) {
+        const wrapper = document.getElementById("masterDashboardWrapper");
+        const btnBasic = document.getElementById("btnSwitchBasic");
+        const btnPremium = document.getElementById("btnSwitchPremium");
+        const cardBtnBasic = document.getElementById("cardBtnBasic");
+        const cardBtnPremium = document.getElementById("cardBtnPremium");
+
+        if (tier === 'basic') {
+            wrapper.classList.add("basic-mode");
+            btnBasic.classList.add("active");
+            btnPremium.classList.remove("active");
+            cardBtnBasic.innerText = "Current Active Plan";
+            cardBtnPremium.innerText = "Upgrade to Premium Pro";
+            
+            document.getElementById("aiEngineField").innerText = "Standard Vision AI";
+            document.getElementById("cloudStorageStatusText").innerText = "48h Roll Retention";
+            document.getElementById("exportActionStatusText").innerText = "App Inline Visual Only";
+            document.getElementById("exportActionStatusText").style.color = "var(--text-secondary)";
+            document.getElementById("tradeInField").innerText = "Manual Renewal Track Only";
+        } else {
+            wrapper.classList.remove("basic-mode");
+            btnBasic.classList.remove("active");
+            btnPremium.classList.add("active");
+            cardBtnBasic.innerText = "Switch to Standard Free";
+            cardBtnPremium.innerText = "💎 Premium Active";
+            
+            document.getElementById("aiEngineField").innerText = "Premium Multi-PCO Deep Engine v4.2";
+            document.getElementById("cloudStorageStatusText").innerText = "30-Day Long Term Storage Active";
+            document.getElementById("exportActionStatusText").innerText = "Unlocked: 1-Click PDF Export";
+            document.getElementById("exportActionStatusText").style.color = "var(--brand-green)";
+            document.getElementById("tradeInField").innerText = "Free Upgrade In 12 Mo.";
+        }
+    }
+
+    function loadStageGraph(zoneKey) {
+        const zoneNames = { zone1: "Main Cooking Line (Zone A)", zone2: "Dry Storage Pantry (Zone B)", zone3: "Waste Disposal Bin (Zone C)" };
+        const baseBars = { zone1: [20, 45, 95, 140], zone2: [10, 25, 70, 115], zone3: [45, 80, 145, 155] };
+        
+        document.getElementById("graphTitleField").innerText = "📊 " + zoneNames[zoneKey] + " Infestation Heatmap Matrix (24H Timeline)";
+        updateGraphBars(baseBars[zoneKey]);
+
+        const targetData = pipelineHistoryDataset["d1"];
+        document.getElementById("td-location").innerText = zoneNames[zoneKey];
+        document.getElementById("td-came").innerText = targetData.came;
+        document.getElementById("td-peak").innerText = targetData.peak;
+        document.getElementById("td-caught").innerText = targetData.caught;
+
+        document.getElementById("stage-places").style.display = "none";
+        document.getElementById("stage-graph").style.display = "block";
+    }
+
+    function loadStageTable() {
+        document.getElementById("stage-graph").style.display = "none";
+        document.getElementById("stage-table").style.display = "block";
+    }
+
+    function resetToStagePlaces(evt) {
+        evt.stopPropagation();
+        document.getElementById("stage-graph").style.display = "none";
+        document.getElementById("stage-table").style.display = "none";
+        document.getElementById("stage-places").style.display = "grid";
+    }
+
+    function resetToStageGraph(evt) {
+        document.getElementById("stage-table").style.display = "none";
+        document.getElementById("stage-graph").style.display = "block";
+    }
+
+    function queryHistoricalDayLog(evt, dayKey, zoneLabelName) {
+        const elements = document.querySelectorAll(".history-video-card");
+        elements.forEach(c => c.classList.remove("active"));
+        evt.currentTarget.classList.add("active");
+
+        const log = pipelineHistoryDataset[dayKey];
+        document.getElementById("graphTitleField").innerText = "⏳ Cloud Archive Call (" + dayKey.toUpperCase() + "): " + zoneLabelName + " Baseline History";
+        updateGraphBars(log.bars);
+
+        document.getElementById("td-location").innerText = zoneLabelName + " [Archived Frame]";
+        document.getElementById("td-came").innerText = log.came;
+        document.getElementById("td-peak").innerText = log.peak;
+        document.getElementById("td-caught").innerText = log.caught;
+
+        document.getElementById("stage-places").style.display = "none";
+        document.getElementById("stage-table").style.display = "none";
+        document.getElementById("stage-graph").style.display = "block";
+    }
+
+    function updateGraphBars(heights) {
+        for(let i=0; i<4; i++) {
+            const bar = document.getElementById("vbar" + i);
+            bar.setAttribute("height", heights[i]);
+            bar.setAttribute("y", 130 - heights[i]);
+        }
+    }
+
+    function syncLocationProfile() {
+        const selected = document.getElementById("locationSelector").value;
+        const prof = locationProfiles[selected];
+        
+        document.getElementById("scentTargetField").innerText = prof.scentTarget;
+        document.getElementById("capsuleLifespanField").innerText = prof.lifespan;
+        document.getElementById("integrityPercentageField").innerText = prof.percent + "% Remaining";
+        document.getElementById("integrityProgressBarFill").style.width = prof.percent + "%";
+        document.getElementById("checkoutLocationAddressDisplay").innerText = prof.address;
+    }
+
+    function openPanel(evt, panelId) {
+        const contents = document.getElementsByClassName("panel-content");
+        for (let i = 0; i < contents.length; i++) contents[i].style.display = "none";
+        const tabs = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
+        document.getElementById(panelId).style.display = "block";
+        evt.currentTarget.classList.add("active");
+    }
+
+    function toggleAccordion(element) {
+        const item = element.parentElement;
+        const content = element.nextElementSibling;
+        if (item.classList.contains("open")) {
+            content.style.maxHeight = null;
+            item.classList.remove("open");
+        } else {
+            const opens = document.querySelectorAll(".accordion-item.open");
+            opens.forEach(o => { o.querySelector(".accordion-content").style.maxHeight = null; o.classList.remove("open"); });
+            item.classList.add("open");
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    }
+
+    function handleChatKeyPressMain(e) { if (e.key === 'Enter') executeChatMessageMain(); }
+
+    function executeChatMessageMain() {
+        const field = document.getElementById("chatInputFieldMain");
+        const text = field.value.trim();
+        if (text === "") return;
+
+        const log = document.getElementById("chatViewportMain");
+        
+        // 1. Append User Bubble
+        const user = document.createElement("div");
+        user.className = "chat-bubble user-bubble";
+        user.innerText = text;
+        log.appendChild(user);
+        field.value = "";
+        log.scrollTop = log.scrollHeight;
+
+        // Change header display text properties to yellow/gold warning status
+        document.getElementById("consoleStatusPulseDot").style.backgroundColor = "var(--gold-premium)";
+        document.getElementById("consoleStatusPulseDot").style.boxShadow = "0 0 8px var(--gold-premium)";
+        document.getElementById("queueStatusFieldDisplay").innerText = "DESK STATUS: QUEUE PROTOCOL MATCH";
+
+        // 2. Append Automated Robot Response Message
+        setTimeout(() => {
+            const bot = document.createElement("div");
+            bot.className = "chat-bubble bot-bubble";
+            bot.innerHTML = "<strong>[Robot Auto-Response]</strong> Diagnostics telemetry packet index token has been logged to the central server array.";
+            log.appendChild(bot);
+            log.scrollTop = log.scrollHeight;
+            
+            // 3. Append Waiting For Real Human Sequence Alert Notice Card
+            setTimeout(() => {
+                const sysAlert = document.createElement("div");
+                sysAlert.className = "chat-bubble system-alert";
+                sysAlert.innerHTML = "⏳ <strong>System Message:</strong> Routing ticket to an active operations manager desk. Please stay online... Waiting for a real person to connect.";
+                log.appendChild(sysAlert);
+                log.scrollTop = log.scrollHeight;
+            }, 600);
+
+        }, 700);
+    }
+</script>
+
+</body>
+</html>
