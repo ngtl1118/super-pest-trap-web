@@ -3,78 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Pest Trap - Control Panel</title>
+    <title>Super Pest Trap - Unified Master Control Hub</title>
     <style>
         :root {
-            --primary-green: #1b6623;
-            --light-green: #edf7ed;
-            --text-dark: #333333;
-            --text-muted: #666666;
-            --bg-card: #ffffff;
-            --border-color: #e0e0e0;
-            --battery-good: #2e7d32;
+            --bg-main: #121212;
+            --bg-card: #1a1a1a;
+            --bg-input: #262626;
+            --bg-accent-glow: rgba(76, 175, 80, 0.12);
+            --text-pure: #ffffff;
+            --text-secondary: #a0a0a0;
+            --brand-green: #4caf50;
+            --border-subtle: #2d2d2d;
+            --blue-accent: #2196f3;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212; /* Dark theme to match your template */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
-        /* Main Dashboard Window */
+        /* Unified Dashboard Frame */
         .dashboard-popup {
             background-color: var(--bg-card);
             width: 100%;
-            max-width: 550px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 540px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-subtle);
         }
 
-        /* Navigation Tabs */
+        /* 4-Column Header Navigation Tabs */
         .tab-menu {
             display: flex;
-            background-color: #f5f5f5;
-            border-bottom: 1px solid var(--border-color);
-            padding: 8px 8px 0 8px;
+            background-color: #0f0f0f;
+            padding: 6px;
+            margin: 16px 16px 0 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            gap: 4px;
         }
 
         .tab-btn {
             flex: 1;
             background: none;
             border: none;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
+            padding: 10px 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
             cursor: pointer;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px;
             transition: all 0.2s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn span:first-child {
+            font-size: 16px;
         }
 
         .tab-btn:hover {
-            background-color: #eaeaea;
-            color: var(--text-dark);
+            color: var(--text-pure);
+            background-color: rgba(255, 255, 255, 0.03);
         }
 
         .tab-btn.active {
-            background-color: var(--bg-card);
-            color: var(--primary-green);
-            border: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--bg-card);
-            margin-bottom: -1px;
+            background-color: var(--bg-input);
+            color: var(--brand-green);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* Content Panel */
+        /* Viewports Content Area */
         .panel-content {
             padding: 24px;
             display: none;
@@ -84,11 +95,11 @@
             display: block;
         }
 
-        /* Sub-System Header Typography */
+        /* Standardized Typography */
         .system-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--text-pure);
             margin: 0 0 4px 0;
             display: flex;
             align-items: center;
@@ -96,164 +107,249 @@
         }
 
         .system-desc {
-            font-size: 14px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: var(--text-secondary);
             margin: 0 0 20px 0;
+            line-height: 1.4;
         }
 
         .label-heading {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--text-muted);
+            color: var(--brand-green);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-bottom: 8px;
         }
 
-        /* Select Options Dropdown */
-        .custom-select {
+        /* Custom Input Styling */
+        .select-wrapper {
+            position: relative;
             width: 100%;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background-color: #fafafa;
             margin-bottom: 20px;
         }
 
-        /* Two-Column Grid Cards */
+        .custom-select {
+            width: 100%;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-pure);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            background-color: var(--bg-input);
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 10px;
+            color: var(--text-secondary);
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        /* High-Tech Dynamic Grid Blocks */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .info-card {
-            background-color: var(--light-green);
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-subtle);
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             text-align: center;
         }
 
+        .info-card.active-glow {
+            background-color: var(--bg-accent-glow);
+            border-color: rgba(76, 175, 80, 0.25);
+        }
+
         .card-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--text-secondary);
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
 
         .card-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--brand-green);
         }
 
-        /* Progress Bar Metrics */
+        /* Status Metrics Bars */
+        .metrics-container {
+            background-color: var(--bg-input);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+
         .metrics-row {
             display: flex;
             justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
             margin-bottom: 8px;
+        }
+        
+        .metrics-row span:last-child {
+            color: var(--text-pure);
+            font-weight: 600;
         }
 
         .progress-bar-bg {
-            background-color: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
+            background-color: #333333;
+            height: 6px;
+            border-radius: 3px;
             width: 100%;
             overflow: hidden;
         }
 
         .progress-bar-fill {
-            background-color: #4caf50;
+            background-color: var(--brand-green);
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.4s ease;
+            border-radius: 3px;
+            box-shadow: 0 0 8px var(--brand-green);
         }
 
-        /* Specific Battery Styles */
-        .battery-card {
-            background-color: #f1f8e9;
-        }
-        .battery-card .card-label, .battery-card .card-value {
-            color: var(--battery-good);
-        }
-
-        /* Video/Footage Frame Mockup */
+        /* Hardware Surveillance Feed Frame */
         .video-container {
             width: 100%;
             height: 200px;
-            background-color: #000000;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #070707 0%, #131313 100%);
+            border-radius: 12px;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #757575;
-            font-weight: bold;
-            overflow: hidden;
-            border: 2px solid #333;
-            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 16px;
         }
 
         .live-indicator {
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(211, 47, 47, 0.85);
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            letter-spacing: 1px;
+            background: rgba(229, 57, 53, 0.15);
+            border: 1px solid #e53935;
+            color: #ef5350;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .live-dot {
             width: 6px;
             height: 6px;
-            background-color: #fff;
+            background-color: #e53935;
             border-radius: 50%;
             animation: blink 1s infinite alternate;
         }
 
-        @keyframes blink {
-            from { opacity: 0.3; }
-            to { opacity: 1; }
+        @keyframes blink { from { opacity: 0.3; } to { opacity: 1; } }
+
+        /* Premium Customer Support Accordions */
+        .accordion-item {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-pure);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 16px;
+            color: var(--brand-green);
+            transition: transform 0.2s ease;
+        }
+
+        .accordion-item.open .accordion-header::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease-out;
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .accordion-body {
+            padding: 0 16px 16px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
 <div class="dashboard-popup">
+    <!-- 4-Tab Segmented Controls -->
     <div class="tab-menu">
-        <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')">🌿 Scent Matrix</button>
-        <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Battery Info</button>
-        <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Feed</button>
+        <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')"><span>🌿</span><span>Scent</span></button>
+        <button class="tab-btn" onclick="openPanel(event, 'battery-panel')"><span>🔋</span><span>Battery</span></button>
+        <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')"><span>👁️</span><span>Live Feed</span></button>
+        <button class="tab-btn" onclick="openPanel(event, 'help-panel')"><span>💬</span><span>Support</span></button>
     </div>
 
+    <!-- PANEL 1: SCENT CONTROL MATRIX -->
     <div id="scent-panel" class="panel-content active">
-        <h3 class="system-title">🌿 100% Organic Scent Sub-System</h3>
+        <h3 class="system-title">🌿 Organic Scent Sub-System</h3>
         <p class="system-desc">Select non-toxic sachet to adjust hardware attraction matrix parameters.</p>
         
         <div class="label-heading">Active Scent Cartridge:</div>
-        <select class="custom-select">
-            <option>🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
-            <option>☕ Roasted Coffee Blend (Dense Population Draw)</option>
-            <option>🍃 Natural Pandan Essence (Targeted Catch)</option>
-        </select>
+        <div class="select-wrapper">
+            <select class="custom-select">
+                <option>🍃 Natural Pandan Essence (Targeted Catch)</option>
+                <option>🍦 Organic Vanilla Pod Casing (Rapid Attraction)</option>
+                <option>☕ Roasted Coffee Blend (Dense Population Draw)</option>
+            </select>
+        </div>
 
         <div class="info-grid">
-            <div class="info-card">
+            <div class="info-card active-glow">
                 <div class="card-label">Scent Compounds</div>
                 <div class="card-value">100% Bio-Organic</div>
             </div>
@@ -263,47 +359,143 @@
             </div>
         </div>
 
-        <div class="metrics-row">
-            <span>Scent Chemical Integrity Essence</span>
-            <span>70% Volatile Core</span>
-        </div>
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" style="width: 70%;"></div>
+        <div class="metrics-container">
+            <div class="metrics-row">
+                <span>Scent Chemical Integrity Essence</span>
+                <span>70% Volatile Core</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 70%;"></div>
+            </div>
         </div>
     </div>
 
+    <!-- PANEL 2: POWER & HARDWARE MANAGMENT -->
     <div id="battery-panel" class="panel-content">
-        <h3 class="system-title">🔋 Smart Dock Power Management</h3>
+        <h3 class="system-title">🔋 Smart Dock Power Configuration</h3>
         <p class="system-desc">Real-time optimization matrix for the rechargeable electronic hardware base.</p>
 
         <div class="info-grid">
-            <div class="info-card battery-card">
+            <div class="info-card active-glow">
                 <div class="card-label">Battery Capacity</div>
                 <div class="card-value">88% Charged</div>
             </div>
-            <div class="info-card battery-card">
+            <div class="info-card">
                 <div class="card-label">Power Source</div>
                 <div class="card-value">Lithium-Ion</div>
             </div>
         </div>
 
-        <div class="metrics-row">
-            <span>Estimated Operational Cycles Remaining</span>
-            <span>14 Days Regular Use</span>
-        </div>
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" style="width: 88%; background-color: #2e7d32;"></div>
+        <div class="metrics-container">
+            <div class="metrics-row">
+                <span>Estimated Operational Cycles Remaining</span>
+                <span>14 Days Regular Use</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 88%;"></div>
+            </div>
         </div>
     </div>
 
+    <!-- PANEL 3: LIVE SURVEILLANCE & CLOUD COMPUTING -->
     <div id="cloud-panel" class="panel-content">
-        <h3 class="system-title">👁️ Cloud Sync & Surveillance</h3>
+        <h3 class="system-title">👁️ Cloud Sync & Surveillance Hub</h3>
         <p class="system-desc">On-demand compliance verification data and miniature sensor streams.</p>
 
         <div class="video-container">
             <div class="live-indicator"><span class="live-dot"></span>Live (Thermal)</div>
-            <span>[ Miniature Thermal Camera Stream ]</span>
+            <span style="color: #555;">[ Miniature Thermal Camera Grid Stream ]</span>
         </div>
 
         <div class="info-grid">
-            <div class="info-card" style="background-color:
+            <div class="info-card" style="border-color: rgba(33, 148, 243, 0.3); background-color: rgba(33, 150, 243, 0.03);">
+                <div class="card-label">Cloud Server Sync</div>
+                <div class="card-value" style="color: var(--blue-accent);">Connected</div>
+            </div>
+            <div class="info-card" style="border-color: rgba(33, 148, 243, 0.3); background-color: rgba(33, 150, 243, 0.03);">
+                <div class="card-label">Compliance Logs</div>
+                <div class="card-value" style="color: var(--blue-accent);">100% Archived</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL 4: CUSTOMER SERVICE / HELP CENTER FAQ ACCORDION -->
+    <div id="help-panel" class="panel-content">
+        <h3 class="system-title">💬 Customer Support & Maintenance Hub</h3>
+        <p class="system-desc">Quick usage workflows and automated compliance verification queries.</p>
+
+        <!-- FAQ Item 1 -->
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">Component Replacement Procedures</button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">Smart Dock Upkeep & Cleanliness</button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">Inspection & Health Compliance Data</button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab switching system
+    function openPanel(evt, panelId) {
+        const contents = document.getElementsByClassName("panel-content");
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove("active");
+        }
+
+        const tabs = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("active");
+        }
+
+        document.getElementById(panelId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // Customer Service FAQ expansion system
+    function toggleAccordion(element) {
+        const item = element.parentElement;
+        const content = element.nextElementSibling;
+        
+        // Check if item is already expanded
+        if (item.classList.contains("open")) {
+            content.style.maxHeight = null;
+            item.classList.remove("open");
+        } else {
+            // Close other currently open accordion items for clean presentation
+            const openItems = document.querySelectorAll(".accordion-item.open");
+            openItems.forEach(oi => {
+                oi.querySelector(".accordion-content").style.maxHeight = null;
+                oi.classList.remove("open");
+            });
+
+            // Expand selected target
+            item.classList.add("open");
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    }
+</script>
+
+</body>
+</html>
