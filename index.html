@@ -5,72 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Pest Trap - Enterprise Command Center</title>
     <style>
-        /* ... [Keep all previous styles] ... */
-
-        /* Maintenance Booking specific styles */
-        .maintenance-panel { background-color: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 32px; margin-top: 32px; }
-        .maint-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .maint-input { width: 100%; padding: 16px; background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; color: var(--text-pure); box-sizing: border-box; margin-bottom: 16px; }
+        /* ... [All your existing CSS styles remain here] ... */
+        :root { --bg-main: #0a0a0c; --bg-card: #141416; --bg-input: #1e1e22; --text-pure: #ffffff; --text-secondary: #94949c; --brand-green: #4caf50; --border-subtle: #26262a; --blue-accent: #2196f3; --gold-premium: #ffb300; --alert-red: #ef5350; }
+        body { font-family: -apple-system, sans-serif; background-color: var(--bg-main); color: var(--text-pure); margin: 0; padding: 20px; }
+        .dashboard-container { background-color: var(--bg-card); width: 100%; max-width: 1200px; margin: 0 auto; border-radius: 24px; border: 1px solid var(--border-subtle); overflow: hidden; }
+        .dashboard-header { background-color: #0d0d0f; padding: 24px; border-bottom: 1px solid var(--border-subtle); }
+        .panel-content { padding: 40px; display: none; }
+        .panel-content.active { display: block; }
+        .maint-input { width: 100%; padding: 12px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; margin-bottom: 10px; }
+        .sub-btn { width: 100%; padding: 14px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-premium { background-color: var(--gold-premium); color: #000; }
     </style>
 </head>
-<body onload="syncLocationProfile()">
+<body>
 
-<!-- ... [Keep the rest of the HTML structure until Order Panel] ... -->
+<div class="dashboard-container" id="masterDashboardWrapper">
+    <div class="dashboard-header">
+        <div class="brand-logo">🛡️ Super Pest Trap <span>Console</span></div>
+        <div class="tab-menu" style="display:flex; gap:10px; margin-top:20px;">
+            <button class="tab-btn" onclick="openPanel(event, 'scent-panel')">🌿 Scent & AI</button>
+            <button class="tab-btn" onclick="openPanel(event, 'order-panel')">🛒 Order & Maintenance</button>
+        </div>
+    </div>
 
-    <!-- PANEL 5: PROCUREMENT & MAINTENANCE BOOKING -->
+    <div id="scent-panel" class="panel-content active">
+        <h3>Scent & AI Matrix</h3>
+        <p>Your existing AI tracking features...</p>
+    </div>
+
     <div id="order-panel" class="panel-content">
-        <!-- Store Content -->
-        <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
-        <!-- ... [Keep Store Product Grid & Checkout Footer] ... -->
-        
-        <!-- NEW: MAINTENANCE & REPAIR BOOKING SECTION -->
-        <div class="maintenance-panel">
-            <h3 class="system-title" style="font-size: 20px;">🛠️ Request Expert Maintenance & Repair</h3>
-            <p class="system-desc">Facing technical issues? Book a certified technician for on-site battery replacement or software diagnostic repairs.</p>
+        <h3>🛒 Order Products</h3>
+        <div style="margin-top: 50px; padding: 30px; background: #1a1a1f; border-radius: 16px;">
+            <h3 style="margin-top:0;">🛠️ Maintenance & Repair Booking</h3>
+            <p>Book an expert for on-site repairs or software issues.</p>
             
-            <div class="maint-grid">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div>
-                    <div class="section-label">Repair Category</div>
-                    <select class="custom-select" id="maintCategory">
-                        <option value="General">General Maintenance / Cleaning</option>
-                        <option value="Battery">Battery Failure / Power Issue</option>
-                        <option value="Software">Software Error / Connectivity</option>
+                    <label>Repair Category</label>
+                    <select class="maint-input" id="maintCategory">
+                        <option value="General">General Maintenance</option>
+                        <option value="Battery">Battery/Power Issue</option>
+                        <option value="Software">Software Error</option>
                     </select>
-
-                    <div class="section-label" style="margin-top:16px;">Service Date</div>
+                    <label>Preferred Date</label>
                     <input type="date" class="maint-input" id="maintDate">
                 </div>
                 <div>
-                    <div class="section-label">Site Address</div>
-                    <textarea class="maint-input" id="maintAddress" rows="4" placeholder="Enter full address for on-site technician..."></textarea>
-                    
-                    <button class="sub-btn btn-premium" style="width: 100%; padding: 16px;" onclick="dispatchMaintenanceRequest()">📅 Book Repair Appointment</button>
+                    <label>Site Address</label>
+                    <textarea class="maint-input" id="maintAddress" rows="4" placeholder="Enter full address..."></textarea>
+                    <button class="sub-btn btn-premium" onclick="dispatchMaintenanceRequest()">Submit Repair Booking</button>
                 </div>
             </div>
         </div>
     </div>
-
-<!-- ... [Rest of the file] ... -->
+</div>
 
 <script>
-    // ... [Keep existing scripts] ...
-
+    // Robust script: Checks if elements exist before using them to prevent crashing
     function dispatchMaintenanceRequest() {
-        const category = document.getElementById("maintCategory").value;
-        const date = document.getElementById("maintDate").value;
-        const address = document.getElementById("maintAddress").value;
+        const cat = document.getElementById("maintCategory");
+        const date = document.getElementById("maintDate");
+        const addr = document.getElementById("maintAddress");
 
-        if (!date || !address) {
-            alert("Please provide both a service date and your site address.");
+        if (!cat || !date || !addr) return; // Silent fail if elements missing
+        
+        if (!date.value || !addr.value) {
+            alert("Please provide both a date and your address.");
             return;
         }
 
-        alert("Maintenance Request Submitted! An expert technician has been scheduled for " + date + " regarding " + category + " issues at your location. Dispatch notification sent.");
-        
-        document.getElementById("maintDate").value = "";
-        document.getElementById("maintAddress").value = "";
+        alert("Booking confirmed for " + cat.value + " on " + date.value + ". Our expert will arrive at: " + addr.value);
     }
-</script>
 
+    function openPanel(evt, id) {
+        document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none');
+        const target = document.getElementById(id);
+        if(target) target.style.display = 'block';
+    }
+
+    // Initialize display
+    document.getElementById('scent-panel').style.display = 'block';
+</script>
 </body>
 </html>
