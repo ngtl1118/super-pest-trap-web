@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Pest Trap - Freemium Model Enterprise Console</title>
+    <title>Super Pest Trap - Enterprise Command Center</title>
     <style>
         :root {
             --bg-main: #0a0a0c;
@@ -36,7 +36,7 @@
         .dashboard-container {
             background-color: var(--bg-card);
             width: 100%;
-            max-width: 1100px;
+            max-width: 1150px;
             border-radius: 24px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             border: 1px solid var(--border-subtle);
@@ -44,7 +44,7 @@
             position: relative;
         }
 
-        /* Top Bar & Monetization Model Switcher */
+        /* Navigation Header */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -65,7 +65,7 @@
 
         .brand-logo span { color: var(--brand-green); }
 
-        /* Freemium Control: Live Account Tier Switch Widget */
+        /* Live Account Tier Switch Widget */
         .tier-switcher-wrapper {
             display: flex;
             align-items: center;
@@ -89,18 +89,10 @@
             text-transform: uppercase;
         }
 
-        .tier-toggle-btn.active.basic {
-            background-color: #333;
-            color: var(--text-pure);
-        }
+        .tier-toggle-btn.active.basic { background-color: #333; color: var(--text-pure); }
+        .tier-toggle-btn.active.premium { background-color: var(--gold-premium); color: #000000; box-shadow: 0 0 10px rgba(255, 179, 0, 0.3); }
 
-        .tier-toggle-btn.active.premium {
-            background-color: var(--gold-premium);
-            color: #000000;
-            box-shadow: 0 0 10px rgba(255, 179, 0, 0.3);
-        }
-
-        /* Navigation Menu Tab Controls */
+        /* Tab Controls */
         .tab-menu {
             display: flex;
             background-color: #16161a;
@@ -113,14 +105,15 @@
         .tab-btn {
             background: none;
             border: none;
-            padding: 10px 16px;
-            font-size: 12px;
+            padding: 10px 14px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-secondary);
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.2s ease;
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .tab-btn:hover { color: var(--text-pure); background-color: rgba(255, 255, 255, 0.02); }
@@ -148,26 +141,23 @@
             border: 1px solid var(--border-subtle); border-radius: 12px; background-color: var(--bg-input);
             appearance: none; -webkit-appearance: none; cursor: pointer; box-sizing: border-box;
         }
-        .select-wrapper::after {
-            content: '▼'; font-size: 10px; color: var(--text-secondary); position: absolute;
-            right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none;
-        }
+        .select-wrapper::after { content: '▼'; font-size: 10px; color: var(--text-secondary); position: absolute; right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
-        /* Core Metrics Display Cards */
+        /* Info Display Cards */
         .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
         .info-card { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
         .info-card.active-glow { background-color: var(--bg-accent-glow); border-color: rgba(76, 175, 80, 0.25); }
         .card-label { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .card-value { font-size: 20px; font-weight: 700; color: var(--brand-green); }
 
-        /* Consumables Slider Panels */
+        /* Sliders */
         .metrics-container { background-color: var(--bg-input); padding: 20px; border-radius: 14px; border: 1px solid var(--border-subtle); margin-bottom: 16px; }
         .metrics-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
         .metrics-row span:last-child { color: var(--text-pure); font-weight: 700; }
         .progress-bar-bg { background-color: #2a2a30; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { background-color: var(--brand-green); height: 100%; border-radius: 4px; transition: width 0.4s ease; }
 
-        /* Premium Visual Intercept Layer Components */
+        /* Premium Visual Intercept Layers */
         .premium-lock-wrapper { position: relative; }
         .premium-locked-blur { transition: all 0.3s ease; }
         .dashboard-container.basic-mode .premium-locked-blur { filter: blur(4px); opacity: 0.25; pointer-events: none; }
@@ -180,7 +170,6 @@
             display: none; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 10;
         }
         .dashboard-container.basic-mode .lock-overlay-badge { display: flex; }
-        
         .premium-tag { background: rgba(255, 179, 0, 0.15); color: var(--gold-premium); font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
 
         /* 3-Stage Interactive Cloud Media Viewport Frame */
@@ -194,13 +183,13 @@
         .place-picture-card:hover { border-color: var(--blue-accent); background-color: #1d1d24; transform: translateY(-2px); }
         .place-img-placeholder { height: 100px; background: linear-gradient(135deg, #212121 0%, #151515 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; border: 1px solid #2d2d35; }
 
-        /* Stage 2: Spatiotemporal Bar Graph / Heatmap Canvas */
+        /* Stage 2: Spatiotemporal Bar Graph Canvas */
         .analytics-graph-view { padding: 30px; cursor: pointer; }
         .graph-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .graph-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue-accent); }
         .back-nav-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
-        /* Stage 3: Corporate Compliance Regulatory Sheet Table */
+        /* Stage 3: Data Sheet Table */
         .data-table-view { padding: 30px; }
         .premium-data-table { width: 100%; border-collapse: collapse; margin-top: 16px; text-align: left; }
         .premium-data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--brand-green); padding: 14px; border-bottom: 2px solid var(--border-subtle); }
@@ -213,10 +202,25 @@
         .history-video-card.active { border-color: var(--blue-accent); background-color: rgba(33, 150, 243, 0.08); }
         .video-thumb-mockup { height: 50px; background: #000; border-radius: 6px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-secondary); }
 
-        /* HACCP Audit Compliance Sheet Formatting Block */
+        /* HACCP Compliance Block */
         .report-print-box { background-color: #1c1c21; border: 1px solid #333; border-radius: 14px; padding: 32px; margin-top: 16px; }
         .report-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; }
         .report-stamp { border: 2px dashed var(--brand-green); color: var(--brand-green); padding: 6px 12px; font-weight: 800; border-radius: 4px; display: inline-block; font-size: 12px; text-transform: uppercase; }
+
+        /* BRAND NEW NEWEST FEATURE: PRODUCT STORE PAGE GRID STYLING */
+        .store-product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 8px; }
+        .store-item-card { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+        .store-item-card:hover { border-color: var(--brand-green); }
+        .item-icon-frame { height: 120px; background-color: #131316; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 42px; border: 1px solid #25252b; margin-bottom: 16px; }
+        .item-title-text { font-size: 16px; font-weight: 700; color: var(--text-pure); margin: 0 0 6px 0; }
+        .item-desc-text { font-size: 12px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 16px 0; height: 50px; overflow: hidden; }
+        .item-pricing-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .item-cost { font-size: 18px; font-weight: 800; color: var(--gold-premium); }
+        .quantity-control-hub { display: flex; align-items: center; background-color: #0b0b0d; border-radius: 8px; border: 1px solid var(--border-subtle); padding: 2px; }
+        .qty-counter-btn { width: 28px; height: 28px; background: none; border: none; color: var(--text-pure); font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        .qty-counter-btn:hover { background-color: #25252b; }
+        .qty-display-value { width: 30px; text-align: center; font-size: 13px; font-weight: 700; color: var(--text-pure); }
+        .checkout-bar-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding: 24px 32px; background-color: #0d0d0f; border: 1px solid var(--border-subtle); border-radius: 16px; }
 
         /* Client Diagnostic Terminal Window */
         .chat-console-box { background-color: #0f0f12; border: 1px solid var(--border-subtle); border-radius: 16px; height: 400px; display: flex; flex-direction: column; overflow: hidden; }
@@ -245,24 +249,28 @@
         .btn-standard { background-color: var(--bg-input); color: var(--text-pure); border: 1px solid var(--border-subtle); }
         .btn-premium { background-color: var(--gold-premium); color: #000000; }
 
-        /* Accordion Presets */
+        /* Accordions */
         .accordion-item { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
         .accordion-header { width: 100%; background: none; border: none; padding: 18px 24px; text-align: left; font-size: 15px; font-weight: 600; color: var(--text-pure); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .accordion-header::after { content: '+'; font-size: 18px; color: var(--brand-green); }
         .accordion-item.open .accordion-header::after { content: '−'; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; }
         .accordion-body { padding: 0 24px 20px 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        .agent-notice-box { background-color: rgba(239, 83, 80, 0.04); border: 1px solid rgba(239, 83, 80, 0.15); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
+        .notice-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+        .notice-text strong { color: var(--alert-red); }
     </style>
 </head>
 <body onload="syncLocationProfile()">
 
 <div class="dashboard-container basic-mode" id="masterDashboardWrapper">
     
-    <!-- Top Nav Application Console Header Wrapper -->
+    <!-- Header Wrapper -->
     <div class="dashboard-header">
         <div class="brand-logo">🛡️ Super Pest Trap <span>Console</span></div>
         
-        <!-- Account Status Toggle Trigger Core Switcher -->
+        <!-- Live Account Switcher Widget -->
         <div class="tier-switcher-wrapper">
             <button class="tier-toggle-btn active basic" id="btnSwitchBasic" onclick="changeAccountTier('basic')">Standard (Free)</button>
             <button class="tier-toggle-btn premium" id="btnSwitchPremium" onclick="changeAccountTier('premium')">💎 Premium Pro</button>
@@ -273,12 +281,13 @@
             <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Logis & Power</button>
             <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
             <button class="tab-btn premium-tab" onclick="openPanel(event, 'report-panel')">📊 Audit Report</button>
+            <button class="tab-btn" onclick="openPanel(event, 'order-panel')">🛒 Order Products</button>
             <button class="tab-btn" onclick="openPanel(event, 'sub-panel')">💎 Subscription</button>
-            <button class="tab-btn" onclick="openPanel(event, 'help-panel')">💬 Support</button>
+            <button class="tab-btn" id="supportMenuTabElement" onclick="openPanel(event, 'help-panel')">💬 Support</button>
         </div>
     </div>
 
-    <!-- PANEL 1: SCENT CONFIGURATION & TARGET METRIC MATRIX -->
+    <!-- PANEL 1: SCENT CONFIGURATION MATRIX -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column">
             <div>
@@ -304,7 +313,6 @@
                     </div>
                 </div>
 
-                <!-- FREEMIUM ELEMENT LOCK VECTOR CUT: AI DATA ROOT CAUSE INSIGHT MATRIX -->
                 <div class="section-label">💡 AI Tracing & Source Recommendations <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper">
                     <div class="lock-overlay-badge">🔒 Upgrade to Pro for AI Advisory</div>
@@ -326,7 +334,6 @@
                     </div>
                 </div>
 
-                <!-- FREEMIUM ELEMENT LOCK VECTOR CUT: BIOLOGICAL WEATHER PREDICTION RADAR -->
                 <div class="section-label" style="margin-top: 24px;">🔮 Predictive Outbreak Forecasting <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper">
                     <div class="lock-overlay-badge">🔒 Locked: Outbreak Forecast</div>
@@ -340,7 +347,7 @@
         </div>
     </div>
 
-    <!-- PANEL 2: POWER core LOGISTICS & INTEGRATED SUPPLY CHAIN MANAGEMENT -->
+    <!-- PANEL 2: POWER LOGISTICS -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -360,11 +367,10 @@
             </div>
 
             <div>
-                <!-- FREEMIUM ELEMENT LOCK VECTOR CUT: AUTOMATED INVENTORY REFILL LOGISTICS PIPELINE -->
                 <div class="section-label">🚚 Logistic Smart Fulfillment <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper">
                     <div class="lock-overlay-badge">🔒 Locked: Supply Chain Automation</div>
-                    <div class="premium-locked-blur" class="metrics-container" style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 24px;">
+                    <div class="premium-locked-blur" style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 24px;">
                         <div style="font-size: 13px; font-weight: bold; margin-bottom: 12px;">Bio-Adhesive & Sachet Capacity Tracking Array:</div>
                         <div class="metrics-row"><span>100% Non-Toxic Gel Level</span><span>14% (Replenishment Trigger)</span></div>
                         <div class="progress-bar-bg" style="margin-bottom: 16px;"><div class="progress-bar-fill" style="width: 14%; background-color: var(--alert-red);"></div></div>
@@ -377,13 +383,12 @@
         </div>
     </div>
 
-    <!-- PANEL 3: INTERACTIVE TIMELINE DATA SHEET ENGINE -->
+    <!-- PANEL 3: INTERACTIVE CLOUD DECK -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Cloud Engine & Spatiotemporal Heatmaps</h3>
         <p class="system-desc">Standard tier profiles track up to 48 hours of cloud video snapshots. Pro accounts unlock comprehensive heatmaps and extended logging.</p>
 
         <div class="media-deck-frame" id="masterStageDeck">
-            <!-- Stage 1: Spatial Card Selectors Grid -->
             <div class="deck-stage active" id="stage-places">
                 <div class="places-stage-grid">
                     <div class="place-picture-card" onclick="loadStageGraph('zone1')">
@@ -401,13 +406,11 @@
                 </div>
             </div>
 
-            <!-- Stage 2: Spatiotemporal Chart Visual Viewport -->
             <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
                 <div class="graph-header-row">
                     <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
                     <button class="back-nav-btn" onclick="resetToStagePlaces(event)">↩ Back to Places</button>
                 </div>
-                
                 <div style="position: relative; height: 100%; width: 100%;">
                     <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:140px;">
                         <line x1="50" y1="130" x2="750" y2="130" stroke="#333" stroke-width="2"/>
@@ -424,7 +427,6 @@
                 </div>
             </div>
 
-            <!-- Stage 3: Operational Spreadsheet Logging Output -->
             <div class="deck-stage data-table-view" id="stage-table">
                 <div class="graph-header-row">
                     <div id="tableTitleField" class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
@@ -446,14 +448,13 @@
             </div>
         </div>
 
-        <div class="info-grid">
+        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
             <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" id="cloudStorageStatusText">48h Roll Retention</div></div>
             <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent);">Encrypted</div></div>
             <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent);">Single Terminal View</div></div>
             <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" id="exportActionStatusText" style="color: var(--text-secondary);">App Inline Visual Only</div></div>
         </div>
 
-        <!-- 7-Day Storage Timeline Archive Row Selector -->
         <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
         <div class="history-gallery-row">
             <div class="history-video-card active" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')"><div class="video-thumb-mockup"></div><div class="history-day-label">1 Day Ago</div><div class="history-zone-tag">Kitchen</div></div>
@@ -466,7 +467,7 @@
         </div>
     </div>
 
-    <!-- PANEL 4: AUTOMATED REGULATORY COMPLIANCE AUDIT REPORTS (PREMIUM ONLY GATE) -->
+    <!-- PANEL 4: AUTOMATED REGULATORY COMPLIANCE AUDIT REPORTS -->
     <div id="report-panel" class="panel-content">
         <h3 class="system-title">Automated PCO & Commercial Compliance Report</h3>
         <p class="system-desc">Compile and compile institutional white papers matching international HACCP, ISO 22000, and Ministry of Health (MOH) audit frameworks automatically.</p>
@@ -481,29 +482,92 @@
                     </div>
                     <div class="report-stamp">MOH AUDIT COMPLIANT</div>
                 </div>
-
                 <div style="margin-top: 24px; font-size: 14px; line-height: 1.8; color: #d0d0d5;">
                     <p><strong>Audit Location Summary:</strong> Based on multi-node infrared tracking logs and convolutional image array diagnostics, current hardware nodes are fully within compliant thresholds. Total monthly biological capture events: 399. Resolution rate of safe disposal sequence: 98.4%. Overall vector biological density rating evaluated at: <strong>[Excellent - High Security Zone]</strong>.</p>
                 </div>
-
                 <div class="report-meta-grid">
                     <div><div class="card-label">Report Code</div><div style="font-size: 15px; font-weight: bold;">PCO-2026-UKM-05</div></div>
                     <div><div class="card-label">Regulatory Standards</div><div style="font-size: 15px; font-weight: bold; color: var(--brand-green);">HACCP & ISO 22000</div></div>
                     <div><div class="card-label">Digital Signature ID</div><div style="font-size: 13px; font-family: monospace; color: var(--blue-accent);">SEC-KEY-99F2X77</div></div>
                 </div>
-                
                 <button class="sub-btn btn-premium" style="margin-top: 32px; width: auto; padding: 12px 32px;">🖨️ Print Official Audit Report</button>
             </div>
         </div>
     </div>
 
-    <!-- PANEL 5: MONETIZATION COMMERCIAL PACKAGE PRICING MATRIX -->
+    <!-- MAINTAINED & COMPLETED FEATURE: BRAND NEW HARDWARE AND SCENT REFILL PLACE ORDER SECTION -->
+    <div id="order-panel" class="panel-content">
+        <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
+        <p class="system-desc">Order secondary base docks, replace adhesive tracking pads, or restock on eco-friendly non-toxic natural attractants instantly.</p>
+        
+        <div class="store-product-grid">
+            <!-- Product Item 1 -->
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">🛡️</div>
+                    <h4 class="item-title-text">Super Pest Trap Smart Dock</h4>
+                    <p class="item-desc-text">Core hardware assembly containing miniature infrared thermal camera modules and weight monitoring matrices.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 199.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-dock', -1)">-</button>
+                        <div class="qty-display-value" id="qty-dock">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-dock', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 2 -->
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">🍃</div>
+                    <h4 class="item-title-text">Natural Pandan Refill Sachet</h4>
+                    <p class="item-desc-text">100% bio-organic scented sachet designed specifically for targeted catch profiling within cafeteria environments.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 15.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-pandan', -1)">-</button>
+                        <div class="qty-display-value" id="qty-pandan">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-pandan', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 3 -->
+            <div class="store-item-card">
+                <div>
+                    <div class="item-icon-frame">☕</div>
+                    <h4 class="item-title-text">Roasted Coffee Blend Sachet</h4>
+                    <p class="item-desc-text">High-density population drawing matrix using carbonized roasted molecules to optimize attraction speeds.</p>
+                </div>
+                <div class="item-pricing-row">
+                    <div class="item-cost">RM 15.00</div>
+                    <div class="quantity-control-hub">
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-coffee', -1)">-</button>
+                        <div class="qty-display-value" id="qty-coffee">0</div>
+                        <button class="qty-counter-btn" onclick="adjustProductQty('qty-coffee', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Interactive Action Bar Footer -->
+        <div class="checkout-bar-footer">
+            <div>
+                <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Logistics Pipeline Destination</div>
+                <div style="font-size: 15px; font-weight: bold; margin-top: 4px; color: var(--text-pure);" id="checkoutLocationAddressDisplay">Selected Kitchen Main Hub Address</div>
+            </div>
+            <button class="sub-btn btn-premium" style="width: auto; padding: 14px 40px; border-radius: 8px;" onclick="dispatchStoreOrderRequest()">🛒 Complete Order Placement</button>
+        </div>
+    </div>
+
+    <!-- PANEL 5: MONETIZATION COMMERCIAL PACKAGES -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
         <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
-
         <div class="subscription-grid" style="margin-top: 32px;">
-            <!-- Free Standard Package Option -->
             <div class="sub-card">
                 <div>
                     <div class="tier-name">Standard Basic Tier</div>
@@ -517,8 +581,6 @@
                 </div>
                 <button class="sub-btn btn-standard" id="cardBtnBasic" onclick="changeAccountTier('basic')">Active Free Account</button>
             </div>
-
-            <!-- Pro Subscription Package Option -->
             <div class="sub-card premium-tier">
                 <span class="tier-badge">Recommended</span>
                 <div>
@@ -538,7 +600,7 @@
         </div>
     </div>
 
-    <!-- PANEL 6: SELF-SERVICE COMMUNICATION CONSOLE TERMINAL -->
+    <!-- PANEL 6: FULLY MAINTAINED SELF-SERVICE CUSTOMER SERVICE & FAQ ACCORDION HUB -->
     <div id="help-panel" class="panel-content">
         <h3 class="system-title">Automated Diagnostics Support Hub</h3>
         <p class="system-desc">This ecosystem runs autonomously under code-driven management vectors to optimize operation costs. Live agents are unassigned.</p>
@@ -582,7 +644,7 @@
                 </div>
             </div>
 
-            <!-- Terminal Mock-up Script Workspace -->
+            <!-- Terminal Support Console Engine Space -->
             <div>
                 <div class="section-label">Live Support Command Console</div>
                 <div class="chat-console-box">
@@ -601,13 +663,13 @@
 </div>
 
 <script>
-    // Core hardware profile maps
+    // Core hardware profile profiles
     const locationProfiles = {
-        kpz: { scentTarget: "☕ Composite Coffee Matrix (KPZ Site Central)", aiEngine: "Fly/Mosquito Standard Classifier", lifespan: "12 Days", percent: 45 },
-        kiy: { scentTarget: "🍃 Eco-Pandan Essence Extraction (KIY Defense Perimeter)", aiEngine: "Pandan Adaptive Core Regular v1", lifespan: "28 Days", percent: 85 }
+        kpz: { scentTarget: "☕ Composite Coffee Matrix (KPZ Site Central)", aiEngine: "Fly/Mosquito Standard Classifier", lifespan: "12 Days", percent: 45, address: "KPZ Kafeteria Main Receiving Bay, Kolej Pendeta Za'ba" },
+        kiy: { scentTarget: "🍃 Eco-Pandan Essence Extraction (KIY Defense)", aiEngine: "Pandan Adaptive Core Regular v1", lifespan: "28 Days", percent: 85, address: "KIY Kafeteria Loading Station, Kolej Ibrahim Yaakub" }
     };
 
-    // Multi-stage analytical telemetry historical mappings
+    // Multi-stage analytical logs
     const pipelineHistoryDataset = {
         d1: { bars: [20, 45, 95, 140], came: "114 Vectors Sighted", peak: "23:00 - 02:30 Deep Night", caught: "106 Secured on Matrix" },
         d2: { bars: [5, 12, 45, 85], came: "41 Vectors Sighted", peak: "00:05 - 03:00 Early Dawn Active", caught: "39 Secured on Matrix" },
@@ -620,7 +682,33 @@
 
     let selectedGlobalZoneKey = "zone1";
 
-    // Dynamic account logic model core switching engine
+    // E-commerce quantity adjustment script logic
+    function adjustProductQty(fieldId, variation) {
+        const displayElement = document.getElementById(fieldId);
+        let currentAmount = parseInt(displayElement.innerText);
+        currentAmount += variation;
+        if(currentAmount < 0) currentAmount = 0;
+        displayElement.innerText = currentAmount;
+    }
+
+    function dispatchStoreOrderRequest() {
+        const docks = document.getElementById("qty-dock").innerText;
+        const pandan = document.getElementById("qty-pandan").innerText;
+        const coffee = document.getElementById("qty-coffee").innerText;
+
+        if (docks === "0" && pandan === "0" && coffee === "0") {
+            alert("Checkout Error: Please update order counts to buy items before completing placement.");
+            return;
+        }
+        alert("Order Placement Verified! Procurement package token sent to fulfillment logs. Items are packing for dispatch routing.");
+        
+        // Reset quantities to zero upon success
+        document.getElementById("qty-dock").innerText = "0";
+        document.getElementById("qty-pandan").innerText = "0";
+        document.getElementById("qty-coffee").innerText = "0";
+    }
+
+    // Dynamic monetization engine switcher
     function changeAccountTier(tier) {
         const wrapper = document.getElementById("masterDashboardWrapper");
         const btnBasic = document.getElementById("btnSwitchBasic");
@@ -639,6 +727,7 @@
             document.getElementById("cloudStorageStatusText").innerText = "48h Roll Retention";
             document.getElementById("exportActionStatusText").innerText = "App Inline Visual Only";
             document.getElementById("exportActionStatusText").style.color = "var(--text-secondary)";
+            document.getElementById("tradeInField").innerText = "Manual Renewal Track Only";
         } else {
             wrapper.classList.remove("basic-mode");
             btnBasic.classList.remove("active");
@@ -650,10 +739,10 @@
             document.getElementById("cloudStorageStatusText").innerText = "30-Day Long Term Storage Active";
             document.getElementById("exportActionStatusText").innerText = "Unlocked: 1-Click PDF Export";
             document.getElementById("exportActionStatusText").style.color = "var(--brand-green)";
+            document.getElementById("tradeInField").innerText = "Free Upgrade In 12 Mo.";
         }
     }
 
-    // Interactive multi-stage dashboard route triggers
     function loadStageGraph(zoneKey) {
         const zoneNames = { zone1: "Main Cooking Line (Zone A)", zone2: "Dry Storage Pantry (Zone B)", zone3: "Waste Disposal Bin (Zone C)" };
         const baseBars = { zone1: [20, 45, 95, 140], zone2: [10, 25, 70, 115], zone3: [45, 80, 145, 155] };
@@ -723,6 +812,7 @@
         document.getElementById("capsuleLifespanField").innerText = prof.lifespan;
         document.getElementById("integrityPercentageField").innerText = prof.percent + "% Remaining";
         document.getElementById("integrityProgressBarFill").style.width = prof.percent + "%";
+        document.getElementById("checkoutLocationAddressDisplay").innerText = prof.address;
     }
 
     function openPanel(evt, panelId) {
