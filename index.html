@@ -33,7 +33,7 @@
             box-sizing: border-box;
         }
 
-        /* --- AUTHENTICATION MODAL --- */
+        /* --- OVERLAYS & MODALS --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -200,9 +200,11 @@
         .progress-bar-bg { background-color: #2a2a30; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { background-color: var(--brand-green); height: 100%; border-radius: 4px; transition: width 0.4s ease; }
 
-        .premium-lock-wrapper { position: relative; }
+        .premium-lock-wrapper { position: relative; cursor: pointer; transition: 0.2s; border-radius: 14px; }
+        .premium-lock-wrapper:hover { box-shadow: 0 0 15px rgba(156, 39, 176, 0.2); transform: translateY(-2px); }
         .premium-locked-blur { transition: all 0.3s ease; }
-        .dashboard-container.basic-mode .premium-locked-blur { filter: blur(5px); opacity: 0.2; pointer-events: none; }
+        /* Removed pointer-events:none so it remains clickable in basic mode to open Gemini */
+        .dashboard-container.basic-mode .premium-locked-blur { filter: blur(5px); opacity: 0.2; }
         
         .lock-overlay-badge {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -277,14 +279,14 @@
         .chat-text-field { flex: 1; background-color: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-pure); outline: none; box-sizing: border-box; }
         .chat-submit-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
-        /* Accordions Presets - FIXED ANIMATION */
+        /* Accordions Presets */
         .accordion-item { background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
         .accordion-header { width: 100%; background: none; border: none; padding: 18px 24px; text-align: left; font-size: 15px; font-weight: 600; color: var(--text-pure); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
         .accordion-header:hover { background-color: #232328; }
         .accordion-header::after { content: '+'; font-size: 18px; color: var(--brand-green); transition: 0.2s; }
         .accordion-item.open .accordion-header::after { content: '−'; color: var(--alert-red); transform: rotate(180deg); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .accordion-item.open .accordion-content { max-height: 400px; } /* Fixed Pop-up animation */
+        .accordion-item.open .accordion-content { max-height: 400px; } 
         .accordion-body { padding: 0 24px 20px 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 
         /* Other Panels (Store, Report, History, etc.) */
@@ -332,7 +334,9 @@
 </head>
 <body>
 
+<!-- AUTHENTICATION GATEWAY -->
 <div id="authModalOverlay" class="modal-overlay">
+    <!-- Login Form -->
     <div class="auth-box" id="loginFormContainer">
         <h2 class="auth-title">Operator Login</h2>
         <p class="auth-desc">Access the Super Pest Trap Dashboard</p>
@@ -344,6 +348,7 @@
         <div class="auth-switch" onclick="toggleAuthForms()">New Operator? Register System Token here</div>
     </div>
 
+    <!-- Sign Up Form -->
     <div class="auth-box" id="signupFormContainer" style="display: none;">
         <h2 class="auth-title">System Registration</h2>
         <p class="auth-desc">Initialize new command center operator</p>
@@ -356,6 +361,30 @@
         
         <button class="sub-btn btn-premium" onclick="authenticateUser()">Create Operator Token</button>
         <div class="auth-switch" onclick="toggleAuthForms()">Already initialized? Return to Login</div>
+    </div>
+</div>
+
+<!-- GEMINI AI BROWSER MODAL -->
+<div id="geminiModalOverlay" class="modal-overlay" style="display: none;">
+    <div class="auth-box" style="max-width: 650px; display: flex; flex-direction: column; height: 550px; padding: 0; overflow: hidden; border: 1px solid rgba(156, 39, 176, 0.4);">
+        <!-- Header -->
+        <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #1e1e22, #2a2a30);">
+            <div style="font-weight: 700; display: flex; align-items: center; gap: 8px; color: #fff;">✨ Gemini AI Advanced Diagnostics</div>
+            <button style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:24px; line-height: 1;" onclick="closeGeminiModal()">×</button>
+        </div>
+        
+        <!-- Chat Area -->
+        <div id="geminiChatArea" style="flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background-color: var(--bg-main);">
+            <div class="chat-bubble bot-bubble" style="border: 1px solid rgba(156, 39, 176, 0.3); background-color: rgba(156, 39, 176, 0.05); align-self: flex-start;">
+                I am Gemini, synced with your Super Pest Trap telemetry. I've analyzed the recent Drosophilidae spike in Zone X. How can I assist you with vector profiling or hardware realignment today?
+            </div>
+        </div>
+        
+        <!-- Input Area -->
+        <div style="padding: 16px; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; background-color: var(--bg-card);">
+            <input type="text" id="geminiInput" class="chat-text-field" placeholder="Ask Gemini to analyze trap data..." onkeypress="if(event.key === 'Enter') sendGeminiMessage()">
+            <button class="chat-submit-btn" style="background-color: var(--purple-ai); border-color: var(--purple-ai);" onclick="sendGeminiMessage()">Ask AI</button>
+        </div>
     </div>
 </div>
 
@@ -377,9 +406,10 @@
         </div>
 
         <div class="header-nav-row">
+            <!-- FULL NAVIGATION: SCENT & AI FIRST, LIVE CLOUD SECOND -->
             <div class="tab-menu">
-                <button class="tab-btn active" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
-                <button class="tab-btn" onclick="openPanel(event, 'scent-panel')">🌿 Scent & AI</button>
+                <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')">🌿 Scent & AI</button>
+                <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
                 <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Logis & Power</button>
                 <button class="tab-btn premium-tab" onclick="openPanel(event, 'report-panel')">📊 Audit Report</button>
                 <button class="tab-btn" onclick="openPanel(event, 'order-panel')">🛒 Order Products</button>
@@ -389,106 +419,8 @@
         </div>
     </div>
 
-    <div id="cloud-panel" class="panel-content active">
-        <h3 class="system-title">Surveillance Cloud Engine & Spatial Radar</h3>
-        <p class="system-desc">Interact with the real-time kitchen floor plan below. Select any blinking tactical node to populate detailed charting indexes.</p>
-
-        <div class="media-deck-frame" id="masterStageDeck">
-            <div class="deck-stage active" id="stage-places" style="height: 100%;">
-                <div class="spatial-stage-split">
-                    <div class="blueprint-canvas-frame">
-                        <div style="font-size: 11px; font-weight: bold; color: var(--alert-red); margin-bottom: 10px;">● Live Sensor Grid</div>
-                        <div class="blueprint-wall" style="top: 30px; left: 30px; width: 340px; height: 140px;">Cooking Hub Area [Zone A]</div>
-                        <div class="blueprint-wall" style="top: 30px; left: 400px; width: 260px; height: 140px;">Pantry Storage [Zone B]</div>
-                        <div class="blueprint-wall" style="top: 200px; left: 30px; width: 630px; height: 100px;">Sanitation & Disposal Zone [Zone C]</div>
-
-                        <div class="radar-node-pin pin-orange" style="top: 100px; left: 200px;" onmouseover="peekHudData('zone1')" onclick="loadStageGraph('zone1')"></div>
-                        <div class="radar-node-pin pin-green" style="top: 100px; left: 530px;" onmouseover="peekHudData('zone2')" onclick="loadStageGraph('zone2')"></div>
-                        <div class="radar-node-pin pin-red" style="top: 250px; left: 340px;" onmouseover="peekHudData('zone3')" onclick="loadStageGraph('zone3')"></div>
-                    </div>
-
-                    <div class="hud-telemetry-side">
-                        <div>
-                            <div class="hud-header-title">⚡ Live Terminal Telemetry</div>
-                            <div class="hud-stat-row"><span>Target Selected:</span><span id="hud-name" style="color: var(--blue-accent);">Hover Over Node</span></div>
-                            <div class="hud-stat-row"><span>Hardware ID:</span><span id="hud-id" style="font-family: monospace;">--</span></div>
-                            <div class="hud-stat-row"><span>Scent Sachet Vector:</span><span id="hud-scent">--</span></div>
-                            <div class="hud-stat-row"><span>Battery Core Level:</span><span id="hud-battery">--</span></div>
-                        </div>
-                        <div style="font-size: 11px; color: var(--text-secondary); text-align: center; border-top: 1px solid #222; padding-top: 12px;">
-                            Click any node pin to load advanced metrics.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
-                <div class="graph-header-row">
-                    <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
-                    <button class="back-nav-btn" onclick="resetToStagePlaces(event)">↩ Back to Blueprint</button>
-                </div>
-                <div style="position: relative; height: 100%; width: 100%;">
-                    <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:140px;">
-                        <line x1="50" y1="130" x2="750" y2="130" stroke="#333" stroke-width="2"/>
-                        <rect id="vbar0" x="100" y="110" width="40" height="20" fill="#333" rx="4"/>
-                        <text x="100" y="150" fill="#666" font-size="11">Morning</text>
-                        <rect id="vbar1" x="280" y="90" width="40" height="40" fill="#555" rx="4"/>
-                        <text x="280" y="150" fill="#666" font-size="11">Noon</text>
-                        <rect id="vbar2" x="460" y="30" width="40" height="100" fill="var(--blue-accent)" rx="4"/>
-                        <text x="460" y="150" fill="var(--blue-accent)" font-size="11" font-weight="bold">Night Stealth Phase</text>
-                        <rect id="vbar3" x="640" y="15" width="40" height="115" fill="var(--alert-red)" rx="4"/>
-                        <text x="640" y="150" fill="var(--alert-red)" font-size="11" font-weight="bold">Midnight Surge Peak</text>
-                    </svg>
-                    <div style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 10px;">📋 Click Graph Space to Open Detailed Metrics Table</div>
-                </div>
-            </div>
-
-            <div class="deck-stage data-table-view" id="stage-table">
-                <div class="graph-header-row">
-                    <div class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
-                    <button class="back-nav-btn" onclick="resetToStageGraph(event)">↩ Back to Graph</button>
-                </div>
-                <table class="premium-data-table">
-                    <thead>
-                        <tr>
-                            <th>Facility Zone Division</th>
-                            <th>Nightly Traffic Sighted (Came By)</th>
-                            <th>Peak Activity Window</th>
-                            <th>Physical Captures Secured</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="td-location" style="font-weight: 700;">-</td>
-                            <td id="td-came" style="color: var(--blue-accent); font-weight: bold;">0 Pests</td>
-                            <td id="td-peak" style="color: var(--gold-premium); font-weight: bold;">00:00 - 00:00</td>
-                            <td id="td-caught" style="color: var(--brand-green); font-weight: bold;">0 Caught</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" style="font-size: 16px;">48h Roll Retention</div></div>
-            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Encrypted</div></div>
-            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Single Terminal View</div></div>
-            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" style="color: var(--text-secondary); font-size: 16px;">App Inline Visual Only</div></div>
-        </div>
-
-        <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
-        <div class="history-gallery-row">
-            <div class="history-video-card active"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">1 Day Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Kitchen</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">2 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Scullery</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">3 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Storage</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">4 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Front Line</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">5 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Sanitation</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">6 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Rear Exit</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">7 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Prep Table</div></div>
-        </div>
-    </div>
-
-    <div id="scent-panel" class="panel-content">
+    <!-- PANEL 1: Scent & AI (Now the First / Active Panel) -->
+    <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
@@ -506,11 +438,14 @@
                 </div>
 
                 <div class="section-label">💡 AI Tracing & Source Recommendations <span class="premium-tag">Premium</span></div>
-                <div class="premium-lock-wrapper">
-                    <div class="lock-overlay-badge">🔒 Upgrade to Pro for AI Advisory</div>
+                
+                <!-- CLICKABLE GEMINI AI CARD -->
+                <div class="premium-lock-wrapper" onclick="openGeminiModal()">
+                    <div class="lock-overlay-badge">🔒 Upgrade to Pro / Click to Preview AI</div>
                     <div class="premium-locked-blur" style="background-color: rgba(156, 39, 176, 0.04); border: 1px dashed var(--purple-ai); border-radius: 14px; padding: 20px; font-size: 13px; line-height: 1.6;">
                         <span style="color: var(--purple-ai); font-weight: bold;">[AI Trace Diagnostics Log]</span><br>
                         Recent fruit fly (Drosophilidae) volume has spiked by 200%. Deep visual frame background vector analysis suggests Kitchen Waste Bin #2 seal is compromised or decomposing organic waste remains beneath the rack arrays. Action Profile: Audit Zone X, re-align hardware housing dock 45° Southeast facing toward shelf intersection nodes.
+                        <div style="margin-top: 10px; font-size: 11px; font-weight: bold; color: var(--purple-ai);">✨ Click to open Gemini Browser...</div>
                     </div>
                 </div>
             </div>
@@ -602,6 +537,110 @@
         </div>
     </div>
 
+    <!-- PANEL 2: Cloud Radar Panel (Now the Second Panel) -->
+    <div id="cloud-panel" class="panel-content">
+        <h3 class="system-title">Surveillance Cloud Engine & Spatial Radar</h3>
+        <p class="system-desc">Interact with the real-time kitchen floor plan below. Select any blinking tactical node to populate detailed charting indexes.</p>
+
+        <div class="media-deck-frame" id="masterStageDeck">
+            <!-- STAGE 1: Radar -->
+            <div class="deck-stage active" id="stage-places" style="height: 100%;">
+                <div class="spatial-stage-split">
+                    <div class="blueprint-canvas-frame">
+                        <div style="font-size: 11px; font-weight: bold; color: var(--alert-red); margin-bottom: 10px;">● Live Sensor Grid</div>
+                        <div class="blueprint-wall" style="top: 30px; left: 30px; width: 340px; height: 140px;">Cooking Hub Area [Zone A]</div>
+                        <div class="blueprint-wall" style="top: 30px; left: 400px; width: 260px; height: 140px;">Pantry Storage [Zone B]</div>
+                        <div class="blueprint-wall" style="top: 200px; left: 30px; width: 630px; height: 100px;">Sanitation & Disposal Zone [Zone C]</div>
+
+                        <div class="radar-node-pin pin-orange" style="top: 100px; left: 200px;" onmouseover="peekHudData('zone1')" onclick="loadStageGraph('zone1')"></div>
+                        <div class="radar-node-pin pin-green" style="top: 100px; left: 530px;" onmouseover="peekHudData('zone2')" onclick="loadStageGraph('zone2')"></div>
+                        <div class="radar-node-pin pin-red" style="top: 250px; left: 340px;" onmouseover="peekHudData('zone3')" onclick="loadStageGraph('zone3')"></div>
+                    </div>
+
+                    <div class="hud-telemetry-side">
+                        <div>
+                            <div class="hud-header-title">⚡ Live Terminal Telemetry</div>
+                            <div class="hud-stat-row"><span>Target Selected:</span><span id="hud-name" style="color: var(--blue-accent);">Hover Over Node</span></div>
+                            <div class="hud-stat-row"><span>Hardware ID:</span><span id="hud-id" style="font-family: monospace;">--</span></div>
+                            <div class="hud-stat-row"><span>Scent Sachet Vector:</span><span id="hud-scent">--</span></div>
+                            <div class="hud-stat-row"><span>Battery Core Level:</span><span id="hud-battery">--</span></div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-secondary); text-align: center; border-top: 1px solid #222; padding-top: 12px;">
+                            Click any node pin to load advanced metrics.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 2: Graph -->
+            <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
+                <div class="graph-header-row">
+                    <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
+                    <button class="back-nav-btn" onclick="resetToStagePlaces(event)">↩ Back to Blueprint</button>
+                </div>
+                <div style="position: relative; height: 100%; width: 100%;">
+                    <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:140px;">
+                        <line x1="50" y1="130" x2="750" y2="130" stroke="#333" stroke-width="2"/>
+                        <rect id="vbar0" x="100" y="110" width="40" height="20" fill="#333" rx="4"/>
+                        <text x="100" y="150" fill="#666" font-size="11">Morning</text>
+                        <rect id="vbar1" x="280" y="90" width="40" height="40" fill="#555" rx="4"/>
+                        <text x="280" y="150" fill="#666" font-size="11">Noon</text>
+                        <rect id="vbar2" x="460" y="30" width="40" height="100" fill="var(--blue-accent)" rx="4"/>
+                        <text x="460" y="150" fill="var(--blue-accent)" font-size="11" font-weight="bold">Night Stealth Phase</text>
+                        <rect id="vbar3" x="640" y="15" width="40" height="115" fill="var(--alert-red)" rx="4"/>
+                        <text x="640" y="150" fill="var(--alert-red)" font-size="11" font-weight="bold">Midnight Surge Peak</text>
+                    </svg>
+                    <div style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 10px;">📋 Click Graph Space to Open Detailed Metrics Table</div>
+                </div>
+            </div>
+
+            <!-- STAGE 3: Data Table Matrix (Dynamically Populated) -->
+            <div class="deck-stage data-table-view" id="stage-table">
+                <div class="graph-header-row">
+                    <div class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
+                    <button class="back-nav-btn" onclick="resetToStageGraph(event)">↩ Back to Graph</button>
+                </div>
+                <table class="premium-data-table">
+                    <thead>
+                        <tr>
+                            <th>Facility Zone Division</th>
+                            <th>Nightly Traffic Sighted (Came By)</th>
+                            <th>Peak Activity Window</th>
+                            <th>Physical Captures Secured</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="td-location" style="font-weight: 700;">-</td>
+                            <td id="td-came" style="color: var(--blue-accent); font-weight: bold;">0 Pests</td>
+                            <td id="td-peak" style="color: var(--gold-premium); font-weight: bold;">00:00 - 00:00</td>
+                            <td id="td-caught" style="color: var(--brand-green); font-weight: bold;">0 Caught</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" style="font-size: 16px;">48h Roll Retention</div></div>
+            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Encrypted</div></div>
+            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Single Terminal View</div></div>
+            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" style="color: var(--text-secondary); font-size: 16px;">App Inline Visual Only</div></div>
+        </div>
+
+        <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
+        <div class="history-gallery-row">
+            <div class="history-video-card active"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">1 Day Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Kitchen</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">2 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Scullery</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">3 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Storage</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">4 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Front Line</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">5 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Sanitation</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">6 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Rear Exit</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">7 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Prep Table</div></div>
+        </div>
+    </div>
+
+    <!-- PANEL 3: Logis & Power -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -637,6 +676,7 @@
         </div>
     </div>
 
+    <!-- PANEL 4: Audit Report -->
     <div id="report-panel" class="panel-content">
         <h3 class="system-title">Automated PCO & Commercial Compliance Report</h3>
         <p class="system-desc">Compile regulatory compliance sheets matching international HACCP, ISO 22000, and regional Ministry of Health audit frameworks instantly.</p>
@@ -664,6 +704,7 @@
         </div>
     </div>
 
+    <!-- PANEL 5: Store / Order Panel -->
     <div id="order-panel" class="panel-content">
         <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
         <p class="system-desc">Order secondary base docks, replace adhesive tracking pads, or restock on eco-friendly non-toxic natural attractants instantly.</p>
@@ -746,11 +787,13 @@
         </div>
     </div>
 
+    <!-- PANEL 6: Maintenance & Repair Panel -->
     <div id="maintenance-panel" class="panel-content">
         <h3 class="system-title">Expert Service & Maintenance Dispatch</h3>
         <p class="system-desc">Schedule an on-site visit from our certified technicians to resolve hardware faults, camera calibration issues, or software anomalies.</p>
 
         <div class="grid-two-column">
+            <!-- Booking Form Column -->
             <div class="metrics-container" style="padding: 30px; margin-bottom: 0;">
                 <div class="section-label">1. Select Diagnostic Issue</div>
                 <div class="select-wrapper">
@@ -785,9 +828,11 @@
                 <button class="sub-btn btn-premium" style="margin-top: 32px;" onclick="submitMaintenanceRequest()">🛠️ Confirm & Book Technician</button>
             </div>
 
+            <!-- Status / Tracker Column -->
             <div>
                 <div class="section-label">Active Dispatch Tokens</div>
                 
+                <!-- Empty State -->
                 <div class="agent-notice-box" id="noActiveBookingState">
                     <div style="font-size: 20px;">ℹ️</div>
                     <div class="notice-text">
@@ -795,6 +840,7 @@
                     </div>
                 </div>
                 
+                <!-- Active Booking State (Hidden by default) -->
                 <div class="cs-hidden-container" id="activeBookingState" style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 24px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 12px;">
                         <span style="color: var(--gold-premium); font-weight: bold; font-size: 12px;">STATUS: DISPATCHED</span>
@@ -823,6 +869,7 @@
         </div>
     </div>
 
+    <!-- PANEL 7: Subscription Panel -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
         <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
@@ -884,6 +931,45 @@
         document.getElementById('authModalOverlay').style.display = 'none';
         document.getElementById('activeUserDisplay').style.display = 'block';
         document.getElementById('userNameText').innerText = operatorName;
+    }
+
+    // --- GEMINI AI BROWSER LOGIC ---
+    function openGeminiModal() {
+        document.getElementById('geminiModalOverlay').style.display = 'flex';
+        // Auto focus the input field for quick typing
+        setTimeout(() => document.getElementById('geminiInput').focus(), 100);
+    }
+
+    function closeGeminiModal() {
+        document.getElementById('geminiModalOverlay').style.display = 'none';
+    }
+
+    function sendGeminiMessage() {
+        const inputField = document.getElementById("geminiInput");
+        const chatArea = document.getElementById("geminiChatArea");
+        const message = inputField.value.trim();
+
+        if(message !== "") {
+            // Append User Message
+            const userDiv = document.createElement("div");
+            userDiv.className = "chat-bubble user-bubble";
+            userDiv.innerText = message;
+            chatArea.appendChild(userDiv);
+
+            inputField.value = "";
+            chatArea.scrollTop = chatArea.scrollHeight; // Auto scroll
+
+            // Simulate Gemini AI Response
+            setTimeout(() => {
+                const botDiv = document.createElement("div");
+                botDiv.className = "chat-bubble bot-bubble";
+                botDiv.style.border = "1px solid rgba(156, 39, 176, 0.3)";
+                botDiv.style.backgroundColor = "rgba(156, 39, 176, 0.05)";
+                botDiv.innerText = "Analyzing vector parameters... Processing environmental data grids for your request. Please stand by for automated recalibration suggestions.";
+                chatArea.appendChild(botDiv);
+                chatArea.scrollTop = chatArea.scrollHeight; // Auto scroll
+            }, 800);
+        }
     }
 
     // --- 2. DYNAMIC RADAR TO TABLE DATABASE LOGIC ---
@@ -950,8 +1036,11 @@
 
     function changeAccountTier(tier) { 
         const w = document.getElementById("masterDashboardWrapper"); 
-        if(tier === 'basic') w.classList.add("basic-mode"); 
-        else w.classList.remove("basic-mode"); 
+        if(tier === 'basic') {
+            w.classList.add("basic-mode");
+        } else {
+            w.classList.remove("basic-mode"); 
+        }
     }
 
     function revealCustomerServiceTerminal() { 
