@@ -413,9 +413,9 @@
         </div>
     </div>
 
-    <!-- PANEL 1: Scent & AI (UPDATED: Battery & Runtime Metrics added to Matrix) -->
+    <!-- PANEL 1: Scent & AI -->
     <div id="scent-panel" class="panel-content active">
-        <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
+        <div class="grid-two-column" style="margin-bottom: 10px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
                 <p class="system-desc">Standard classification is powered by our free core vision algorithm. Advanced tier unlocks deep AI root-cause analysis vectors.</p>
@@ -433,7 +433,6 @@
 
                 <div class="section-label">Scent Deployment Matrix</div>
                 <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; margin-bottom: 24px;">
-                    <!-- Expanded Columns Grid for Battery and Est. Runtime -->
                     <div style="display:grid; grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size:11px; font-weight:700; color:var(--text-secondary);">
                         <span>FACILITY LOCATION</span>
                         <span>ACTIVE SCENT</span>
@@ -481,64 +480,6 @@
                         <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Based on regional multi-day precipitation meteorological telemetry:</div>
                         <div style="font-size: 15px; font-weight: 700; color: var(--gold-premium);">82% Probability of Storage Pest (Termite/Weevil) Outbreak Next Week</div>
                         <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Recommendation: Deploy specific attraction elements on glue pads early to establish defensive perimeter barriers.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="section-label">Support Services Access Lane</div>
-            <div class="cs-activation-card" id="csActivationTriggerCard" onclick="revealCustomerServiceTerminal()">
-                <div style="font-size: 32px;">💬</div>
-                <h4 style="margin: 0; font-size: 16px; font-weight: 700;">Press to Open Customer Service Console</h4>
-                <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Launches interactive FAQ matrix protocols and routes diagnostic streams to live operational desks.</p>
-            </div>
-            <div class="cs-hidden-container" id="csDynamicTargetContainer">
-                <div class="grid-two-column">
-                    <div>
-                        <div class="section-label">Interactive FAQ Knowledge Matrix</div>
-                        <div class="accordion-item">
-                            <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
-                            <div class="accordion-content">
-                                <div class="accordion-body">
-                                    <strong style="color: var(--text-pure);">Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
-                                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
-                            <div class="accordion-content">
-                                <div class="accordion-body">
-                                    <strong style="color: var(--text-pure);">Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
-                                    A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
-                            <div class="accordion-content">
-                                <div class="accordion-body">
-                                    <strong style="color: var(--text-pure);">Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
-                                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="section-label">Live Support Command Console</div>
-                        <div class="chat-console-box">
-                            <div class="chat-console-header">
-                                <div><span class="online-dot"></span> Automated Assistant</div>
-                                <div style="font-size: 11px; color: var(--gold-premium); font-weight: bold;">STAGE 1 LOGGING</div>
-                            </div>
-                            <div class="chat-log-viewport">
-                                <div class="chat-bubble bot-bubble">Welcome to the Super Pest Trap network grid. Select an FAQ topic on the left or type a message below to log a diagnostic request.</div>
-                            </div>
-                            <div class="chat-input-row">
-                                <input type="text" id="chatInputFieldMain" class="chat-text-field" placeholder="Type your request here...">
-                                <button class="chat-submit-btn" onclick="executeChatMessageMain('chatInputFieldMain')">Send</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -931,10 +872,11 @@
         </div>
     </div>
 
-    <!-- PANEL 8: CONTACT US PANEL -->
+    <!-- PANEL 8: CONTACT US PANEL (UPDATED: FAQ and Command Console merged here) -->
     <div id="contact-panel" class="panel-content">
         <h3 class="system-title">Contact Support & AI Diagnostics</h3>
-        <p class="system-desc">Reach out to our live human customer service agents for account help, or instantly query our embedded Gemini AI for deep technical diagnostics.</p>
+        <p class="system-desc">Reach out to our live human customer service agents for account help, instantly query our embedded Gemini AI for deep technical diagnostics, or browse our automated knowledge base.</p>
+        
         <div class="grid-two-column">
             <div>
                 <div class="section-label">Live Customer Service Request</div>
@@ -979,6 +921,59 @@
                     <div class="chat-input-row" style="background-color: var(--bg-card);">
                         <input type="text" id="geminiContactInput" class="chat-text-field" placeholder="Ask Gemini..." onkeypress="if(event.key === 'Enter') sendGeminiMessage('geminiContactInput', 'geminiContactChatArea')">
                         <button class="chat-submit-btn" style="background-color: var(--purple-ai); border-color: var(--purple-ai);" onclick="sendGeminiMessage('geminiContactInput', 'geminiContactChatArea')">Ask AI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moved entirely from Scent & AI Panel -->
+        <div style="border-top: 1px solid var(--border-subtle); margin-top: 40px; padding-top: 40px;">
+            <div class="section-label" style="font-size: 14px; margin-bottom: 24px;">Support Services Access Lane</div>
+            <div class="grid-two-column">
+                <div>
+                    <div class="section-label">Interactive FAQ Knowledge Matrix</div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">1. Component Replacement</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong style="color: var(--text-pure);">Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
+                                A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">2. Smart Dock Upkeep</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong style="color: var(--text-pure);">Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
+                                A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">3. Inspection & Compliance Data</button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <strong style="color: var(--text-pure);">Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
+                                A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="section-label">Live Support Command Console</div>
+                    <div class="chat-console-box">
+                        <div class="chat-console-header">
+                            <div><span class="online-dot"></span> Automated Assistant</div>
+                            <div style="font-size: 11px; color: var(--gold-premium); font-weight: bold;">STAGE 1 LOGGING</div>
+                        </div>
+                        <div class="chat-log-viewport">
+                            <div class="chat-bubble bot-bubble">Welcome to the Super Pest Trap network grid. Select an FAQ topic on the left or type a message below to log a diagnostic request.</div>
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="chatInputFieldMain" class="chat-text-field" placeholder="Type your request here...">
+                            <button class="chat-submit-btn" onclick="executeChatMessageMain('chatInputFieldMain')">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1141,22 +1136,18 @@
         
         if(tier === 'basic') {
             w.classList.add("basic-mode");
-            cardWarranty.innerText = "12-Mo Standard Plan";
-            panelWarranty.innerText = "12-Mo Standard Plan";
+            if(cardWarranty) cardWarranty.innerText = "12-Mo Standard Plan";
+            if(panelWarranty) panelWarranty.innerText = "12-Mo Standard Plan";
         } else {
             w.classList.remove("basic-mode"); 
-            cardWarranty.innerText = "36-Mo Premium Plan 💎";
-            panelWarranty.innerText = "36-Mo Premium Plan 💎";
+            if(cardWarranty) cardWarranty.innerText = "36-Mo Premium Plan 💎";
+            if(panelWarranty) panelWarranty.innerText = "36-Mo Premium Plan 💎";
         }
     }
 
-    function revealCustomerServiceTerminal() { 
-        document.getElementById("csActivationTriggerCard").style.display = "none"; 
-        document.getElementById("csDynamicTargetContainer").style.display = "block"; 
-    }
     function executeChatMessageMain(inputId) { 
         const input = document.getElementById(inputId);
-        if(input.value.trim() !== "") {
+        if(input && input.value.trim() !== "") {
             alert("Diagnostic Token Logged: " + input.value); 
             input.value = "";
         }
