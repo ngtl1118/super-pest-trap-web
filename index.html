@@ -322,8 +322,8 @@
         .tier-price { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
         .tier-price span { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
         .feature-list { list-style: none; padding: 0; margin: 0 0 32px 0; }
-        .feature-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .feature-list li::before { content: '✓'; color: var(--brand-green); font-weight: 700; }
+        .feature-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+        .feature-list li::before { content: '✓'; color: var(--brand-green); font-weight: 700; margin-top: 2px; }
         .sub-card.premium-tier .feature-list li::before { color: var(--gold-premium); }
 
         .sub-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
@@ -872,7 +872,7 @@
         </div>
     </div>
 
-    <!-- PANEL 8: CONTACT US PANEL -->
+    <!-- PANEL 8: CONTACT US PANEL (UPDATED WITH COMBINED FAQ/SUPPORT CONSOLE) -->
     <div id="contact-panel" class="panel-content">
         <h3 class="system-title">Contact Support & AI Diagnostics</h3>
         <p class="system-desc">Reach out to our live human customer service agents for account help, instantly query our embedded Gemini AI for deep technical diagnostics, or browse our automated knowledge base.</p>
@@ -989,10 +989,10 @@
                     <div class="tier-name">Standard Basic Tier</div>
                     <div class="tier-price">RM 0 <span>/ Free Lifetime</span></div>
                     <ul class="feature-list">
-                        <li>Core high-volume insect capture local push alert parameters</li>
-                        <li>Isolated single-terminal smartphone app viewer display access</li>
-                        <li>48-hour rolling server text logging and full-load image snapshot retention</li>
-                        <li>Standard hardware warranty with automated FAQ diagnostic center troubleshooting</li>
+                        <li><strong>Basic Alerts:</strong> High-volume capture notifications</li>
+                        <li><strong>Single Access:</strong> Isolated mobile app viewer</li>
+                        <li><strong>Basic Cloud:</strong> 48-hour image & log retention</li>
+                        <li><strong>Standard Support:</strong> 12-month warranty & automated FAQ</li>
                     </ul>
                 </div>
                 <button class="sub-btn btn-standard" id="cardBtnBasic" onclick="changeAccountTier('basic')">Active Free Account</button>
@@ -1003,12 +1003,13 @@
                     <div class="tier-name" style="color: var(--gold-premium);">Premium AI Pro Plan</div>
                     <div class="tier-price" style="color: var(--gold-premium);">RM 29 <span>/ month per unit</span></div>
                     <ul class="feature-list">
-                        <li>Micro / rare vector pest class analysis + predictive meteorological risk defense maps</li>
-                        <li><strong>Deep AI Root-Cause Tracking Engine:</strong> Generates immediate workspace action parameters</li>
-                        <li>Automated document compilers exporting verified <strong>HACCP / ISO 22000 / MOH</strong> audit files</li>
-                        <li><strong>Smart Supply Logistics Chain:</strong> Automatic adhesive & cartridge dispatches when levels lower</li>
-                        <li>30-day extended high-resolution secure video history cloud storage vaulting</li>
-                        <li>Centralized Master Web Dashboard linking telemetry data across multiple venues simultaneously</li>
+                        <li><strong>Predictive AI:</strong> Outbreak forecasting & risk defense maps</li>
+                        <li><strong>Root-Cause Tracking:</strong> Immediate workspace action parameters</li>
+                        <li><strong>Audit Compilers:</strong> Verified HACCP / ISO 22000 / MOH files</li>
+                        <li><strong>Smart Logistics:</strong> Auto-dispatch of refills when levels drop</li>
+                        <li><strong>Cloud Vault:</strong> 30-day extended high-resolution video history</li>
+                        <li><strong>Master Dashboard:</strong> Multi-venue telemetry syncing</li>
+                        <li><strong>Extended Warranty:</strong> 36-month coverage + Live Support</li>
                     </ul>
                 </div>
                 <button class="sub-btn btn-premium" id="cardBtnPremium" onclick="changeAccountTier('premium')">Upgrade to Premium Pro</button>
@@ -1057,7 +1058,6 @@
         const message = inputField.value.trim();
         
         if(message !== "") {
-            // Append User Message
             const userDiv = document.createElement("div");
             userDiv.className = "chat-bubble user-bubble";
             userDiv.innerText = message;
@@ -1065,7 +1065,6 @@
             inputField.value = "";
             chatArea.scrollTop = chatArea.scrollHeight; 
 
-            // Convert to lowercase to analyze keywords for direct smart answering
             const query = message.toLowerCase();
             let aiReply = "Analyzing system architecture parameters... Environmental tracking logs are clear. Please refine your query to ask about battery status, scent configuration, pilot cafeterias (KPZ/KIY), or hardware errors.";
 
@@ -1081,7 +1080,6 @@
                 aiReply = "Enterprise Identification Log: Super Pest Trap is engineered and commercialized by Group 6 (Lai Cai) under UKM course parameter framework LMCW1022. Executive operations are directed by CEO Ng Teck Liang alongside co-founding staff managers Azrul, Nabil, Austin, and Muhammad Izzat.";
             }
 
-            // Append Intelligent AI Bot Response
             setTimeout(() => {
                 const botDiv = document.createElement("div");
                 botDiv.className = "chat-bubble bot-bubble";
@@ -1165,17 +1163,32 @@
         }
     }
 
-    function revealCustomerServiceTerminal() { 
-        document.getElementById("csActivationTriggerCard").style.display = "none"; 
-        document.getElementById("csDynamicTargetContainer").style.display = "block"; 
-    }
     function executeChatMessageMain(inputId) { 
         const input = document.getElementById(inputId);
         if(input && input.value.trim() !== "") {
-            alert("Diagnostic Token Logged: " + input.value); 
+            // Log user message
+            const userMsg = input.value.trim();
+            const chatViewport = document.getElementById('chatViewportMain');
+            
+            const userDiv = document.createElement("div");
+            userDiv.className = "chat-bubble user-bubble";
+            userDiv.innerText = userMsg;
+            chatViewport.appendChild(userDiv);
+            
             input.value = "";
+            chatViewport.scrollTop = chatViewport.scrollHeight;
+            
+            // Log auto-response
+            setTimeout(() => {
+                const botDiv = document.createElement("div");
+                botDiv.className = "chat-bubble bot-bubble";
+                botDiv.innerText = "Thank you for contacting Super Pest Trap support. Your diagnostic query '" + userMsg + "' has been logged under ticket #TKT-" + Math.floor(Math.random() * 9000 + 1000) + ". An agent will review this shortly. For instant answers, please use the Gemini Technical Assistant panel.";
+                chatViewport.appendChild(botDiv);
+                chatViewport.scrollTop = chatViewport.scrollHeight;
+            }, 600);
         }
     }
+    
     function adjustProductQty(id, v) { 
         let e = document.getElementById(id); 
         let c = parseInt(e.innerText) + v; 
