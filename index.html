@@ -333,7 +333,7 @@
         .agent-notice-box { background-color: rgba(239, 83, 80, 0.04); border: 1px solid rgba(239, 83, 80, 0.15); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
         .notice-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
         
-        /* TEAM ROSTER TABLE (About Us) */
+        /* TEAM ROSTER TABLE */
         .team-table { width: 100%; border-collapse: collapse; margin-top: 16px; text-align: left; background-color: var(--bg-input); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-subtle); }
         .team-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--brand-green); padding: 14px; border-bottom: 1px solid var(--border-subtle); background-color: #16161a; }
         .team-table td { padding: 14px; font-size: 14px; border-bottom: 1px solid var(--border-subtle); }
@@ -342,46 +342,41 @@
 </head>
 <body>
 
+<!-- AUTHENTICATION GATEWAY -->
 <div id="authModalOverlay" class="modal-overlay">
     <div class="auth-box" id="loginFormContainer">
         <h2 class="auth-title">Operator Login</h2>
         <p class="auth-desc">Access the Super Pest Trap Dashboard</p>
-        
         <input type="email" id="loginEmail" class="chat-text-field" placeholder="Gmail Address" style="width: 100%; margin-bottom: 16px;">
         <input type="password" id="loginPass" class="chat-text-field" placeholder="Security Password" style="width: 100%; margin-bottom: 24px;">
-        
         <button class="sub-btn btn-premium" onclick="authenticateUser()">Secure System Access</button>
         <div class="auth-switch" onclick="toggleAuthForms()">New Operator? Register System Token here</div>
     </div>
-
     <div class="auth-box" id="signupFormContainer" style="display: none;">
         <h2 class="auth-title">System Registration</h2>
         <p class="auth-desc">Initialize new command center operator</p>
-        
         <input type="text" id="regName" class="chat-text-field" placeholder="Full Legal Name" style="width: 100%; margin-bottom: 12px;">
         <input type="tel" id="regPhone" class="chat-text-field" placeholder="Mobile Phone Number" style="width: 100%; margin-bottom: 12px;">
         <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="regDob" class="chat-text-field" placeholder="Date of Birth (e.g., 18/11/2006)" style="width: 100%; margin-bottom: 12px;">
         <input type="email" id="regEmail" class="chat-text-field" placeholder="Gmail Address" style="width: 100%; margin-bottom: 12px;">
         <input type="password" id="regPass" class="chat-text-field" placeholder="Create Security Password" style="width: 100%; margin-bottom: 24px;">
-        
         <button class="sub-btn btn-premium" onclick="authenticateUser()">Create Operator Token</button>
         <div class="auth-switch" onclick="toggleAuthForms()">Already initialized? Return to Login</div>
     </div>
 </div>
 
+<!-- GEMINI AI BROWSER MODAL -->
 <div id="geminiModalOverlay" class="modal-overlay" style="display: none;">
     <div class="auth-box" style="max-width: 650px; display: flex; flex-direction: column; height: 550px; padding: 0; overflow: hidden; border: 1px solid rgba(156, 39, 176, 0.4);">
         <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #1e1e22, #2a2a30);">
             <div style="font-weight: 700; display: flex; align-items: center; gap: 8px; color: #fff;">✨ Gemini AI Advanced Diagnostics</div>
             <button style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:24px; line-height: 1;" onclick="closeGeminiModal()">×</button>
         </div>
-        
         <div id="geminiChatArea" style="flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background-color: var(--bg-main);">
             <div class="chat-bubble bot-bubble" style="border: 1px solid rgba(156, 39, 176, 0.3); background-color: rgba(156, 39, 176, 0.05); align-self: flex-start;">
                 I am Gemini, synced with your Super Pest Trap telemetry. I've analyzed the recent Drosophilidae spike in Zone X. How can I assist you with vector profiling or hardware realignment today?
             </div>
         </div>
-        
         <div style="padding: 16px; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; background-color: var(--bg-card);">
             <input type="text" id="geminiInput" class="chat-text-field" placeholder="Ask Gemini to analyze trap data..." onkeypress="if(event.key === 'Enter') sendGeminiMessage('geminiInput', 'geminiChatArea')">
             <button class="chat-submit-btn" style="background-color: var(--purple-ai); border-color: var(--purple-ai);" onclick="sendGeminiMessage('geminiInput', 'geminiChatArea')">Ask AI</button>
@@ -390,11 +385,9 @@
 </div>
 
 <div class="dashboard-container basic-mode" id="masterDashboardWrapper">
-    
     <div class="dashboard-header">
         <div class="header-top-row">
             <div class="brand-logo">🛡️ Super Pest Trap <span>Console</span></div>
-            
             <div style="display: flex; gap: 20px; align-items: center;">
                 <div id="activeUserDisplay" style="font-size: 13px; font-weight: 700; color: var(--text-secondary); display: none;">
                     👤 <span id="userNameText">Operator</span>
@@ -405,12 +398,11 @@
                 </div>
             </div>
         </div>
-
         <div class="header-nav-row">
             <div class="tab-menu">
                 <button class="tab-btn active" onclick="openPanel(event, 'scent-panel')">🌿 Scent & AI</button>
                 <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
-                <button class="tab-btn" onclick="openPanel(event, 'battery-panel')">🔋 Logis & Power</button>
+                <button class="tab-btn" id="navBatteryTab" onclick="openPanel(event, 'battery-panel')">🔋 Logis & Power</button>
                 <button class="tab-btn premium-tab" onclick="openPanel(event, 'report-panel')">📊 Audit Report</button>
                 <button class="tab-btn" onclick="openPanel(event, 'order-panel')">🛒 Order Products</button>
                 <button class="tab-btn" onclick="openPanel(event, 'maintenance-panel')">🛠️ Service & Repair</button>
@@ -421,12 +413,12 @@
         </div>
     </div>
 
+    <!-- PANEL 1: Scent & AI -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
                 <p class="system-desc">Standard classification is powered by our free core vision algorithm. Advanced tier unlocks deep AI root-cause analysis vectors.</p>
-                
                 <div class="info-grid">
                     <div class="info-card active-glow">
                         <div class="card-label">Scent Core Target</div>
@@ -437,19 +429,16 @@
                         <div class="card-value">Standard Vision AI</div>
                     </div>
                 </div>
-
                 <div class="section-label">💡 AI Tracing & Source Recommendations <span class="premium-tag">Premium</span></div>
-                
                 <div class="premium-lock-wrapper" onclick="openGeminiModal()">
                     <div class="lock-overlay-badge">🔒 Upgrade to Pro / Click to Preview AI</div>
                     <div class="premium-locked-blur" style="background-color: rgba(156, 39, 176, 0.04); border: 1px dashed var(--purple-ai); border-radius: 14px; padding: 20px; font-size: 13px; line-height: 1.6;">
                         <span style="color: var(--purple-ai); font-weight: bold;">[AI Trace Diagnostics Log]</span><br>
-                        Recent fruit fly (Drosophilidae) volume has spiked by 200%. Deep visual frame background vector analysis suggests Kitchen Waste Bin #2 seal is compromised or decomposing organic waste remains beneath the rack arrays. Action Profile: Audit Zone X, re-align hardware housing dock 45° Southeast facing toward shelf intersection nodes. [cite: 82, 83]
+                        Recent fruit fly (Drosophilidae) volume has spiked by 200%. Deep visual frame background vector analysis suggests Kitchen Waste Bin #2 seal is compromised or decomposing organic waste remains beneath the rack arrays. Action Profile: Audit Zone X, re-align hardware housing dock 45° Southeast facing toward shelf intersection nodes.
                         <div style="margin-top: 10px; font-size: 11px; font-weight: bold; color: var(--purple-ai);">✨ Click to open Gemini Browser...</div>
                     </div>
                 </div>
             </div>
-            
             <div>
                 <div class="metrics-container">
                     <div class="metrics-row">
@@ -460,7 +449,6 @@
                         <div class="progress-bar-fill" style="width: 45%;"></div>
                     </div>
                 </div>
-
                 <div class="section-label" style="margin-top: 24px;">🔮 Predictive Outbreak Forecasting <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper">
                     <div class="lock-overlay-badge">🔒 Locked: Outbreak Forecast</div>
@@ -472,16 +460,13 @@
                 </div>
             </div>
         </div>
-
         <div>
             <div class="section-label">Support Services Access Lane</div>
-            
             <div class="cs-activation-card" id="csActivationTriggerCard" onclick="revealCustomerServiceTerminal()">
                 <div style="font-size: 32px;">💬</div>
                 <h4 style="margin: 0; font-size: 16px; font-weight: 700;">Press to Open Customer Service Console</h4>
                 <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Launches interactive FAQ matrix protocols and routes diagnostic streams to live operational desks.</p>
             </div>
-
             <div class="cs-hidden-container" id="csDynamicTargetContainer">
                 <div class="grid-two-column">
                     <div>
@@ -491,7 +476,7 @@
                             <div class="accordion-content">
                                 <div class="accordion-body">
                                     <strong style="color: var(--text-pure);">Q: How do I know when to change the trap cartridges or scent sachets?</strong><br><br>
-                                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment. [cite: 23]
+                                    A: You don't need to perform any manual trap checks. The system features full automation and will automatically send a push alert to the mobile app only when the biodegradable bamboo fiber cartridge reaches full capacity and needs disposal. You simply replace the cartridge and natural scent sachet (coffee/pandan) at that moment.
                                 </div>
                             </div>
                         </div>
@@ -500,7 +485,7 @@
                             <div class="accordion-content">
                                 <div class="accordion-body">
                                     <strong style="color: var(--text-pure);">Q: What daily or long-term maintenance does the electronic Smart Dock require?</strong><br><br>
-                                    A: It requires zero daily manual interaction. [cite: 55] The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. [cite: 34] Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
+                                    A: It requires zero daily manual interaction. The dock operates on a rechargeable lithium battery and uses miniature thermal cameras alongside weight/infrared sensors to monitor activity. Maintenance is limited to charging the battery when prompted and ensuring the sensor lenses stay clean to prevent false positives.
                                 </div>
                             </div>
                         </div>
@@ -509,12 +494,11 @@
                             <div class="accordion-content">
                                 <div class="accordion-body">
                                     <strong style="color: var(--text-pure);">Q: Do I need to manually clear or manage the data for health inspectors?</strong><br><br>
-                                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. [cite: 23, 35] When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance. [cite: 44]
+                                    A: No. The system continuously archives analytics and tracking history automatically on a cloud computing platform. When health authorities conduct an inspection, restaurant managers can instantly pull up the recorded data via the mobile app to prove compliance.
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <div class="section-label">Live Support Command Console</div>
                         <div class="chat-console-box">
@@ -522,7 +506,6 @@
                                 <div><span class="online-dot"></span> Automated Assistant</div>
                                 <div style="font-size: 11px; color: var(--gold-premium); font-weight: bold;">STAGE 1 LOGGING</div>
                             </div>
-                            
                             <div class="chat-log-viewport">
                                 <div class="chat-bubble bot-bubble">Welcome to the Super Pest Trap network grid. Select an FAQ topic on the left or type a message below to log a diagnostic request.</div>
                             </div>
@@ -537,10 +520,10 @@
         </div>
     </div>
 
+    <!-- PANEL 2: Cloud Radar Panel -->
     <div id="cloud-panel" class="panel-content">
         <h3 class="system-title">Surveillance Cloud Engine & Spatial Radar</h3>
         <p class="system-desc">Interact with the real-time kitchen floor plan below. Select any blinking tactical node to populate detailed charting indexes.</p>
-
         <div class="media-deck-frame" id="masterStageDeck">
             <div class="deck-stage active" id="stage-places" style="height: 100%;">
                 <div class="spatial-stage-split">
@@ -549,12 +532,10 @@
                         <div class="blueprint-wall" style="top: 30px; left: 30px; width: 340px; height: 140px;">Cooking Hub Area [Zone A]</div>
                         <div class="blueprint-wall" style="top: 30px; left: 400px; width: 260px; height: 140px;">Pantry Storage [Zone B]</div>
                         <div class="blueprint-wall" style="top: 200px; left: 30px; width: 630px; height: 100px;">Sanitation & Disposal Zone [Zone C]</div>
-
                         <div class="radar-node-pin pin-orange" style="top: 100px; left: 200px;" onmouseover="peekHudData('zone1')" onclick="loadStageGraph('zone1')"></div>
                         <div class="radar-node-pin pin-green" style="top: 100px; left: 530px;" onmouseover="peekHudData('zone2')" onclick="loadStageGraph('zone2')"></div>
                         <div class="radar-node-pin pin-red" style="top: 250px; left: 340px;" onmouseover="peekHudData('zone3')" onclick="loadStageGraph('zone3')"></div>
                     </div>
-
                     <div class="hud-telemetry-side">
                         <div>
                             <div class="hud-header-title">⚡ Live Terminal Telemetry</div>
@@ -563,13 +544,10 @@
                             <div class="hud-stat-row"><span>Scent Sachet Vector:</span><span id="hud-scent">--</span></div>
                             <div class="hud-stat-row"><span>Battery Core Level:</span><span id="hud-battery">--</span></div>
                         </div>
-                        <div style="font-size: 11px; color: var(--text-secondary); text-align: center; border-top: 1px solid #222; padding-top: 12px;">
-                            Click any node pin to load advanced metrics.
-                        </div>
+                        <div style="font-size: 11px; color: var(--text-secondary); text-align: center; border-top: 1px solid #222; padding-top: 12px;">Click any node pin to load advanced metrics.</div>
                     </div>
                 </div>
             </div>
-
             <div class="deck-stage analytics-graph-view" id="stage-graph" onclick="loadStageTable()">
                 <div class="graph-header-row">
                     <div id="graphTitleField" class="graph-title">📈 Loading Chrono-Activity Profile...</div>
@@ -590,7 +568,6 @@
                     <div style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 10px;">📋 Click Graph Space to Open Detailed Metrics Table</div>
                 </div>
             </div>
-
             <div class="deck-stage data-table-view" id="stage-table">
                 <div class="graph-header-row">
                     <div class="graph-title" style="color: var(--brand-green);">📋 Diagnostic Metric Sheet Output</div>
@@ -616,40 +593,46 @@
                 </table>
             </div>
         </div>
-
-        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" style="font-size: 16px;">48h Roll Retention</div></div>
-            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Encrypted</div></div>
-            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Single Terminal View</div></div>
-            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" style="color: var(--text-secondary); font-size: 16px;">App Inline Visual Only</div></div>
-        </div>
-
-        <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
-        <div class="history-gallery-row">
-            <div class="history-video-card active"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">1 Day Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Kitchen</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">2 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Scullery</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">3 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Storage</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">4 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Front Line</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">5 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Sanitation</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">6 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Rear Exit</div></div>
-            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">7 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Prep Table</div></div>
-        </div>
     </div>
 
+    <!-- PANEL 3: Logis & Power (UPDATED: Device Battery Health Summary & Maintenance Guide) -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
                 <h3 class="system-title">Power Status & Auto-Replenishment System</h3>
-                <p class="system-desc">Monitor mechanical sensor power draw workloads and track automated supply chain logistics pipelines simultaneously.</p>
+                <p class="system-desc">Monitor mechanical sensor power draw workloads, evaluate device-specific chemical cells, and track multi-node component longevity pipelines.</p>
                 
+                <div class="section-label">Device Battery Health Summary</div>
+                <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size:11px; font-weight:700; color:var(--text-secondary);">
+                        <span>FLEET HARDWARE NAME</span>
+                        <span>BATTERY HEALTH</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 13px;">
+                        <span>🛡️ Cooking Hub Assembler (Node-TrapX-01A)</span>
+                        <span style="color: var(--brand-green); font-weight:700;">94% Optimal</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 13px;">
+                        <span>🛡️ Dry Pantry Controller (Node-TrapX-02B)</span>
+                        <span style="color: var(--brand-green); font-weight:700;">91% Optimal</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size: 13px;">
+                        <span>🛡️ Waste Depot Monitor (Node-TrapX-03C)</span>
+                        <span style="color: var(--gold-premium); font-weight:700;">78% Service Recom.</span>
+                    </div>
+                </div>
+
                 <div class="info-grid">
                     <div class="info-card active-glow">
-                        <div class="card-label">Smart Dock Battery</div>
-                        <div class="card-value" style="color: var(--brand-green);">88% Optimal</div>
+                        <div class="card-label">Hardware Warranty Status</div>
+                        <!-- Awarding 36 Months Coverage to Premium, otherwise standard 12 Months -->
+                        <div class="card-value" id="lblWarrantyStatusText" style="color: var(--blue-accent); font-size: 16px;">12-Mo Standard Plan</div>
                     </div>
                     <div class="info-card">
-                        <div class="card-label">Hardware Trade-in Program</div>
-                        <div class="card-value">Free Upgrade In 12 Mo.</div>
+                        <div class="card-label">Auto Maintenance Recommendation</div>
+                        <div class="card-value" style="font-size: 13px; color: var(--text-secondary); font-weight:500; line-height:1.4;">
+                            Change internal lithium cells when maximum capacity drops below <strong>80%</strong>. Clean lens coatings quarterly to eliminate false telemetry parameters.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -671,10 +654,10 @@
         </div>
     </div>
 
+    <!-- PANEL 4: Audit Report -->
     <div id="report-panel" class="panel-content">
         <h3 class="system-title">Automated PCO & Commercial Compliance Report</h3>
         <p class="system-desc">Compile regulatory compliance sheets matching international HACCP, ISO 22000, and regional Ministry of Health audit frameworks instantly.</p>
-        
         <div class="premium-lock-wrapper">
             <div class="lock-overlay-badge" style="font-size: 14px;">🔒 Upgrade to Premium Pro to Export Compliance PDF</div>
             <div class="premium-locked-blur report-print-box">
@@ -698,10 +681,10 @@
         </div>
     </div>
 
+    <!-- PANEL 5: Store / Order Panel -->
     <div id="order-panel" class="panel-content">
         <h3 class="system-title">Hardware Fleet & Organic Scent Supply Store</h3>
         <p class="system-desc">Order secondary base docks, replace adhesive tracking pads, or restock on eco-friendly non-toxic natural attractants instantly.</p>
-        
         <div class="store-product-grid">
             <div class="store-item-card">
                 <div>
@@ -718,7 +701,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="store-item-card">
                 <div>
                     <div class="item-icon-frame">🍃</div>
@@ -734,7 +716,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="store-item-card">
                 <div>
                     <div class="item-icon-frame">☕</div>
@@ -751,7 +732,6 @@
                 </div>
             </div>
         </div>
-
         <div class="select-split-row" style="margin-top: 24px;">
             <div class="select-wrapper">
                 <select class="custom-select">
@@ -770,7 +750,6 @@
                 </select>
             </div>
         </div>
-
         <div class="checkout-bar-footer">
             <div>
                 <div style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Logistics Pipeline Destination</div>
@@ -780,10 +759,10 @@
         </div>
     </div>
 
+    <!-- PANEL 6: Maintenance & Repair Panel -->
     <div id="maintenance-panel" class="panel-content">
         <h3 class="system-title">Expert Service & Maintenance Dispatch</h3>
         <p class="system-desc">Schedule an on-site visit from our certified technicians to resolve hardware faults, camera calibration issues, or software anomalies.</p>
-
         <div class="grid-two-column">
             <div class="metrics-container" style="padding: 30px; margin-bottom: 0;">
                 <div class="section-label">1. Select Diagnostic Issue</div>
@@ -797,13 +776,11 @@
                         <option value="Routine Deep Cleaning">🧹 Routine Deep Cleaning</option>
                     </select>
                 </div>
-
                 <div class="section-label">2. Service Location Details</div>
                 <div style="margin-bottom: 24px;">
                     <input type="text" id="serviceAddressInput" class="chat-text-field" style="width: 100%; margin-bottom: 12px;" placeholder="Enter complete venue/delivery address...">
                     <input type="text" id="serviceContactInput" class="chat-text-field" style="width: 100%;" placeholder="On-site contact number...">
                 </div>
-
                 <div class="section-label">3. Schedule Dispatch Window</div>
                 <div class="select-split-row" style="margin-bottom: 0;">
                     <input type="date" id="serviceDateInput" class="custom-select" style="color: var(--text-secondary);">
@@ -815,20 +792,14 @@
                         </select>
                     </div>
                 </div>
-
                 <button class="sub-btn btn-premium" style="margin-top: 32px;" onclick="submitMaintenanceRequest()">🛠️ Confirm & Book Technician</button>
             </div>
-
             <div>
                 <div class="section-label">Active Dispatch Tokens</div>
-                
                 <div class="agent-notice-box" id="noActiveBookingState">
                     <div style="font-size: 20px;">ℹ️</div>
-                    <div class="notice-text">
-                        No active dispatch requests. If you are experiencing critical network failure, please use the Support Command Console for immediate Level 1 troubleshooting.
-                    </div>
+                    <div class="notice-text">No active dispatch requests. If you are experiencing critical network failure, please use the Support Command Console for immediate Level 1 troubleshooting.</div>
                 </div>
-                
                 <div class="cs-hidden-container" id="activeBookingState" style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 24px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 12px;">
                         <span style="color: var(--gold-premium); font-weight: bold; font-size: 12px;">STATUS: DISPATCHED</span>
@@ -837,41 +808,36 @@
                     <div class="hud-stat-row"><span>Diagnostic Issue:</span><span id="displayIssue" style="color: var(--alert-red);">--</span></div>
                     <div class="hud-stat-row"><span>Arrival Window:</span><span id="displayDateTime">--</span></div>
                     <div class="hud-stat-row"><span>Service Address:</span><span id="displayAddress" style="text-align: right; max-width: 50%;">--</span></div>
-                    
                     <div style="margin-top: 20px; font-size: 12px; color: var(--brand-green); background-color: rgba(76, 175, 80, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(76, 175, 80, 0.2); line-height: 1.5;">
                         👷‍♂️ Technician <strong style="color: var(--text-pure);">Ahmad</strong> has been assigned to your case and will arrive at your location within the scheduled window. Have your hardware ready.
                     </div>
                 </div>
-
                 <div class="info-grid" style="margin-top: 24px;">
                     <div class="info-card">
                         <div class="card-label">SLA Guarantee</div>
                         <div class="card-value" style="color: var(--brand-green); font-size: 16px;">Next-Day Fix</div>
                     </div>
                     <div class="info-card">
-                        <div class="card-label">Warranty Status</div>
-                        <div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Covered (Pro)</div>
+                        <div class="card-label">Warranty Program</div>
+                        <div class="card-value" id="lblSubWarrantyPanel" style="color: var(--blue-accent); font-size: 16px;">12-Mo Standard Plan</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- PANEL 7: ABOUT US PANEL -->
     <div id="about-panel" class="panel-content">
         <h3 class="system-title">About Super Pest Trap & Group Lai Cai</h3>
         <p class="system-desc">Discover the mission, technology, and visionary team behind the environmentally sustainable pest control innovation driving our Enterprise Command Center.</p>
-
         <div class="grid-two-column">
             <div>
                 <div class="section-label">Our Mission & Innovation</div>
                 <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 24px; line-height: 1.7; color: var(--text-secondary); font-size: 14px;">
-                    <p style="margin-top: 0;">The food and beverage industry faces severe operational difficulties due to reliance on traditional pest control methods. [cite: 20] This gives rise to three distinct industry challenges: <strong>Chemical Anxiety</strong> from dangerous baiting, <strong>Wasted Labor</strong> through unnecessary trap checks, and <strong>Disposal Disgust</strong> which involves handling dead insects. [cite: 20]</p>
-                    
-                    <p>The <strong>Super Pest Trap</strong> is our environmentally sustainable pest control solution developed to eliminate these pain points. [cite: 19] We integrate two distinct systems: a 100% biodegradable trapping system and an advanced reusable electronic <strong>Smart Dock</strong> tracking device. [cite: 22]</p>
-                    
-                    <p style="margin-bottom: 0;">By employing natural scent sachets (such as coffee or pandan) and bamboo fiber cartridges, we ensure a 100% food-safe environment, keeping restaurant managers completely free from chemical anxiety while maintaining critical regulatory health standards. [cite: 23, 33, 41]</p>
+                    <p style="margin-top: 0;">The food and beverage industry faces severe operational difficulties due to reliance on traditional pest control methods. This gives rise to three distinct industry challenges: <strong>Chemical Anxiety</strong> from dangerous baiting, <strong>Wasted Labor</strong> through unnecessary trap checks, and <strong>Disposal Disgust</strong> which involves handling dead insects.</p>
+                    <p>The <strong>Super Pest Trap</strong> is our environmentally sustainable pest control solution developed to eliminate these pain points. We integrate two distinct systems: a 100% biodegradable trapping system and an advanced reusable electronic <strong>Smart Dock</strong> tracking device.</p>
+                    <p style="margin-bottom: 0;">By employing natural scent sachets (such as coffee or pandan) and bamboo fiber cartridges, we ensure a 100% food-safe environment, keeping restaurant managers completely free from chemical anxiety while maintaining critical regulatory health standards.</p>
                 </div>
-
                 <div class="info-grid" style="margin-top: 24px;">
                     <div class="info-card">
                         <div class="card-label">Course Project</div>
@@ -883,7 +849,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <div class="section-label">Group 6: Lai Cai Leadership Roster</div>
                 <table class="team-table">
@@ -922,25 +887,20 @@
                         </tr>
                     </tbody>
                 </table>
-                <div style="font-size: 11px; text-align: right; color: var(--text-secondary); margin-top: 10px;">
-                    Lecturer: Prof. Ir. Dr. Norhana Binti Arsad
-                </div>
+                <div style="font-size: 11px; text-align: right; color: var(--text-secondary); margin-top: 10px;">Lecturer: Prof. Ir. Dr. Norhana Binti Arsad</div>
             </div>
         </div>
     </div>
 
+    <!-- PANEL 8: CONTACT US PANEL -->
     <div id="contact-panel" class="panel-content">
         <h3 class="system-title">Contact Support & AI Diagnostics</h3>
         <p class="system-desc">Reach out to our live human customer service agents for account help, or instantly query our embedded Gemini AI for deep technical diagnostics.</p>
-
         <div class="grid-two-column">
             <div>
                 <div class="section-label">Live Customer Service Request</div>
                 <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 24px;">
-                    <div style="margin-bottom: 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                        Need assistance with billing, hardware replacements, or subscription upgrades? Leave a message for the human support desk.
-                    </div>
-                    
+                    <div style="margin-bottom: 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">Need assistance with billing, hardware replacements, or subscription upgrades? Leave a message for the human support desk.</div>
                     <input type="text" class="chat-text-field" placeholder="Your Name or Venue ID" style="width: 100%; margin-bottom: 16px;">
                     <select class="custom-select" style="margin-bottom: 16px; width: 100%; padding: 12px; font-size: 13px;">
                         <option value="" disabled selected hidden>Select Support Category...</option>
@@ -950,10 +910,8 @@
                         <option value="other">Other Inquiry</option>
                     </select>
                     <textarea class="chat-text-field" rows="4" placeholder="Describe your issue in detail..." style="width: 100%; margin-bottom: 20px; resize: none; font-family: inherit;"></textarea>
-                    
                     <button class="sub-btn btn-standard" onclick="alert('Your ticket has been submitted to the Lai Cai Customer Service Team. We will respond within 24 hours.')">Submit Service Ticket</button>
                 </div>
-                
                 <div style="display: flex; gap: 16px; margin-top: 16px;">
                     <div style="flex: 1; background-color: var(--bg-input); padding: 16px; border-radius: 12px; text-align: center; border: 1px solid var(--border-subtle);">
                         <div style="font-size: 20px; margin-bottom: 6px;">📧</div>
@@ -967,15 +925,13 @@
                     </div>
                 </div>
             </div>
-
             <div>
-                <div class="section-label">✨ Ask Gemini AI (Instant Diagnostics)</div>
+                <div class="section-label">Ask Gemini AI (Instant Diagnostics)</div>
                 <div class="chat-console-box" style="border-color: rgba(156, 39, 176, 0.4); height: 480px;">
                     <div class="chat-console-header" style="background: linear-gradient(90deg, #1e1e22, #2a2a30);">
                         <div style="color: #fff;">Gemini Technical Assistant</div>
                         <div style="font-size: 11px; color: var(--purple-ai); font-weight: bold;">ONLINE</div>
                     </div>
-                    
                     <div class="chat-log-viewport" id="geminiContactChatArea" style="background-color: var(--bg-main);">
                         <div class="chat-bubble bot-bubble" style="border: 1px solid rgba(156, 39, 176, 0.3); background-color: rgba(156, 39, 176, 0.05); align-self: flex-start;">
                             Hello! I am Gemini. I can help troubleshoot Smart Dock sensor errors, analyze pest traffic data, or generate compliance insights. What technical issue can I help you resolve today?
@@ -990,6 +946,7 @@
         </div>
     </div>
 
+    <!-- PANEL 9: Subscription Panel -->
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
         <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
@@ -1028,7 +985,7 @@
 </div>
 
 <script>
-    // --- 1. AUTHENTICATION LOGIC ---
+    // --- AUTHENTICATION LOGIC ---
     function toggleAuthForms() {
         const login = document.getElementById('loginFormContainer');
         const signup = document.getElementById('signupFormContainer');
@@ -1047,38 +1004,30 @@
         if(document.getElementById('signupFormContainer').style.display === 'block' && regNameInput.trim() !== "") {
             operatorName = regNameInput;
         }
-
         document.getElementById('authModalOverlay').style.display = 'none';
         document.getElementById('activeUserDisplay').style.display = 'block';
         document.getElementById('userNameText').innerText = operatorName;
     }
 
-    // --- GEMINI AI BROWSER LOGIC (Handles both Modal and Contact Page) ---
+    // --- GEMINI AI BROWSER LOGIC ---
     function openGeminiModal() {
         document.getElementById('geminiModalOverlay').style.display = 'flex';
         setTimeout(() => document.getElementById('geminiInput').focus(), 100);
     }
-
     function closeGeminiModal() {
         document.getElementById('geminiModalOverlay').style.display = 'none';
     }
-
     function sendGeminiMessage(inputId, areaId) {
         const inputField = document.getElementById(inputId);
         const chatArea = document.getElementById(areaId);
         const message = inputField.value.trim();
-
         if(message !== "") {
-            // Append User Message
             const userDiv = document.createElement("div");
             userDiv.className = "chat-bubble user-bubble";
             userDiv.innerText = message;
             chatArea.appendChild(userDiv);
-
             inputField.value = "";
             chatArea.scrollTop = chatArea.scrollHeight; 
-
-            // Simulate Gemini AI Response
             setTimeout(() => {
                 const botDiv = document.createElement("div");
                 botDiv.className = "chat-bubble bot-bubble";
@@ -1091,13 +1040,12 @@
         }
     }
 
-    // --- 2. DYNAMIC RADAR TO TABLE DATABASE LOGIC ---
+    // --- DYNAMIC RADAR TO TABLE DATABASE LOGIC ---
     const radarDatabaseMetrics = {
         zone1: { name: "Cooking Hub Area [Zone A]", came: 42, peak: "01:30 AM - 04:00 AM", caught: 18, scent: "Roasted Coffee Sachet", battery: "88% (Optimal)" },
         zone2: { name: "Pantry Storage [Zone B]", came: 15, peak: "23:00 PM - 01:00 AM", caught: 4, scent: "Organic Vanilla Pod", battery: "94% (Optimal)" },
         zone3: { name: "Sanitation & Disposal Zone [Zone C]", came: 89, peak: "02:00 AM - 05:30 AM", caught: 37, scent: "Natural Pandan Extract", battery: "12% (Low Warning)" }
     };
-
     let globalActiveZone = 'zone1'; 
 
     function peekHudData(zoneKey) {
@@ -1108,44 +1056,38 @@
         document.getElementById("hud-scent").innerText = item.scent;
         document.getElementById("hud-battery").innerText = item.battery;
     }
-
     function loadStageGraph(zoneKey) {
         globalActiveZone = zoneKey; 
         document.getElementById("stage-places").style.display = "none";
         document.getElementById("stage-graph").style.display = "block";
-        
         const zoneData = radarDatabaseMetrics[zoneKey];
         document.getElementById("graphTitleField").innerText = "📈 Chrono-Activity: " + zoneData.name;
     }
-
     function loadStageTable() {
         document.getElementById("stage-graph").style.display = "none";
         document.getElementById("stage-table").style.display = "block";
-        
         const activeData = radarDatabaseMetrics[globalActiveZone];
         document.getElementById("td-location").innerText = activeData.name;
         document.getElementById("td-came").innerText = activeData.came + " Pests Sighted";
         document.getElementById("td-peak").innerText = activeData.peak;
         document.getElementById("td-caught").innerText = activeData.caught + " Physical Captures";
     }
-
     function resetToStagePlaces(e) {
         e.stopPropagation();
         document.getElementById("stage-graph").style.display = "none";
         document.getElementById("stage-places").style.display = "block";
     }
-
     function resetToStageGraph(e) {
         document.getElementById("stage-table").style.display = "none";
         document.getElementById("stage-graph").style.display = "block";
     }
 
-    // --- 3. FAQ ACCORDION LOGIC ---
+    // --- FAQ ACCORDION LOGIC ---
     function toggleAccordion(buttonElement) {
         buttonElement.parentElement.classList.toggle('open');
     }
 
-    // --- 4. GENERAL UI LOGIC ---
+    // --- GENERAL UI LOGIC ---
     function openPanel(e, id) { 
         document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none'); 
         document.getElementById(id).style.display = 'block'; 
@@ -1155,10 +1097,17 @@
 
     function changeAccountTier(tier) { 
         const w = document.getElementById("masterDashboardWrapper"); 
+        const cardWarranty = document.getElementById("lblWarrantyStatusText");
+        const panelWarranty = document.getElementById("lblSubWarrantyPanel");
+        
         if(tier === 'basic') {
             w.classList.add("basic-mode");
+            cardWarranty.innerText = "12-Mo Standard Plan";
+            panelWarranty.innerText = "12-Mo Standard Plan";
         } else {
             w.classList.remove("basic-mode"); 
+            cardWarranty.innerText = "36-Mo Premium Plan 💎";
+            panelWarranty.innerText = "36-Mo Premium Plan 💎";
         }
     }
 
@@ -1166,7 +1115,6 @@
         document.getElementById("csActivationTriggerCard").style.display = "none"; 
         document.getElementById("csDynamicTargetContainer").style.display = "block"; 
     }
-
     function executeChatMessageMain(inputId) { 
         const input = document.getElementById(inputId);
         if(input.value.trim() !== "") {
@@ -1174,42 +1122,32 @@
             input.value = "";
         }
     }
-
     function adjustProductQty(id, v) { 
         let e = document.getElementById(id); 
         let c = parseInt(e.innerText) + v; 
         e.innerText = c < 0 ? 0 : c; 
     }
-    
-    function dispatchStoreOrderRequest() { 
-        alert("Order Processed. Logistics team notified."); 
-    }
+    function dispatchStoreOrderRequest() { alert("Order Processed. Logistics team notified."); }
 
     function submitMaintenanceRequest() {
         const issue = document.getElementById('issueTypeSelector').value;
         const address = document.getElementById('serviceAddressInput').value;
         const date = document.getElementById('serviceDateInput').value;
         const time = document.getElementById('serviceTimeSelector').value;
-
         if(!issue || !address || !date || !time) {
-            alert("System Alert: Please fill in all diagnostic and location fields to complete your reservation.");
+            alert("System Alert: Please fill in all fields to complete your reservation.");
             return;
         }
-
         const ticketId = "TKT-" + Math.floor(Math.random() * 9000 + 1000);
-        
         document.getElementById('ticketIdDisplay').innerText = ticketId;
         document.getElementById('displayIssue').innerText = issue.toUpperCase();
         document.getElementById('displayDateTime').innerText = date + " (" + time + ")";
         document.getElementById('displayAddress').innerText = address;
-
         document.getElementById('noActiveBookingState').style.display = "none";
         document.getElementById('activeBookingState').style.display = "block";
         document.getElementById('activeBookingState').classList.remove('cs-hidden-container');
-
-        alert("Reservation confirmed! Ticket ID: " + ticketId + "\nOur local maintenance technician has been dispatched to your address.");
+        alert("Reservation confirmed! Ticket ID: " + ticketId);
     }
 </script>
-
 </body>
 </html>
