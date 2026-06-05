@@ -284,7 +284,7 @@
         .chat-bubble.user-bubble { background-color: var(--brand-green); color: #000; font-weight: 500; align-self: flex-end; border-bottom-right-radius: 4px; }
         .chat-bubble.system-alert { background-color: rgba(33, 150, 243, 0.08); border: 1px solid rgba(33, 150, 243, 0.2); color: #64b5f6; align-self: center; font-size: 11px; font-weight: 600; text-align: center; width: 90%; border-radius: 8px; }
         .chat-input-row { padding: 12px; background-color: #17171c; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; }
-        .chat-text-field { flex: 1; background-color: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-pure); outline: none; }
+        .chat-text-field { flex: 1; background-color: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text-pure); outline: none; box-sizing: border-box; }
         .chat-submit-btn { background-color: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-pure); padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
         /* Subscription Tiers Matrix */
@@ -337,6 +337,7 @@
                 <button class="tab-btn" onclick="openPanel(event, 'cloud-panel')">👁️ Live Cloud</button>
                 <button class="tab-btn premium-tab" onclick="openPanel(event, 'report-panel')">📊 Audit Report</button>
                 <button class="tab-btn" onclick="openPanel(event, 'order-panel')">🛒 Order Products</button>
+                <button class="tab-btn" onclick="openPanel(event, 'maintenance-panel')">🛠️ Service & Repair</button>
                 <button class="tab-btn" onclick="openPanel(event, 'sub-panel')">💎 Subscription</button>
             </div>
         </div>
@@ -558,7 +559,7 @@
                         <rect id="vbar3" x="640" y="15" width="40" height="115" fill="var(--alert-red)" rx="4"/>
                         <text x="640" y="150" fill="var(--alert-red)" font-size="11" font-weight="bold">Midnight Surge Peak</text>
                     </svg>
-                    <div class="click-prompt-hint" id="heatmapPromptHint">📋 Click Graph to Open Metrics Table</div>
+                    <div class="click-prompt-hint" id="heatmapPromptHint" style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 10px;">📋 Click Graph to Open Metrics Table</div>
                 </div>
             </div>
 
@@ -584,21 +585,21 @@
         </div>
 
         <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" id="cloudStorageStatusText">48h Roll Retention</div></div>
-            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent);">Encrypted</div></div>
-            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent);">Single Terminal View</div></div>
-            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" id="exportActionStatusText" style="color: var(--text-secondary);">App Inline Visual Only</div></div>
+            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" id="cloudStorageStatusText" style="font-size: 16px;">48h Roll Retention</div></div>
+            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Encrypted</div></div>
+            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Single Terminal View</div></div>
+            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" id="exportActionStatusText" style="color: var(--text-secondary); font-size: 16px;">App Inline Visual Only</div></div>
         </div>
 
         <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
         <div class="history-gallery-row">
-            <div class="history-video-card active" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')"><div class="video-thumb-mockup"></div><div class="history-day-label">1 Day Ago</div><div class="history-zone-tag">Kitchen</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd2', 'Dishwash Station')"><div class="video-thumb-mockup"></div><div class="history-day-label">2 Days Ago</div><div class="history-zone-tag">Scullery</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd3', 'Dry Food Pantry')"><div class="video-thumb-mockup"></div><div class="history-day-label">3 Days Ago</div><div class="history-zone-tag">Storage</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd4', 'Serving Counters')"><div class="video-thumb-mockup"></div><div class="history-day-label">4 Days Ago</div><div class="history-zone-tag">Front Line</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd5', 'Waste Depot')"><div class="video-thumb-mockup"></div><div class="history-day-label">5 Days Ago</div><div class="history-zone-tag">Sanitation</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd6', 'Back Kitchen Alley')"><div class="video-thumb-mockup"></div><div class="history-day-label">6 Days Ago</div><div class="history-zone-tag">Rear Exit</div></div>
-            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd7', 'Defrosting Station')"><div class="video-thumb-mockup"></div><div class="history-day-label">7 Days Ago</div><div class="history-zone-tag">Prep Table</div></div>
+            <div class="history-video-card active" onclick="queryHistoricalDayLog(event, 'd1', 'Main Kitchen Line')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">1 Day Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Kitchen</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd2', 'Dishwash Station')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">2 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Scullery</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd3', 'Dry Food Pantry')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">3 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Storage</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd4', 'Serving Counters')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">4 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Front Line</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd5', 'Waste Depot')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">5 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Sanitation</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd6', 'Back Kitchen Alley')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">6 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Rear Exit</div></div>
+            <div class="history-video-card" onclick="queryHistoricalDayLog(event, 'd7', 'Defrosting Station')"><div class="video-thumb-mockup"></div><div class="history-day-label" style="font-size: 11px;">7 Days Ago</div><div class="history-zone-tag" style="font-size: 10px; color: var(--text-secondary);">Prep Table</div></div>
         </div>
     </div>
 
@@ -711,6 +712,83 @@
         </div>
     </div>
 
+    <div id="maintenance-panel" class="panel-content">
+        <h3 class="system-title">Expert Service & Maintenance Dispatch</h3>
+        <p class="system-desc">Schedule an on-site visit from our certified technicians to resolve hardware faults, camera calibration issues, or software anomalies.</p>
+
+        <div class="grid-two-column">
+            <div class="metrics-container" style="padding: 30px; margin-bottom: 0;">
+                <div class="section-label">1. Select Diagnostic Issue</div>
+                <div class="select-wrapper">
+                    <select class="custom-select" id="issueTypeSelector">
+                        <option value="" disabled selected hidden>⚠️ Select Error Type</option>
+                        <option value="Battery/Power Failure">🔋 Battery/Power Failure</option>
+                        <option value="Camera/Sensor Blindspot">👁️ Camera/Sensor Blindspot</option>
+                        <option value="Software/Sync Error">💻 Software/Sync Error</option>
+                        <option value="Physical Hardware Damage">⚙️ Physical Hardware Damage</option>
+                        <option value="Routine Deep Cleaning">🧹 Routine Deep Cleaning</option>
+                    </select>
+                </div>
+
+                <div class="section-label">2. Service Location Details</div>
+                <div style="margin-bottom: 24px;">
+                    <input type="text" id="serviceAddressInput" class="chat-text-field" style="width: 100%; margin-bottom: 12px;" placeholder="Enter complete venue/delivery address...">
+                    <input type="text" id="serviceContactInput" class="chat-text-field" style="width: 100%;" placeholder="On-site contact number...">
+                </div>
+
+                <div class="section-label">3. Schedule Dispatch Window</div>
+                <div class="select-split-row" style="margin-bottom: 0;">
+                    <input type="date" id="serviceDateInput" class="custom-select" style="color: var(--text-secondary);">
+                    <div class="select-wrapper" style="margin-bottom: 0;">
+                        <select class="custom-select" id="serviceTimeSelector">
+                            <option value="" disabled selected hidden>⏱️ Select Time</option>
+                            <option value="09:00 - 12:00">Morning (09:00 - 12:00)</option>
+                            <option value="13:00 - 17:00">Afternoon (13:00 - 17:00)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="sub-btn btn-premium" style="margin-top: 32px;" onclick="submitMaintenanceRequest()">🛠️ Confirm & Book Technician</button>
+            </div>
+
+            <div>
+                <div class="section-label">Active Dispatch Tokens</div>
+                
+                <div class="agent-notice-box" id="noActiveBookingState">
+                    <div style="font-size: 20px;">ℹ️</div>
+                    <div class="notice-text">
+                        No active dispatch requests. If you are experiencing critical network failure, please use the Support Command Console for immediate Level 1 troubleshooting.
+                    </div>
+                </div>
+                
+                <div class="cs-hidden-container" id="activeBookingState" style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 24px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 12px;">
+                        <span style="color: var(--gold-premium); font-weight: bold; font-size: 12px;">STATUS: DISPATCHED</span>
+                        <span style="font-family: monospace; font-size: 12px; color: var(--text-secondary);" id="ticketIdDisplay">TKT-0000</span>
+                    </div>
+                    <div class="hud-stat-row"><span>Diagnostic Issue:</span><span id="displayIssue" style="color: var(--alert-red);">--</span></div>
+                    <div class="hud-stat-row"><span>Arrival Window:</span><span id="displayDateTime">--</span></div>
+                    <div class="hud-stat-row"><span>Service Address:</span><span id="displayAddress" style="text-align: right; max-width: 50%;">--</span></div>
+                    
+                    <div style="margin-top: 20px; font-size: 12px; color: var(--brand-green); background-color: rgba(76, 175, 80, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(76, 175, 80, 0.2); line-height: 1.5;">
+                        👷‍♂️ Technician <strong style="color: var(--text-pure);">Ahmad</strong> has been assigned to your case and will arrive at your location within the scheduled window. Have your hardware ready.
+                    </div>
+                </div>
+
+                <div class="info-grid" style="margin-top: 24px;">
+                    <div class="info-card">
+                        <div class="card-label">SLA Guarantee</div>
+                        <div class="card-value" style="color: var(--brand-green); font-size: 16px;">Next-Day Fix</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-label">Warranty Status</div>
+                        <div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Covered (Pro)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="sub-panel" class="panel-content">
         <h3 class="system-title">Subscription Services & Pricing Tiers</h3>
         <p class="system-desc">From basic notifications to advanced cross-store commercial enterprise data grids, select the plan built for your scale.</p>
@@ -729,7 +807,7 @@
                 <button class="sub-btn btn-standard" id="cardBtnBasic" onclick="changeAccountTier('basic')">Active Free Account</button>
             </div>
             <div class="sub-card premium-tier">
-                <span class="tier-badge">Recommended</span>
+                <span class="premium-tag" style="align-self: flex-start; margin-bottom: 8px;">Recommended</span>
                 <div>
                     <div class="tier-name" style="color: var(--gold-premium);">Premium AI Pro Plan</div>
                     <div class="tier-price" style="color: var(--gold-premium);">RM 29 <span>/ month per unit</span></div>
@@ -767,10 +845,10 @@
         document.getElementById("hud-integrity").innerText = item.integrity;
     }
 
-    // Existing JS logic remains...
+    // Existing JS logic
     function revealCustomerServiceTerminal() { document.getElementById("csActivationTriggerCard").style.display = "none"; document.getElementById("csDynamicTargetContainer").style.display = "block"; }
     function adjustProductQty(id, v) { let e = document.getElementById(id); let c = parseInt(e.innerText) + v; e.innerText = c < 0 ? 0 : c; }
-    function dispatchStoreOrderRequest() { alert("Order Processed."); }
+    function dispatchStoreOrderRequest() { alert("Order Processed. Logistics team notified."); }
     function changeAccountTier(tier) { const w = document.getElementById("masterDashboardWrapper"); if(tier === 'basic') w.classList.add("basic-mode"); else w.classList.remove("basic-mode"); }
     function loadStageGraph(k) { document.getElementById("stage-places").style.display = "none"; document.getElementById("stage-graph").style.display = "block"; }
     function loadStageTable() { document.getElementById("stage-graph").style.display = "none"; document.getElementById("stage-table").style.display = "block"; }
@@ -779,10 +857,51 @@
     function queryHistoricalDayLog(e, k, n) { document.getElementById("stage-places").style.display = "none"; document.getElementById("stage-graph").style.display = "block"; }
     function updateGraphBars(h) { for(let i=0; i<4; i++) { let b = document.getElementById("vbar"+i); if(b) { b.setAttribute("height", h[i]); b.setAttribute("y", 130 - h[i]); } } }
     function syncLocationProfile() { /* Stub for integration */ }
-    function openPanel(e, id) { document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); e.currentTarget.classList.add('active'); }
+    function openPanel(e, id) { 
+        document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none'); 
+        document.getElementById(id).style.display = 'block'; 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        e.currentTarget.classList.add('active'); 
+    }
     function toggleAccordion(el) { el.parentElement.classList.toggle('open'); }
     function handleChatKeyPressMain(e) { if(e.key === 'Enter') executeChatMessageMain(); }
-    function executeChatMessageMain() { alert("Message Sent."); }
+    function executeChatMessageMain() { 
+        const input = document.getElementById("chatInputFieldMain");
+        if(input.value.trim() !== "") {
+            alert("Diagnostic Message Sent: " + input.value); 
+            input.value = "";
+        }
+    }
+
+    // NEW: Maintenance Service Booking Logic
+    function submitMaintenanceRequest() {
+        const issue = document.getElementById('issueTypeSelector').value;
+        const address = document.getElementById('serviceAddressInput').value;
+        const contact = document.getElementById('serviceContactInput').value;
+        const date = document.getElementById('serviceDateInput').value;
+        const time = document.getElementById('serviceTimeSelector').value;
+
+        if(!issue || !address || !date || !time) {
+            alert("System Alert: Please fill in all diagnostic and location fields to complete your reservation.");
+            return;
+        }
+
+        // Generate a random ticket ID
+        const ticketId = "TKT-" + Math.floor(Math.random() * 9000 + 1000);
+        
+        // Update display fields on the tracker card
+        document.getElementById('ticketIdDisplay').innerText = ticketId;
+        document.getElementById('displayIssue').innerText = issue.toUpperCase();
+        document.getElementById('displayDateTime').innerText = date + " (" + time + ")";
+        document.getElementById('displayAddress').innerText = address;
+
+        // Toggle UI states
+        document.getElementById('noActiveBookingState').style.display = "none";
+        document.getElementById('activeBookingState').style.display = "block";
+        document.getElementById('activeBookingState').classList.remove('cs-hidden-container');
+
+        alert("Reservation confirmed! Ticket ID: " + ticketId + "\nOur local maintenance technician has been dispatched to your address.");
+    }
 </script>
 
 </body>
