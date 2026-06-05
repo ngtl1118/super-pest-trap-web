@@ -413,22 +413,41 @@
         </div>
     </div>
 
-    <!-- PANEL 1: Scent & AI -->
+    <!-- PANEL 1: Scent & AI (UPDATED: Active Deployment Node Locations) -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
                 <h3 class="system-title">Organic Scent & AI Recognition Matrix</h3>
                 <p class="system-desc">Standard classification is powered by our free core vision algorithm. Advanced tier unlocks deep AI root-cause analysis vectors.</p>
+                
                 <div class="info-grid">
                     <div class="info-card active-glow">
-                        <div class="card-label">Scent Core Target</div>
-                        <div class="card-value">Roasted Coffee / Pandan</div>
+                        <div class="card-label">Active Deployments</div>
+                        <div class="card-value" style="color: var(--brand-green);">2 Terminals</div>
                     </div>
                     <div class="info-card">
                         <div class="card-label">Core Classification Engine</div>
                         <div class="card-value">Standard Vision AI</div>
                     </div>
                 </div>
+
+                <!-- NEW: Scent Deployment Matrix linking devices, locations, and scents -->
+                <div class="section-label">Scent Deployment Matrix</div>
+                <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size:11px; font-weight:700; color:var(--text-secondary);">
+                        <span>FACILITY LOCATION</span>
+                        <span>ACTIVE ATTRACTANT</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 13px;">
+                        <span>🏫 KPZ Cafeteria (Kolej Pendeta Za'ba)</span>
+                        <span style="color: var(--brand-green); font-weight:700;">☕ Roasted Coffee</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size: 13px;">
+                        <span>🏫 KIY Cafeteria (Kolej Ibrahim Yaakub)</span>
+                        <span style="color: var(--brand-green); font-weight:700;">🍃 Natural Pandan</span>
+                    </div>
+                </div>
+
                 <div class="section-label">💡 AI Tracing & Source Recommendations <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper" onclick="openGeminiModal()">
                     <div class="lock-overlay-badge">🔒 Upgrade to Pro / Click to Preview AI</div>
@@ -593,9 +612,25 @@
                 </table>
             </div>
         </div>
+        <div class="info-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="info-card"><div class="card-label">Standard Cloud Engine</div><div class="card-value" style="font-size: 16px;">48h Roll Retention</div></div>
+            <div class="info-card"><div class="card-label">AES Data Token</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Encrypted</div></div>
+            <div class="info-card"><div class="card-label">Device Fleet Node</div><div class="card-value" style="color: var(--blue-accent); font-size: 16px;">Single Terminal View</div></div>
+            <div class="info-card"><div class="card-label">Log Export Pipeline</div><div class="card-value" style="color: var(--text-secondary); font-size: 16px;">App Inline Visual Only</div></div>
+        </div>
+        <div class="section-label" style="margin-top: 24px;">7-Day Rolling Historical Video Logs</div>
+        <div class="history-gallery-row">
+            <div class="history-video-card active"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">1 Day Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Kitchen</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">2 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Scullery</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">3 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Storage</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">4 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Front Line</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">5 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Sanitation</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">6 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Rear Exit</div></div>
+            <div class="history-video-card"><div class="video-thumb-mockup"></div><div style="font-size: 11px;">7 Days Ago</div><div style="font-size: 10px; color: var(--text-secondary);">Prep Table</div></div>
+        </div>
     </div>
 
-    <!-- PANEL 3: Logis & Power (UPDATED: Device Battery Health Summary & Maintenance Guide) -->
+    <!-- PANEL 3: Logis & Power -->
     <div id="battery-panel" class="panel-content">
         <div class="grid-two-column">
             <div>
@@ -625,7 +660,6 @@
                 <div class="info-grid">
                     <div class="info-card active-glow">
                         <div class="card-label">Hardware Warranty Status</div>
-                        <!-- Awarding 36 Months Coverage to Premium, otherwise standard 12 Months -->
                         <div class="card-value" id="lblWarrantyStatusText" style="color: var(--blue-accent); font-size: 16px;">12-Mo Standard Plan</div>
                     </div>
                     <div class="info-card">
@@ -636,7 +670,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <div class="section-label">🚚 Logistic Smart Fulfillment <span class="premium-tag">Premium</span></div>
                 <div class="premium-lock-wrapper">
