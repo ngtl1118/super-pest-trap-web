@@ -413,7 +413,7 @@
         </div>
     </div>
 
-    <!-- PANEL 1: Scent & AI (UPDATED: Active Deployment Node Locations) -->
+    <!-- PANEL 1: Scent & AI (UPDATED: Battery & Runtime Metrics added to Matrix) -->
     <div id="scent-panel" class="panel-content active">
         <div class="grid-two-column" style="margin-bottom: 48px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 40px;">
             <div>
@@ -431,20 +431,26 @@
                     </div>
                 </div>
 
-                <!-- NEW: Scent Deployment Matrix linking devices, locations, and scents -->
                 <div class="section-label">Scent Deployment Matrix</div>
                 <div style="background-color: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; margin-bottom: 24px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size:11px; font-weight:700; color:var(--text-secondary);">
+                    <!-- Expanded Columns Grid for Battery and Est. Runtime -->
+                    <div style="display:grid; grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size:11px; font-weight:700; color:var(--text-secondary);">
                         <span>FACILITY LOCATION</span>
-                        <span>ACTIVE ATTRACTANT</span>
+                        <span>ACTIVE SCENT</span>
+                        <span>BATTERY</span>
+                        <span>EST. RUNTIME</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 13px;">
+                    <div style="display:grid; grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr; margin-bottom: 10px; font-size: 13px; align-items: center;">
                         <span>🏫 KPZ Cafeteria (Kolej Pendeta Za'ba)</span>
-                        <span style="color: var(--brand-green); font-weight:700;">☕ Roasted Coffee</span>
+                        <span style="color: var(--brand-green); font-weight:700;">☕ Coffee</span>
+                        <span style="color: var(--brand-green); font-weight:700;">88%</span>
+                        <span style="color: var(--text-secondary);">22 Days</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size: 13px;">
+                    <div style="display:grid; grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr; font-size: 13px; align-items: center;">
                         <span>🏫 KIY Cafeteria (Kolej Ibrahim Yaakub)</span>
-                        <span style="color: var(--brand-green); font-weight:700;">🍃 Natural Pandan</span>
+                        <span style="color: var(--brand-green); font-weight:700;">🍃 Pandan</span>
+                        <span style="color: var(--brand-green); font-weight:700;">94%</span>
+                        <span style="color: var(--text-secondary);">24 Days</span>
                     </div>
                 </div>
 
